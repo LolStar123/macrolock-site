@@ -2061,9 +2061,9 @@
         "toSecond": 600
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 1266338668,
@@ -4269,9 +4269,9 @@
         "toSecond": 600
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 1266338668,
@@ -4427,8 +4427,8 @@
           "label": "Recorded destination",
           "radius": 6,
           "score": 1,
-          "x": 85.40562220982143,
-          "y": 54.28510393415179
+          "x": 11.966087704613093,
+          "y": 57.12193080357143
         }
       ],
       "approved": false,
@@ -4436,7 +4436,7 @@
         "basketball_camp": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": false
+          "visibleOnMap": true
         },
         "chinatown_alley_camp": {
           "alive": null,
@@ -4446,7 +4446,7 @@
         "chinatown_bell_02_camp": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": false
+          "visibleOnMap": true
         },
         "chinatown_bell_1": {
           "alive": null,
@@ -4456,12 +4456,12 @@
         "chinatown_fish_neutrals": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": true
+          "visibleOnMap": false
         },
         "chinatown_street_camp": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": false
+          "visibleOnMap": true
         },
         "construction_camp": {
           "alive": null,
@@ -4476,12 +4476,12 @@
         "dock_authority_camp": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": false
+          "visibleOnMap": true
         },
         "dock_authority_vault": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": false
+          "visibleOnMap": true
         },
         "dock_camp": {
           "alive": null,
@@ -4496,7 +4496,7 @@
         "hotel_01_camp": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": false
+          "visibleOnMap": true
         },
         "hq_01_camp": {
           "alive": null,
@@ -4526,7 +4526,7 @@
         "nw_utility_south_neutrals": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": true
+          "visibleOnMap": false
         },
         "oracle_camp": {
           "alive": null,
@@ -4536,12 +4536,12 @@
         "park_chapel_camp": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": true
+          "visibleOnMap": false
         },
         "park_club_camp": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": false
+          "visibleOnMap": true
         },
         "park_club_vault": {
           "alive": null,
@@ -4551,22 +4551,22 @@
         "park_gate_camp": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": false
+          "visibleOnMap": true
         },
         "park_library_roof_camp": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": true
+          "visibleOnMap": false
         },
         "park_library_vault": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": true
+          "visibleOnMap": false
         },
         "park_mansion_roof_camp": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": false
+          "visibleOnMap": true
         },
         "plaza_corner_camp": {
           "alive": null,
@@ -4601,7 +4601,7 @@
         "se_utility_neutrals": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": true
+          "visibleOnMap": false
         },
         "slums_alley_camp": {
           "alive": null,
@@ -4621,12 +4621,12 @@
         "slums_garage_up_camp": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": false
+          "visibleOnMap": true
         },
         "slums_roof_camp": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": false
+          "visibleOnMap": true
         },
         "slums_storage_camp": {
           "alive": null,
@@ -4646,7 +4646,7 @@
         "sw_bodega_upstairs_camp": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": false
+          "visibleOnMap": true
         },
         "theater_balcony_camp": {
           "alive": null,
@@ -4661,7 +4661,7 @@
         "theater_lobby_camp": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": false
+          "visibleOnMap": true
         },
         "theater_stage_01_camp": {
           "alive": null,
@@ -4681,23 +4681,29 @@
         "theater_upstairs_02_camp": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": false
+          "visibleOnMap": true
         },
         "york_radio_vault": {
           "alive": null,
           "respawn": null,
-          "visibleOnMap": false
+          "visibleOnMap": true
         }
       },
-      "id": "recorded-119488065-1200-2",
+      "id": "recorded-119488065-540-2",
       "laneStates": null,
-      "midbossAlive": false,
+      "midbossAlive": true,
       "minimapTroopers": [
         {
           "id": "trooper-1",
           "team": "amber",
-          "x": 49.80392156862745,
-          "y": 49.80392156862745
+          "x": 80.0,
+          "y": 65.88235294117646
+        },
+        {
+          "id": "trooper-4",
+          "team": "amber",
+          "x": 11.76470588235294,
+          "y": 59.21568627450981
         },
         {
           "id": "trooper-6",
@@ -4708,8 +4714,8 @@
         {
           "id": "trooper-7",
           "team": "sapphire",
-          "x": 75.68627450980392,
-          "y": 71.37254901960785
+          "x": 56.07843137254902,
+          "y": 0.0
         },
         {
           "id": "trooper-8",
@@ -4725,15 +4731,15 @@
         },
         {
           "id": "trooper-10",
-          "team": "sapphire",
-          "x": 39.21568627450981,
-          "y": 81.56862745098039
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
         },
         {
           "id": "trooper-11",
-          "team": "amber",
-          "x": 49.80392156862745,
-          "y": 51.372549019607845
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
         },
         {
           "id": "trooper-12",
@@ -4744,8 +4750,8 @@
         {
           "id": "trooper-13",
           "team": "sapphire",
-          "x": 18.43137254901961,
-          "y": 70.19607843137254
+          "x": 56.07843137254902,
+          "y": 0.0
         },
         {
           "id": "trooper-14",
@@ -4918,20 +4924,32 @@
         {
           "id": "trooper-42",
           "team": "sapphire",
-          "x": 50.98039215686274,
-          "y": 37.64705882352941
+          "x": 83.52941176470588,
+          "y": 36.47058823529412
         },
         {
           "id": "trooper-46",
+          "team": "amber",
+          "x": 76.07843137254902,
+          "y": 69.41176470588235
+        },
+        {
+          "id": "trooper-49",
           "team": "sapphire",
-          "x": 83.52941176470588,
-          "y": 36.47058823529412
+          "x": 23.137254901960784,
+          "y": 31.764705882352942
         },
         {
           "id": "trooper-54",
           "team": "amber",
           "x": 43.13725490196079,
           "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-55",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
         },
         {
           "id": "trooper-56",
@@ -4947,21 +4965,21 @@
         },
         {
           "id": "trooper-58",
-          "team": "sapphire",
-          "x": 23.137254901960784,
-          "y": 30.196078431372555
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
         },
         {
           "id": "trooper-59",
           "team": "sapphire",
-          "x": 74.90196078431373,
-          "y": 70.98039215686273
+          "x": 55.294117647058826,
+          "y": 0.0
         },
         {
           "id": "trooper-60",
           "team": "sapphire",
-          "x": 18.43137254901961,
-          "y": 68.62745098039215
+          "x": 56.07843137254902,
+          "y": 0.0
         },
         {
           "id": "trooper-61",
@@ -5031,45 +5049,51 @@
         },
         {
           "id": "trooper-72",
-          "team": "amber",
-          "x": 74.90196078431373,
-          "y": 72.54901960784314
+          "team": "sapphire",
+          "x": 85.09803921568627,
+          "y": 37.254901960784316
         },
         {
           "id": "trooper-73",
-          "team": "amber",
-          "x": 49.411764705882355,
-          "y": 47.45098039215686
+          "team": "sapphire",
+          "x": 49.80392156862745,
+          "y": 49.01960784313726
         },
         {
           "id": "trooper-74",
           "team": "amber",
-          "x": 39.6078431372549,
-          "y": 83.13725490196079
+          "x": 77.25490196078432,
+          "y": 67.84313725490196
         },
         {
           "id": "trooper-75",
+          "team": "amber",
+          "x": 47.84313725490196,
+          "y": 65.49019607843138
+        },
+        {
+          "id": "trooper-78",
           "team": "sapphire",
-          "x": 50.98039215686274,
-          "y": 36.078431372549026
+          "x": 87.84313725490196,
+          "y": 38.8235294117647
         },
         {
           "id": "trooper-80",
           "team": "sapphire",
-          "x": 36.86274509803922,
-          "y": 81.17647058823529
+          "x": 50.19607843137255,
+          "y": 51.76470588235294
         },
         {
           "id": "trooper-81",
-          "team": "sapphire",
-          "x": 21.96078431372549,
-          "y": 32.941176470588246
+          "team": "amber",
+          "x": 11.76470588235294,
+          "y": 61.17647058823529
         },
         {
           "id": "trooper-83",
           "team": "amber",
-          "x": 40.0,
-          "y": 81.9607843137255
+          "x": 47.84313725490196,
+          "y": 64.70588235294117
         },
         {
           "id": "trooper-84",
@@ -5144,10 +5168,10 @@
           "y": 99.2156862745098
         },
         {
-          "id": "trooper-101",
-          "team": "amber",
-          "x": 74.90196078431373,
-          "y": 74.11764705882352
+          "id": "trooper-102",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
         },
         {
           "id": "trooper-103",
@@ -5169,21 +5193,21 @@
         },
         {
           "id": "trooper-106",
-          "team": "amber",
-          "x": 40.3921568627451,
-          "y": 82.74509803921569
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
         },
         {
           "id": "trooper-107",
           "team": "amber",
-          "x": 49.411764705882355,
-          "y": 48.23529411764705
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
         },
         {
           "id": "trooper-108",
           "team": "sapphire",
-          "x": 23.137254901960784,
-          "y": 31.764705882352942
+          "x": 56.07843137254902,
+          "y": 0.0
         },
         {
           "id": "trooper-109",
@@ -5254,38 +5278,44 @@
         {
           "id": "trooper-121",
           "team": "sapphire",
-          "x": 20.784313725490197,
-          "y": 34.117647058823536
+          "x": 21.96078431372549,
+          "y": 32.941176470588246
         },
         {
           "id": "trooper-124",
           "team": "amber",
-          "x": 74.50980392156863,
-          "y": 72.94117647058823
+          "x": 12.941176470588237,
+          "y": 62.35294117647059
         },
         {
           "id": "trooper-126",
           "team": "sapphire",
-          "x": 85.09803921568627,
-          "y": 37.254901960784316
+          "x": 86.66666666666667,
+          "y": 38.03921568627451
         },
         {
           "id": "trooper-127",
-          "team": "amber",
-          "x": 39.6078431372549,
-          "y": 82.35294117647058
+          "team": "sapphire",
+          "x": 14.901960784313726,
+          "y": 54.90196078431372
         },
         {
           "id": "trooper-128",
           "team": "sapphire",
-          "x": 36.470588235294116,
-          "y": 80.7843137254902
+          "x": 12.549019607843137,
+          "y": 56.86274509803921
         },
         {
-          "id": "trooper-129",
+          "id": "trooper-131",
+          "team": "amber",
+          "x": 14.50980392156863,
+          "y": 63.13725490196078
+        },
+        {
+          "id": "trooper-132",
           "team": "sapphire",
-          "x": 86.66666666666667,
-          "y": 38.03921568627451
+          "x": 56.07843137254902,
+          "y": 0.0
         },
         {
           "id": "trooper-133",
@@ -5354,22 +5384,34 @@
           "y": 99.2156862745098
         },
         {
+          "id": "trooper-144",
+          "team": "sapphire",
+          "x": 23.137254901960784,
+          "y": 30.196078431372555
+        },
+        {
+          "id": "trooper-145",
+          "team": "amber",
+          "x": 78.82352941176471,
+          "y": 67.05882352941177
+        },
+        {
           "id": "trooper-148",
           "team": "amber",
-          "x": 74.90196078431373,
-          "y": 73.33333333333333
+          "x": 46.27450980392157,
+          "y": 65.09803921568627
         },
         {
           "id": "trooper-149",
           "team": "sapphire",
-          "x": 87.84313725490196,
-          "y": 38.8235294117647
+          "x": 15.686274509803921,
+          "y": 56.07843137254902
         },
         {
           "id": "trooper-150",
           "team": "sapphire",
-          "x": 39.21568627450981,
-          "y": 81.56862745098039
+          "x": 56.07843137254902,
+          "y": 0.0
         },
         {
           "id": "trooper-151",
@@ -5390,16 +5432,22 @@
           "y": 99.6078431372549
         },
         {
-          "id": "trooper-155",
+          "id": "trooper-154",
           "team": "sapphire",
-          "x": 50.19607843137255,
-          "y": 38.03921568627451
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-155",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.6078431372549
         },
         {
           "id": "trooper-156",
           "team": "sapphire",
-          "x": 18.43137254901961,
-          "y": 67.84313725490196
+          "x": 56.07843137254902,
+          "y": 0.0
         },
         {
           "id": "trooper-157",
@@ -5468,46 +5516,34 @@
           "y": 99.6078431372549
         },
         {
-          "id": "trooper-169",
+          "id": "trooper-168",
           "team": "sapphire",
-          "x": 17.647058823529413,
-          "y": 68.23529411764706
+          "x": 11.76470588235294,
+          "y": 56.86274509803921
         },
         {
           "id": "trooper-172",
-          "team": "sapphire",
-          "x": 39.21568627450981,
-          "y": 81.56862745098039
+          "team": "amber",
+          "x": 46.27450980392157,
+          "y": 65.09803921568627
         },
         {
           "id": "trooper-173",
           "team": "sapphire",
-          "x": 37.254901960784316,
-          "y": 80.7843137254902
+          "x": 20.784313725490197,
+          "y": 34.117647058823536
         },
         {
           "id": "trooper-174",
           "team": "sapphire",
-          "x": 50.98039215686274,
-          "y": 38.431372549019606
+          "x": 49.80392156862745,
+          "y": 50.588235294117645
         },
         {
-          "id": "trooper-175",
+          "id": "trooper-178",
           "team": "sapphire",
-          "x": 76.47058823529412,
-          "y": 70.58823529411765
-        },
-        {
-          "id": "trooper-176",
-          "team": "sapphire",
-          "x": 38.82352941176471,
-          "y": 81.56862745098039
-        },
-        {
-          "id": "trooper-179",
-          "team": "sapphire",
-          "x": 76.07843137254902,
-          "y": 70.58823529411765
+          "x": 50.19607843137255,
+          "y": 53.333333333333336
         },
         {
           "id": "trooper-180",
@@ -5589,8 +5625,8 @@
           "phase": "weakened"
         },
         "team0_tier1_1": {
-          "active": false,
-          "health": 0
+          "active": true,
+          "health": 69.32727272727273
         },
         "team0_tier1_3": {
           "active": false,
@@ -5601,16 +5637,16 @@
           "health": 0
         },
         "team0_tier2_1": {
-          "active": false,
-          "health": 0
+          "active": true,
+          "health": 100.0
         },
         "team0_tier2_3": {
           "active": true,
-          "health": 46.477777777777774
+          "health": 83.41666666666667
         },
         "team0_tier2_4": {
           "active": true,
-          "health": 64.06666666666666
+          "health": 99.13333333333334
         },
         "team0_titan": {
           "active": true,
@@ -5627,24 +5663,24 @@
           "health": 0
         },
         "team1_tier1_3": {
-          "active": false,
-          "health": 0
+          "active": true,
+          "health": 52.89090909090909
         },
         "team1_tier1_4": {
-          "active": false,
-          "health": 0
+          "active": true,
+          "health": 82.65454545454546
         },
         "team1_tier2_1": {
           "active": true,
-          "health": 97.21666666666667
+          "health": 98.86666666666666
         },
         "team1_tier2_3": {
           "active": true,
-          "health": 97.43333333333334
+          "health": 100.0
         },
         "team1_tier2_4": {
           "active": true,
-          "health": 66.28333333333333
+          "health": 100.0
         },
         "team1_titan": {
           "active": true,
@@ -5653,102 +5689,89 @@
         }
       },
       "objectivesDown": [
-        "team0_tier1_1",
-        "team1_tier1_4",
-        "team1_tier1_3",
         "team1_tier1_1",
         "team0_tier1_3",
-        "team0_tier1_4",
-        "team0_tier2_1"
+        "team0_tier1_4"
       ],
       "players": [
         {
           "alive": true,
           "effects": [],
-          "health": 99.2320819112628,
+          "health": 90.72085889570552,
           "hero": "violet",
           "id": "1",
           "itemCooldowns": {},
           "items": [
-            "2947183272",
-            "1644605047",
-            "2566692615",
-            "112198670",
-            "805079544",
-            "787198704",
-            "7409189",
-            "2061878743"
+            "968099481",
+            "2829638276",
+            "3776945997",
+            "1672893796",
+            "2947183272"
           ],
-          "level": 24,
+          "level": 12,
           "respawn": 0,
-          "souls": 18289,
+          "souls": 6732,
           "team": "amber",
-          "ultCooldown": 115.43662500000005,
+          "ultCooldown": 101.15622499999995,
           "ultimateTrained": true,
-          "unspentSouls": 689,
+          "unspentSouls": 332,
           "visible": true,
-          "x": 23.92156862745098,
-          "y": 70.58823529411765
+          "x": 16.470588235294116,
+          "y": 56.07843137254902
         },
         {
           "alive": true,
           "effects": [],
-          "health": 100.0,
+          "health": 48.384554767533494,
           "hero": "deadman-danny",
           "id": "2",
           "itemCooldowns": {},
           "items": [
+            "968099481",
+            "2829638276",
             "3077079169",
             "1998374645",
-            "754480263",
-            "1644605047",
-            "7409189",
-            "380806748",
-            "2566692615",
-            "2947183272",
-            "3633614685"
+            "1672893796",
+            "754480263"
           ],
-          "level": 22,
+          "level": 11,
           "respawn": 0,
-          "souls": 16276,
+          "souls": 6558,
           "team": "amber",
-          "ultCooldown": 0.0,
+          "ultCooldown": 64.66876500000001,
           "ultimateTrained": true,
-          "unspentSouls": 3476,
+          "unspentSouls": 1758,
           "visible": true,
-          "x": 26.27450980392157,
-          "y": 70.19607843137254
+          "x": 21.96078431372549,
+          "y": 56.07843137254902
         },
         {
           "alive": true,
           "effects": [],
-          "health": 97.11899791231733,
+          "health": 78.49462365591398,
           "hero": "shiv",
           "id": "3",
           "itemCooldowns": {},
           "items": [
             "3862866912",
             "1342610602",
-            "2947183272",
-            "2971868509",
-            "2481177645",
-            "1235347618"
+            "2947183272"
           ],
-          "level": 24,
+          "level": 11,
           "respawn": 0,
-          "souls": 18328,
+          "souls": 6182,
           "team": "amber",
           "ultCooldown": 0.0,
           "ultimateTrained": true,
-          "unspentSouls": 7128,
+          "unspentSouls": 1382,
           "visible": true,
-          "x": 25.882352941176475,
-          "y": 73.72549019607843
+          "x": 67.45098039215686,
+          "y": 72.15686274509804
         },
         {
-          "alive": true,
+          "alive": false,
           "effects": [],
-          "health": 70.12678288431061,
+          "health": 0.0,
           "hero": "drifter",
           "id": "4",
           "itemCooldowns": {},
@@ -5756,27 +5779,23 @@
             "2829638276",
             "98582110",
             "3633614685",
-            "1342610602",
-            "26002154",
-            "3190916303",
-            "3977876567",
-            "3731635960"
+            "1342610602"
           ],
-          "level": 21,
-          "respawn": 0,
-          "souls": 14793,
+          "level": 10,
+          "respawn": 11,
+          "souls": 5651,
           "team": "amber",
-          "ultCooldown": 102.06252500000005,
+          "ultCooldown": 0.0,
           "ultimateTrained": true,
-          "unspentSouls": 1193,
-          "visible": true,
-          "x": 26.27450980392157,
-          "y": 70.98039215686273
+          "unspentSouls": 1651,
+          "visible": false,
+          "x": 42.745098039215684,
+          "y": 45.490196078431374
         },
         {
           "alive": true,
           "effects": [],
-          "health": 90.58098591549296,
+          "health": 81.31687242798354,
           "hero": "wraith",
           "id": "5",
           "itemCooldowns": {},
@@ -5785,102 +5804,66 @@
             "1009965641",
             "4104549924",
             "2064029594",
-            "1292979587",
-            "3731635960",
-            "3970837787",
-            "2463960640"
+            "1548066885",
+            "968099481"
           ],
-          "level": 25,
+          "level": 14,
           "respawn": 0,
-          "souls": 20010,
+          "souls": 8521,
           "team": "amber",
-          "ultCooldown": 0.0,
+          "ultCooldown": 9.52258500000005,
           "ultimateTrained": true,
-          "unspentSouls": 3210,
+          "unspentSouls": 1321,
           "visible": true,
-          "x": 26.666666666666668,
-          "y": 72.15686274509804
+          "x": 46.666666666666664,
+          "y": 64.31372549019608
         },
         {
-          "alive": false,
+          "alive": true,
           "effects": [],
-          "health": 0.0,
+          "health": 80.2386278896346,
           "hero": "silver",
           "id": "6",
           "itemCooldowns": {},
           "items": [
             "1342610602",
+            "2829638276",
             "3862866912",
             "98582110",
-            "1813726886",
-            "1437614329",
-            "3791587546",
-            "3585132399",
-            "112198670"
+            "393974127"
           ],
-          "level": 22,
-          "respawn": 16,
-          "souls": 14801,
+          "level": 12,
+          "respawn": 0,
+          "souls": 6875,
           "team": "amber",
-          "ultCooldown": 27.36152500000003,
+          "ultCooldown": 0.0,
           "ultimateTrained": true,
-          "unspentSouls": 801,
-          "visible": false,
-          "x": 37.254901960784316,
-          "y": 89.01960784313725
+          "unspentSouls": 1275,
+          "visible": true,
+          "x": 74.90196078431373,
+          "y": 51.76470588235294
         },
         {
           "alive": true,
           "effects": [],
-          "health": 76.77919708029196,
+          "health": 98.54132901134521,
           "hero": "vindicta",
           "id": "7",
           "itemCooldowns": {},
           "items": [
             "2922054143",
+            "3077079169",
             "968099481",
-            "2603935618",
-            "787198704",
-            "1662311306",
-            "4204808176",
-            "2064029594"
+            "3776945997",
+            "2603935618"
           ],
-          "level": 23,
+          "level": 11,
           "respawn": 0,
-          "souls": 17624,
+          "souls": 6012,
           "team": "sapphire",
           "ultCooldown": 0.0,
           "ultimateTrained": true,
-          "unspentSouls": 2424,
-          "visible": true,
-          "x": 17.254901960784313,
-          "y": 51.372549019607845
-        },
-        {
-          "alive": false,
-          "effects": [],
-          "health": 0.0,
-          "hero": "ivy",
-          "id": "8",
-          "itemCooldowns": {},
-          "items": [
-            "710436191",
-            "2356412290",
-            "381961617",
-            "2463960640",
-            "2163598980",
-            "2566692615",
-            "1009965641",
-            "1925087134",
-            "2603935618"
-          ],
-          "level": 28,
-          "respawn": 44,
-          "souls": 26420,
-          "team": "sapphire",
-          "ultCooldown": 28.46922500000005,
-          "ultimateTrained": true,
-          "unspentSouls": 4420,
+          "unspentSouls": 1212,
           "visible": false,
           "x": null,
           "y": null
@@ -5888,612 +5871,623 @@
         {
           "alive": true,
           "effects": [],
-          "health": 74.2128935532234,
-          "hero": "kelvin",
-          "id": "9",
+          "health": 100.0,
+          "hero": "ivy",
+          "id": "8",
           "itemCooldowns": {},
           "items": [
-            "2064029594",
-            "1150006784",
-            "7409189",
-            "1813726886",
-            "857669956",
-            "2566692615"
+            "2462046703",
+            "811521119",
+            "1548066885"
           ],
-          "level": 22,
+          "level": 12,
           "respawn": 0,
-          "souls": 15665,
+          "souls": 7402,
           "team": "sapphire",
           "ultCooldown": 0.0,
           "ultimateTrained": true,
-          "unspentSouls": 6065,
-          "visible": true,
-          "x": 25.098039215686274,
-          "y": 70.98039215686273
+          "unspentSouls": 1948,
+          "visible": false,
+          "x": null,
+          "y": null
         },
         {
           "alive": true,
           "effects": [],
-          "health": 100.0,
+          "health": 77.3220747889023,
+          "hero": "kelvin",
+          "id": "9",
+          "itemCooldowns": {},
+          "items": [
+            "2829638276",
+            "2064029594",
+            "1150006784",
+            "1672893796",
+            "968099481"
+          ],
+          "level": 11,
+          "respawn": 0,
+          "souls": 6281,
+          "team": "sapphire",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 681,
+          "visible": false,
+          "x": null,
+          "y": null
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 78.90428211586902,
           "hero": "venator",
           "id": "10",
           "itemCooldowns": {},
           "items": [
             "3862866912",
-            "709540378",
-            "1235347618",
-            "2356412290",
-            "4104549924",
-            "3585132399",
-            "3791587546",
-            "3403085434",
-            "2678489038"
+            "1009965641",
+            "3633614685",
+            "1548066885"
           ],
-          "level": 26,
+          "level": 11,
           "respawn": 0,
-          "souls": 22198,
+          "souls": 5998,
           "team": "sapphire",
-          "ultCooldown": 0.0,
+          "ultCooldown": 7.116224999999986,
           "ultimateTrained": true,
-          "unspentSouls": 2198,
-          "visible": true,
-          "x": 50.19607843137255,
-          "y": 43.13725490196079
+          "unspentSouls": 2798,
+          "visible": false,
+          "x": null,
+          "y": null
         },
         {
           "alive": true,
           "effects": [],
-          "health": 87.30923694779116,
+          "health": 100.0,
           "hero": "pocket",
           "id": "11",
           "itemCooldowns": {},
           "items": [
             "3862866912",
             "1342610602",
-            "1235347618",
-            "709540378",
-            "4104549924",
-            "3731635960",
             "1998374645",
-            "3261353684",
-            "600033864"
+            "1235347618",
+            "1009965641"
           ],
-          "level": 25,
+          "level": 11,
           "respawn": 0,
-          "souls": 19824,
+          "souls": 6584,
           "team": "sapphire",
-          "ultCooldown": 70.99552500000004,
+          "ultCooldown": 37.265625,
           "ultimateTrained": true,
-          "unspentSouls": 1424,
+          "unspentSouls": 1784,
           "visible": false,
           "x": null,
           "y": null
         },
         {
-          "alive": false,
+          "alive": true,
           "effects": [],
-          "health": 0.0,
+          "health": 100.0,
           "hero": "holliday",
           "id": "12",
           "itemCooldowns": {},
           "items": [
             "3862866912",
+            "3776945997",
             "7409189",
-            "1763073141",
-            "787198704",
-            "395867183",
-            "2121044373"
+            "1763073141"
           ],
-          "level": 22,
-          "respawn": 38,
-          "souls": 15664,
+          "level": 12,
+          "respawn": 0,
+          "souls": 6369,
           "team": "sapphire",
-          "ultCooldown": 80.06252500000005,
+          "ultCooldown": 0.0,
           "ultimateTrained": true,
-          "unspentSouls": 3664,
+          "unspentSouls": 1569,
           "visible": false,
           "x": null,
           "y": null
         }
       ],
       "recordedMove": {
-        "fromSecond": 1200,
+        "fromSecond": 540,
         "path": [
           {
             "alive": true,
-            "second": 1200,
-            "worldX": -5025.46875,
-            "worldY": -4267.9375,
-            "x": 26.630074637276785,
-            "y": 69.84717959449405
+            "second": 540,
+            "worldX": -5972.875,
+            "worldY": -1270.71875,
+            "x": 22.224353608630953,
+            "y": 55.909220377604164
           },
           {
             "alive": true,
-            "second": 1201,
-            "worldX": -5005.6875,
-            "worldY": -4256.4375,
-            "x": 26.72206333705357,
-            "y": 69.793701171875
+            "second": 541,
+            "worldX": -5931.1875,
+            "worldY": -1633.4375,
+            "x": 22.418212890625,
+            "y": 57.595970517113095
           },
           {
             "alive": true,
-            "second": 1202,
-            "worldX": -4979.125,
-            "worldY": -4468.125,
-            "x": 26.845586867559522,
-            "y": 70.77811104910714
+            "second": 542,
+            "worldX": -5893.1875,
+            "worldY": -2114.6875,
+            "x": 22.594924200148807,
+            "y": 59.833926246279766
           },
           {
             "alive": true,
-            "second": 1203,
-            "worldX": -4829.25,
-            "worldY": -4965.125,
-            "x": 27.542550223214285,
-            "y": 73.08930896577381
+            "second": 543,
+            "worldX": -5554.875,
+            "worldY": -2519.78125,
+            "x": 24.168178013392854,
+            "y": 61.717732747395836
           },
           {
             "alive": true,
-            "second": 1204,
-            "worldX": -4704.3125,
-            "worldY": -5251.46875,
-            "x": 28.123546781994047,
-            "y": 74.42089262462798
+            "second": 544,
+            "worldX": -4866.15625,
+            "worldY": -2462.5,
+            "x": 27.370925176711307,
+            "y": 61.451357886904766
           },
           {
             "alive": true,
-            "second": 1205,
-            "worldX": -4625.125,
-            "worldY": -5679.90625,
-            "x": 28.491792224702383,
-            "y": 76.41325451078869
+            "second": 545,
+            "worldX": -4436.6875,
+            "worldY": -2018.4375,
+            "x": 29.368082682291664,
+            "y": 59.38633510044643
           },
           {
             "alive": true,
-            "second": 1206,
-            "worldX": -3926.0625,
-            "worldY": -6270.09375,
-            "x": 31.74264090401786,
-            "y": 79.15780203683036
+            "second": 546,
+            "worldX": -4384.53125,
+            "worldY": -2448.46875,
+            "x": 29.610624767485117,
+            "y": 61.3861083984375
           },
           {
             "alive": true,
-            "second": 1207,
-            "worldX": -3289.0625,
-            "worldY": -6448.625,
-            "x": 34.70488048735119,
-            "y": 79.98802548363095
+            "second": 547,
+            "worldX": -4375.28125,
+            "worldY": -2788.6875,
+            "x": 29.653640020461307,
+            "y": 62.96822684151786
           },
           {
             "alive": true,
-            "second": 1208,
-            "worldX": -2704.75,
-            "worldY": -6671.59375,
-            "x": 37.422107514880956,
-            "y": 81.02489653087798
+            "second": 548,
+            "worldX": -4278.46875,
+            "worldY": -3154.96875,
+            "x": 30.10384695870536,
+            "y": 64.67154366629464
           },
           {
             "alive": true,
-            "second": 1209,
-            "worldX": -2263.40625,
-            "worldY": -6881.90625,
-            "x": 39.4744873046875,
-            "y": 82.00291224888393
+            "second": 549,
+            "worldX": -4045.28125,
+            "worldY": -3521.09375,
+            "x": 31.188238234747022,
+            "y": 66.37413388206845
           },
           {
             "alive": true,
-            "second": 1210,
-            "worldX": -1922.1875,
-            "worldY": -7111.03125,
-            "x": 41.061256045386905,
-            "y": 83.06841169084822
+            "second": 550,
+            "worldX": -3884.65625,
+            "worldY": -3894.59375,
+            "x": 31.935192289806547,
+            "y": 68.11102004278273
           },
           {
             "alive": true,
-            "second": 1211,
-            "worldX": -1734.59375,
-            "worldY": -7052.5,
-            "x": 41.93362281436011,
-            "y": 82.79622395833333
+            "second": 551,
+            "worldX": -3472.0625,
+            "worldY": -4045.1875,
+            "x": 33.853876023065474,
+            "y": 68.81132579985119
           },
           {
             "alive": true,
-            "second": 1212,
-            "worldX": -1293.59375,
-            "worldY": -6835.875,
-            "x": 43.98440406436011,
-            "y": 81.78885323660714
+            "second": 552,
+            "worldX": -3217.3125,
+            "worldY": -4089.0625,
+            "x": 35.03853934151786,
+            "y": 69.01535760788691
           },
           {
             "alive": true,
-            "second": 1213,
-            "worldX": -871.96875,
-            "worldY": -6778.75,
-            "x": 45.94508579799107,
-            "y": 81.52320498511905
+            "second": 553,
+            "worldX": -2865.0,
+            "worldY": -4096.03125,
+            "x": 36.67689732142857,
+            "y": 69.04776436941964
           },
           {
             "alive": true,
-            "second": 1214,
-            "worldX": -450.59375,
-            "worldY": -6880.25,
-            "x": 47.90460495721726,
-            "y": 81.99521019345238
+            "second": 554,
+            "worldX": -2600.65625,
+            "worldY": -4241.84375,
+            "x": 37.90617443266369,
+            "y": 69.72583589099702
           },
           {
             "alive": true,
-            "second": 1215,
-            "worldX": 463.78125,
-            "worldY": -6563.59375,
-            "x": 52.15672084263393,
-            "y": 80.52266438802083
+            "second": 555,
+            "worldX": -2527.3125,
+            "worldY": -4348.96875,
+            "x": 38.247244698660715,
+            "y": 70.2239990234375
           },
           {
             "alive": true,
-            "second": 1216,
-            "worldX": 1195.15625,
-            "worldY": -6446.0625,
-            "x": 55.55783226376489,
-            "y": 79.97610909598214
+            "second": 556,
+            "worldX": -2203.75,
+            "worldY": -4469.0,
+            "x": 39.75190662202381,
+            "y": 70.78218005952381
           },
           {
             "alive": true,
-            "second": 1217,
-            "worldX": 2465.5625,
-            "worldY": -6170.125,
-            "x": 61.465599423363095,
-            "y": 78.69291759672619
+            "second": 557,
+            "worldX": -1694.65625,
+            "worldY": -4563.4375,
+            "x": 42.11934407552083,
+            "y": 71.22134254092262
           },
           {
             "alive": true,
-            "second": 1218,
-            "worldX": 2262.78125,
-            "worldY": -6543.8125,
-            "x": 60.522606259300595,
-            "y": 80.43067568824405
+            "second": 558,
+            "worldX": -1344.46875,
+            "worldY": -4846.21875,
+            "x": 43.74782017299107,
+            "y": 72.53635951450893
           },
           {
             "alive": true,
-            "second": 1219,
-            "worldX": 2379.3125,
-            "worldY": -6439.40625,
-            "x": 61.064511253720234,
-            "y": 79.94515555245536
+            "second": 559,
+            "worldX": -1282.65625,
+            "worldY": -5493.125,
+            "x": 44.035266694568456,
+            "y": 75.54466610863095
           },
           {
             "alive": true,
-            "second": 1220,
-            "worldX": 3003.28125,
-            "worldY": -6014.5625,
-            "x": 63.96615164620536,
-            "y": 77.96950567336309
+            "second": 560,
+            "worldX": -1282.96875,
+            "worldY": -6531.03125,
+            "x": 44.0338134765625,
+            "y": 80.37123907180059
           },
           {
             "alive": true,
-            "second": 1221,
-            "worldX": 3515.0,
-            "worldY": -5691.3125,
-            "x": 66.34579613095238,
-            "y": 76.46629696800595
+            "second": 561,
+            "worldX": -1282.96875,
+            "worldY": -7860.0625,
+            "x": 44.0338134765625,
+            "y": 86.55162992931548
           },
           {
             "alive": true,
-            "second": 1222,
-            "worldX": 3935.65625,
-            "worldY": -5231.5,
-            "x": 68.30197288876488,
-            "y": 74.32803199404762
+            "second": 562,
+            "worldX": -1282.96875,
+            "worldY": -9593.03125,
+            "x": 44.0338134765625,
+            "y": 94.61045038132441
           },
           {
             "alive": true,
-            "second": 1223,
-            "worldX": 4532.375,
-            "worldY": -5129.375,
-            "x": 71.07689267113095,
-            "y": 73.85312034970238
+            "second": 563,
+            "worldX": -1251.625,
+            "worldY": -9812.84375,
+            "x": 44.179571242559526,
+            "y": 95.63264392671131
           },
           {
             "alive": true,
-            "second": 1224,
-            "worldX": 5099.21875,
-            "worldY": -5098.125,
-            "x": 73.71288481212798,
-            "y": 73.70779854910714
+            "second": 564,
+            "worldX": -1129.40625,
+            "worldY": -9727.15625,
+            "x": 44.7479248046875,
+            "y": 95.23417154947917
           },
           {
             "alive": true,
-            "second": 1225,
-            "worldX": 5503.8125,
-            "worldY": -4659.84375,
-            "x": 75.59436616443452,
-            "y": 71.66966029575893
+            "second": 565,
+            "worldX": -1034.96875,
+            "worldY": -9604.34375,
+            "x": 45.18708728608631,
+            "y": 94.66305687313988
           },
           {
             "alive": true,
-            "second": 1226,
-            "worldX": 5753.875,
-            "worldY": -4056.1875,
-            "x": 76.75723121279762,
-            "y": 68.86247907366072
+            "second": 566,
+            "worldX": -800.96875,
+            "worldY": -9167.65625,
+            "x": 46.275256928943456,
+            "y": 92.63233003162202
           },
           {
             "alive": true,
-            "second": 1227,
-            "worldX": 6074.34375,
-            "worldY": -3719.65625,
-            "x": 78.24750627790178,
-            "y": 67.29750860305059
+            "second": 567,
+            "worldX": -813.40625,
+            "worldY": -8056.15625,
+            "x": 46.217418852306544,
+            "y": 87.46352422805059
           },
           {
             "alive": true,
-            "second": 1228,
-            "worldX": 6308.1875,
-            "worldY": -3518.625,
-            "x": 79.33494931175595,
-            "y": 66.36265345982143
+            "second": 568,
+            "worldX": -67.875,
+            "worldY": -6791.71875,
+            "x": 49.684361049107146,
+            "y": 81.58351353236607
           },
           {
             "alive": true,
-            "second": 1229,
-            "worldX": 6464.125,
-            "worldY": -3116.375,
-            "x": 80.06010509672619,
-            "y": 64.49207124255952
+            "second": 569,
+            "worldX": 1459.65625,
+            "worldY": -6383.9375,
+            "x": 56.787835984002974,
+            "y": 79.68720935639881
           },
           {
             "alive": true,
-            "second": 1230,
-            "worldX": 6583.34375,
-            "worldY": -2553.0,
-            "x": 80.61450776599702,
-            "y": 61.87220982142857
+            "second": 570,
+            "worldX": 2987.8125,
+            "worldY": -6074.09375,
+            "x": 63.89421735491072,
+            "y": 78.24634370349702
           },
           {
             "alive": true,
-            "second": 1231,
-            "worldX": 6432.03125,
-            "worldY": -2304.0,
-            "x": 79.91085960751488,
-            "y": 60.71428571428571
+            "second": 571,
+            "worldX": 4218.5625,
+            "worldY": -5079.5,
+            "x": 69.61757114955357,
+            "y": 73.62118675595238
           },
           {
             "alive": true,
-            "second": 1232,
-            "worldX": 6494.53125,
-            "worldY": -2278.0625,
-            "x": 80.20150320870536,
-            "y": 60.593668619791664
+            "second": 572,
+            "worldX": 5399.3125,
+            "worldY": -5155.78125,
+            "x": 75.10841006324405,
+            "y": 73.97591727120536
           },
           {
             "alive": true,
-            "second": 1233,
-            "worldX": 6481.4375,
-            "worldY": -2215.875,
-            "x": 80.14061337425595,
-            "y": 60.30447823660714
+            "second": 573,
+            "worldX": 4498.34375,
+            "worldY": -5079.875,
+            "x": 70.91863723028273,
+            "y": 73.62293061755952
           },
           {
             "alive": true,
-            "second": 1234,
-            "worldX": 6439.6875,
-            "worldY": -2023.03125,
-            "x": 79.94646344866072,
-            "y": 59.40769740513393
+            "second": 574,
+            "worldX": 3484.28125,
+            "worldY": -5649.03125,
+            "x": 66.20294480096727,
+            "y": 76.26967657180059
           },
           {
             "alive": true,
-            "second": 1235,
-            "worldX": 6466.59375,
-            "worldY": -1824.03125,
-            "x": 80.07158551897322,
-            "y": 58.482288178943456
+            "second": 575,
+            "worldX": 2105.71875,
+            "worldY": -6299.1875,
+            "x": 59.79221888950893,
+            "y": 79.29309663318452
           },
           {
             "alive": true,
-            "second": 1236,
-            "worldX": 6609.8125,
-            "worldY": -1624.84375,
-            "x": 80.73759533110119,
-            "y": 57.556007021949405
+            "second": 576,
+            "worldX": 531.09375,
+            "worldY": -6544.875,
+            "x": 52.46974400111607,
+            "y": 80.43561662946428
           },
           {
             "alive": true,
-            "second": 1237,
-            "worldX": 7006.28125,
-            "worldY": -1431.40625,
-            "x": 82.58129301525298,
-            "y": 56.65646507626489
+            "second": 577,
+            "worldX": -699.75,
+            "worldY": -7131.59375,
+            "x": 46.74595424107143,
+            "y": 83.16403343563988
           },
           {
             "alive": true,
-            "second": 1238,
-            "worldX": 7005.46875,
-            "worldY": -1354.5625,
-            "x": 82.5775146484375,
-            "y": 56.29911876860119
+            "second": 578,
+            "worldX": -1639.59375,
+            "worldY": -7158.59375,
+            "x": 42.37540108816964,
+            "y": 83.28959147135417
           },
           {
             "alive": true,
-            "second": 1239,
-            "worldX": 6827.78125,
-            "worldY": -1567.96875,
-            "x": 81.75121489025298,
-            "y": 57.29152134486607
+            "second": 579,
+            "worldX": -2368.5625,
+            "worldY": -6990.78125,
+            "x": 38.985479445684526,
+            "y": 82.50921340215773
           },
           {
             "alive": true,
-            "second": 1240,
-            "worldX": 6829.125,
-            "worldY": -1547.0,
-            "x": 81.75746372767857,
-            "y": 57.194010416666664
+            "second": 580,
+            "worldX": -3385.34375,
+            "worldY": -6558.03125,
+            "x": 34.25714401971726,
+            "y": 80.49679710751488
           },
           {
             "alive": true,
-            "second": 1241,
-            "worldX": 6452.90625,
-            "worldY": -1553.34375,
-            "x": 80.0079345703125,
-            "y": 57.2235107421875
+            "second": 581,
+            "worldX": -4543.375,
+            "worldY": -5771.3125,
+            "x": 28.871954055059522,
+            "y": 76.83832077752977
           },
           {
             "alive": true,
-            "second": 1242,
-            "worldX": 6095.0,
-            "worldY": -1758.5,
-            "x": 78.34356398809523,
-            "y": 58.177548363095234
+            "second": 582,
+            "worldX": -5282.40625,
+            "worldY": -5463.84375,
+            "x": 25.435238792782737,
+            "y": 75.40849958147322
           },
           {
             "alive": true,
-            "second": 1243,
-            "worldX": 5729.6875,
-            "worldY": -1696.5,
-            "x": 76.64475213913691,
-            "y": 57.88922991071429
+            "second": 583,
+            "worldX": -5493.65625,
+            "worldY": -5527.5625,
+            "x": 24.45286342075893,
+            "y": 75.70481073288691
           },
           {
             "alive": true,
-            "second": 1244,
-            "worldX": 6094.375,
-            "worldY": -1693.0,
-            "x": 78.34065755208333,
-            "y": 57.87295386904761
+            "second": 584,
+            "worldX": -5612.28125,
+            "worldY": -5843.875,
+            "x": 23.901221865699405,
+            "y": 77.17575799851191
           },
           {
             "alive": true,
-            "second": 1245,
-            "worldX": 6284.21875,
-            "worldY": -1688.90625,
-            "x": 79.22348749069941,
-            "y": 57.85391671316964
+            "second": 585,
+            "worldX": -5713.59375,
+            "worldY": -5905.59375,
+            "x": 23.430088588169646,
+            "y": 77.4627685546875
           },
           {
             "alive": true,
-            "second": 1246,
-            "worldX": 6048.84375,
-            "worldY": -1906.5625,
-            "x": 78.12892368861607,
-            "y": 58.866083054315474
+            "second": 586,
+            "worldX": -6163.65625,
+            "worldY": -5872.75,
+            "x": 21.337164015997022,
+            "y": 77.31003534226191
           },
           {
             "alive": true,
-            "second": 1247,
-            "worldX": 5784.65625,
-            "worldY": -2000.90625,
-            "x": 76.90037318638393,
-            "y": 59.3048095703125
+            "second": 587,
+            "worldX": -6391.28125,
+            "worldY": -5723.59375,
+            "x": 20.278640020461307,
+            "y": 76.61641438802083
           },
           {
             "alive": true,
-            "second": 1248,
-            "worldX": 5221.0625,
-            "worldY": -1834.8125,
-            "x": 74.27949451264881,
-            "y": 58.53242420014881
+            "second": 588,
+            "worldX": -6320.28125,
+            "worldY": -5132.40625,
+            "x": 20.608811151413693,
+            "y": 73.86721656436012
           },
           {
             "alive": true,
-            "second": 1249,
-            "worldX": 4839.75,
-            "worldY": -1635.65625,
-            "x": 72.50627790178572,
-            "y": 57.60628836495536
+            "second": 589,
+            "worldX": -6604.21875,
+            "worldY": -4500.09375,
+            "x": 19.288417271205354,
+            "y": 70.92677525111607
           },
           {
             "alive": true,
-            "second": 1250,
-            "worldX": 4923.5625,
-            "worldY": -1602.125,
-            "x": 72.89603097098214,
-            "y": 57.450358072916664
+            "second": 590,
+            "worldX": -6783.15625,
+            "worldY": -3933.125,
+            "x": 18.456304640997022,
+            "y": 68.29020182291666
           },
           {
             "alive": true,
-            "second": 1251,
-            "worldX": 5110.84375,
-            "worldY": -1601.71875,
-            "x": 73.76694452194941,
-            "y": 57.44846888950893
+            "second": 591,
+            "worldX": -6879.28125,
+            "worldY": -3621.09375,
+            "x": 18.00929478236607,
+            "y": 66.83916364397322
           },
           {
             "alive": true,
-            "second": 1252,
-            "worldX": 5341.21875,
-            "worldY": -1488.8125,
-            "x": 74.8382568359375,
-            "y": 56.923421223958336
+            "second": 592,
+            "worldX": -7095.375,
+            "worldY": -3239.84375,
+            "x": 17.00439453125,
+            "y": 65.06623767671131
           },
           {
             "alive": true,
-            "second": 1253,
-            "worldX": 5330.96875,
-            "worldY": -1593.78125,
-            "x": 74.79059128534227,
-            "y": 57.411557152157734
+            "second": 593,
+            "worldX": -7443.28125,
+            "worldY": -2901.0625,
+            "x": 15.386526925223215,
+            "y": 63.490804036458336
           },
           {
             "alive": true,
-            "second": 1254,
-            "worldX": 5574.59375,
-            "worldY": -1504.65625,
-            "x": 75.92352004278273,
-            "y": 56.99709937686011
+            "second": 594,
+            "worldX": -8135.1875,
+            "worldY": -2319.5,
+            "x": 12.168956938244047,
+            "y": 60.786365327380956
           },
           {
             "alive": true,
-            "second": 1255,
-            "worldX": 5825.875,
-            "worldY": -1777.0625,
-            "x": 77.09205264136905,
-            "y": 58.26386951264881
+            "second": 595,
+            "worldX": -8029.96875,
+            "worldY": -1858.34375,
+            "x": 12.658255440848215,
+            "y": 58.641851515997026
           },
           {
             "alive": true,
-            "second": 1256,
-            "worldX": 6250.0,
-            "worldY": -1698.84375,
-            "x": 79.06436011904762,
-            "y": 57.90012904575893
+            "second": 596,
+            "worldX": -8238.53125,
+            "worldY": -1786.40625,
+            "x": 11.688377743675593,
+            "y": 58.30732073102679
           },
           {
             "alive": true,
-            "second": 1257,
-            "worldX": 6618.03125,
-            "worldY": -1486.375,
-            "x": 80.77581496465773,
-            "y": 56.912086123511905
+            "second": 597,
+            "worldX": -8235.5625,
+            "worldY": -1618.09375,
+            "x": 11.702183314732146,
+            "y": 57.524617513020836
           },
           {
             "alive": true,
-            "second": 1258,
-            "worldX": 6976.6875,
-            "worldY": -1251.78125,
-            "x": 82.44367327008928,
-            "y": 55.821155366443456
+            "second": 598,
+            "worldX": -8088.3125,
+            "worldY": -1610.90625,
+            "x": 12.386939639136907,
+            "y": 57.49119349888393
           },
           {
             "alive": true,
-            "second": 1259,
-            "worldX": 7384.09375,
-            "worldY": -1070.375,
-            "x": 84.33823358444941,
-            "y": 54.977562313988095
+            "second": 599,
+            "worldX": -8214.6875,
+            "worldY": -1520.15625,
+            "x": 11.799258277529761,
+            "y": 57.06917898995536
           },
           {
             "alive": true,
-            "second": 1260,
-            "worldX": 7613.625,
-            "worldY": -921.46875,
-            "x": 85.40562220982143,
-            "y": 54.28510393415179
+            "second": 600,
+            "worldX": -8178.8125,
+            "worldY": -1531.5,
+            "x": 11.966087704613093,
+            "y": 57.12193080357143
           }
         ],
-        "toSecond": 1260
+        "toSecond": 600
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 35187362,
@@ -6507,7 +6501,7 @@
         "clockCalibrationSha256": "5306358efb7012f8d5e96f15d2059c07ea4d4139e7975e3998c82592b2a608e9",
         "clockStartSeconds": 66.296875,
         "clockTickRate": 64,
-        "controllerTick": 78924,
+        "controllerTick": 36684,
         "controllersSha256": "2dcd691fe0b51e19787408d51911b9926d5cf04fab28c372ef22ea87f02e614c",
         "fowSnapshot": {
           "ageTicks": 1,
@@ -6517,23 +6511,23 @@
           "campRespawnBasis": "Unknown; no countdown is emitted",
           "campStateBasis": "bVisibleOnMap is replay HUD marker availability, not HP or a camp death inference",
           "entityIndex": 55,
-          "gameTime": 1200,
+          "gameTime": 540,
           "heroNodesExpected": 12,
           "heroNodesMatched": 12,
           "positionEncoding": "x=uint8/255*100; y=100-uint8/255*100",
-          "snapshotTick": 78923,
+          "snapshotTick": 36683,
           "sources": {
             "fowSha256": "10292479a7be257841668fa555c15abb80d4392192b78f447820ad0d1a61ec0a",
             "metadataSha256": "e0634c8a9a65f7fec1cf5fffb391fd3240d6a8440d9765db43c84a83cf3ea25c",
             "trooperCalibrationSha256": "ac7e071c96aad5bd1ec44cbe5c7df05458e6e1f281ab07411f20d4682424a5fb",
             "troopersSha256": "eb0a515b5b2232ab45fe1eee10bda5e19e35c86e014bd4d2d27c1c5a1bc1ad18"
           },
-          "targetTick": 78924,
+          "targetTick": 36684,
           "team": 2,
           "unknownCampReasons": {},
           "visibilityUnknownReason": null
         },
-        "gameClockSeconds": 1266.296875,
+        "gameClockSeconds": 606.296875,
         "gameDirectory": "/opt/srcds/deadlock/citadel_v6795/citadel",
         "gameMode": 1,
         "heroesDefinitionSha256": "0a987618e380a677e5635f5bb85eac72c151a5136791441fa6630a3d0ba50964",
@@ -6558,7 +6552,7 @@
         "movementRowsSha256": "507359a747cd0df1bad6da9cef0c7bb91991870f0d9fea27f3d48830920ce0b2",
         "movementSha256": "507359a747cd0df1bad6da9cef0c7bb91991870f0d9fea27f3d48830920ce0b2",
         "movementVerified": true,
-        "objectiveTick": 78924,
+        "objectiveTick": 36684,
         "objectivesDownReason": "metadata team_objective_id and destroyed_time_s mapped to catalog objectives",
         "objectivesDownUnknown": false,
         "objectivesDownVerified": true,
@@ -6580,7 +6574,7 @@
         "replaySourceUrl": "http://replay390.valve.net/1422450/119488065_714479752.dem.bz2",
         "roundEvidence": {
           "answerDelaySeconds": 60,
-          "answerSampleSecond": 1260,
+          "answerSampleSecond": 600,
           "movementControllerEntityIndex": 2,
           "movementControllerHandle": 15351810,
           "movementControllerHeroId": 78,
@@ -6589,33 +6583,33 @@
           "movementPawnHandle": 76,
           "movementPawnHeroId": 78,
           "movementRawPawnHeroId": null,
-          "movementWorldUnits": 13074.614484412748,
+          "movementWorldUnits": 2221.29851984325,
           "pathSampleSeconds": {
-            "1": 1200.0,
-            "2": 1200.0,
-            "3": 1200.0,
-            "4": 1200.0,
-            "5": 1200.0,
-            "6": 1200.0
+            "1": 540.0,
+            "2": 540.0,
+            "3": 540.0,
+            "4": 540.0,
+            "5": 540.0,
+            "6": 540.0
           },
           "statsSampleSeconds": {
-            "1": 1200,
-            "10": 1200,
-            "11": 1200,
-            "12": 1200,
-            "2": 1200,
-            "3": 1200,
-            "4": 1200,
-            "5": 1200,
-            "6": 1200,
-            "7": 1200,
-            "8": 1200,
-            "9": 1200
+            "1": 540,
+            "10": 540,
+            "11": 540,
+            "12": 540,
+            "2": 540,
+            "3": 540,
+            "4": 540,
+            "5": 540,
+            "6": 540,
+            "7": 540,
+            "8": 540,
+            "9": 540
           },
-          "statsTimestamp": 1200
+          "statsTimestamp": 540
         },
         "serverStartTick": 4242,
-        "snapshotTick": 78924,
+        "snapshotTick": 36684,
         "startTime": 1792322228,
         "trooperFOWSnapshot": {
           "ageTicks": 1,
@@ -6625,20 +6619,20 @@
             "4": "sapphire",
             "5": "amber"
           },
-          "gameTime": 1200,
+          "gameTime": 540,
           "matchId": "119488065",
-          "snapshotTick": 78923,
+          "snapshotTick": 36683,
           "sources": {
             "trooperCalibrationSha256": "ac7e071c96aad5bd1ec44cbe5c7df05458e6e1f281ab07411f20d4682424a5fb",
             "troopersSha256": "eb0a515b5b2232ab45fe1eee10bda5e19e35c86e014bd4d2d27c1c5a1bc1ad18"
           },
-          "targetTick": 78924,
+          "targetTick": 36684,
           "updateIntervalSeconds": 0.2,
-          "visibleTroopers": 148
+          "visibleTroopers": 154
         },
         "visibilityVerified": true
       },
-      "time": 1200,
+      "time": 540,
       "you": "2"
     },
     {
@@ -8680,9 +8674,9 @@
         "toSecond": 1260
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 35187362,
@@ -10877,9 +10871,9 @@
         "toSecond": 1560
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 35187362,
@@ -13002,9 +12996,9 @@
         "toSecond": 1260
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 35187362,
@@ -15208,9 +15202,9 @@
         "toSecond": 600
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 35187362,
@@ -17363,9 +17357,9 @@
         "toSecond": 780
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 1266338668,
@@ -19536,9 +19530,9 @@
         "toSecond": 1260
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 35187362,
@@ -21734,9 +21728,9 @@
         "toSecond": 780
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 1840902834,

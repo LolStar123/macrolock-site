@@ -11,6 +11,9 @@ const LANE_TEAMS = new Set(["amber", "sapphire"]);
 const MAP_LAYER_KEYS = new Set(["surface", "tunnels", "ratTunnels"]);
 const RANKED_MATCH_MODES = new Set([4, "Ranked", "ranked"]);
 const NORMAL_GAME_MODES = new Set([1, "Normal", "normal"]);
+// Exact source-reviewed quarantine, not a general teleport-distance rule.
+// Its alive discontinuities have no verified movement mechanic yet.
+const QUARANTINED_PRACTICE_ROUNDS = new Set(['recorded-120150009-720-1']);
 
 function isRecord(value) {
   return value !== null && typeof value === "object" && !Array.isArray(value);
@@ -196,10 +199,11 @@ export function selectPracticeReferences(library, previousSeen = [], random = Ma
   return {references:selected, seen:[...seen]};
 }
 
-/** Practice starts after the opening six minutes and only shows a live tracked player. */
+/** Practice requires a complete, continuously living route from T through T+60. */
 export function isPracticeRoundEligible(scenario) {
   if (!isRecord(scenario) || !Number.isFinite(scenario.time) || scenario.time <= 360 ||
       !Array.isArray(scenario.players) || !nonEmptyString(scenario.you)) return false;
+  if (QUARANTINED_PRACTICE_ROUNDS.has(scenario.id)) return false;
 
   const tracked = scenario.players.filter(player => isRecord(player) && player.id === scenario.you);
   if (tracked.length !== 1 || tracked[0].alive !== true) return false;
@@ -208,7 +212,24 @@ export function isPracticeRoundEligible(scenario) {
   if (player.health !== undefined && (!Number.isFinite(player.health) || player.health <= 0)) return false;
   if (player.respawn !== undefined && player.respawn !== null &&
       (!Number.isFinite(player.respawn) || player.respawn < 0 || player.respawn > 0)) return false;
-  return true;
+  const movement = scenario.recordedMove;
+  if (!isRecord(movement) || movement.fromSecond !== scenario.time || movement.toSecond !== scenario.time + 60 ||
+      !Array.isArray(movement.path) || movement.path.length !== 61) return false;
+  return movement.path.every((point, index) => isRecord(point) && point.alive === true &&
+    point.second === scenario.time + index && isCoordinate(point.x) && isCoordinate(point.y));
+}
+
+/** Remaining limits after replay, FOW and objective evidence has been merged. */
+export function practiceReviewWarnings(scenario) {
+  const source = scenario.source ?? {};
+  const warnings = [];
+  if (source.visibilityVerified !== true) warnings.push('Enemy visibility is unverified; enemy positions are omitted.');
+  if (source.objectivesVerified !== true || source.objectivesDownVerified !== true) warnings.push('Some objective health or destruction states are unverified.');
+  warnings.push('Camp HUD markers do not establish camp life, health or respawn timers.');
+  if (source.laneStatesVerified !== true) warnings.push('Recorded lane markers do not establish living wave counts or reviewed lane states.');
+  if (scenario.approved !== true) warnings.push('The recorded destination has not been reviewed as the optimal move.');
+  if ((scenario.players ?? []).some(player => player.ultCooldown == null)) warnings.push('Some ultimate cooldowns are unknown.');
+  return warnings;
 }
 
 /** Resolve only selected packs and verify that source identity matches the index. */
@@ -222,7 +243,7 @@ export function assemblePracticeSession(library, references, packs, id) {
     if (pack.scenarios.length !== entry.scenarioIds.length || pack.scenarios.some(s => !entry.scenarioIds.includes(s.id))) throw new TypeError(`Practice pack ${entry.id} has changed`);
     const scenario = pack.scenarios.find(s => s.id === reference.scenarioId);
     if (!scenario || scenario.source?.kind !== "match" || scenario.source.matchId !== entry.matchId) throw new TypeError(`Practice source ${entry.id} does not match its index`);
-    if (!isPracticeRoundEligible(scenario)) throw new TypeError(`Practice round ${scenario.id} must be after 6:00 with a live tracked player`);
+    if (!isPracticeRoundEligible(scenario)) throw new TypeError(`Practice round ${scenario.id} requires a live tracked player and complete living T+60 route after 6:00`);
     return scenario;
   });
   const challenge = {id, kind:"practice", date:null, title:"Recorded practice", scenarios};

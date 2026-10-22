@@ -1,4 +1,5 @@
 {
+  "continuousLivingAnswerWindowSeconds": 60,
   "id": "recorded-library-v1",
   "minimumTimeSecondsExclusive": 360,
   "packs": [
@@ -11,7 +12,6 @@
         "recorded-119444900-540-1",
         "recorded-119444900-720-1",
         "recorded-119444900-1200-1",
-        "recorded-119444900-1500-1",
         "recorded-119444900-2100-1"
       ]
     },
@@ -31,7 +31,6 @@
       "playerName": "Zerggy",
       "scenarioIds": [
         "recorded-119488065-540-2",
-        "recorded-119488065-720-2",
         "recorded-119488065-1200-2"
       ]
     },
@@ -44,8 +43,7 @@
         "recorded-119505098-540-8",
         "recorded-119505098-720-8",
         "recorded-119505098-900-8",
-        "recorded-119505098-1200-8",
-        "recorded-119505098-1500-8"
+        "recorded-119505098-1200-8"
       ]
     },
     {
@@ -142,8 +140,6 @@
       "path": "practice/120150009.json",
       "playerName": "Ascendant VI player",
       "scenarioIds": [
-        "recorded-120150009-540-1",
-        "recorded-120150009-720-1",
         "recorded-120150009-900-1",
         "recorded-120150009-1200-1",
         "recorded-120150009-1500-1"
@@ -170,9 +166,7 @@
       "path": "practice/120216637.json",
       "playerName": "Ascendant VI player",
       "scenarioIds": [
-        "recorded-120216637-540-1",
-        "recorded-120216637-720-1",
-        "recorded-120216637-900-1"
+        "recorded-120216637-540-1"
       ]
     },
     {
@@ -194,7 +188,6 @@
       "playerName": "Ascendant VI player",
       "scenarioIds": [
         "recorded-120251704-540-12",
-        "recorded-120251704-720-12",
         "recorded-120251704-900-12",
         "recorded-120251704-1200-12",
         "recorded-120251704-1500-12"
@@ -207,7 +200,6 @@
       "playerName": "Ascendant VI player",
       "scenarioIds": [
         "recorded-120269509-540-6",
-        "recorded-120269509-900-6",
         "recorded-120269509-1200-6",
         "recorded-120269509-1500-6"
       ]
@@ -270,7 +262,6 @@
         "recorded-120371896-540-2",
         "recorded-120371896-720-2",
         "recorded-120371896-900-2",
-        "recorded-120371896-1200-2",
         "recorded-120371896-1500-2"
       ]
     }

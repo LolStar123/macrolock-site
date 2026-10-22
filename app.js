@@ -1,5 +1,6 @@
 import { scoreChoice, calculateTotal, serializeShare, validateChallenge, validatePracticeLibrary, validatePracticeReferences, selectPracticeReferences, assemblePracticeSession, isPracticeRoundEligible } from './engine.js';
 import { deadHeroStrip } from './snapshot-status.js';
+import { presentPlayer, ultimateState, healthLabel, namedCampTargets, recordedTargetSecond, isCompletedRunStale } from './presentation.js';
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const app = $('#app');
@@ -10,7 +11,7 @@ const clock = (seconds) => `${Math.floor(seconds / 60)}:${String(Math.floor(seco
 const souls = (value) => Number.isFinite(value) ? `${(value / 1000).toFixed(1)}k` : '?';
 const clamp = (v) => Math.max(0, Math.min(100, v));
 const fmt = (value) => Number(value).toFixed(1);
-let catalog, practice, challenge, daily, mode = 'practice', index = 0, results = [], selected = null, review = false, finished = false, dialogOpener = null, toastTimer;
+let catalog, practice, challenge, daily, mode = 'practice', index = 0, results = [], selected = null, review = false, finished = false, completedAt = null, dialogOpener = null, toastTimer;
 let storageAvailable = true;
 let disposeMapInspection = () => {};
 let practiceLibrary = null, practiceFallback = null, practiceLoading = null, modeRequest = 0;
@@ -34,7 +35,10 @@ function getHistory() {
   return Array.isArray(rows) ? rows.filter(r => r && typeof r === 'object' && typeof r.id === 'string' && Number.isFinite(r.score) && r.score >= 0 && r.score <= 10) : [];
 }
 function key() { return `macrolock:run:binary-v1:${mode}:${challenge.id}:${challenge.date || 'v1'}`; }
-function persist() { writeStorage(key(), { version: 2, index, results, selected, finished }); }
+function persist() {
+  if (finished && !completedAt) completedAt = new Date().toISOString();
+  writeStorage(key(), { version: 2, index, results, selected, finished, completedAt:finished ? completedAt : null });
+}
 function heroData(player) { return Object.hasOwn(catalog.heroes,player.hero) ? catalog.heroes[player.hero] : { name: String(player.hero), image: null }; }
 function itemData(id) { return Object.hasOwn(catalog.items,id) ? catalog.items[id] : {name:`Item ${id}`,type:'unknown'}; }
 function mapFor(scenario) { return scenario.map || catalog.map; }
@@ -43,27 +47,22 @@ function portrait(player, className = 'portrait') {
   return hero.image ? `<img class="${className}" src="${escape(hero.image)}" alt="${escape(hero.name)}" width="33" height="33">` : `<span class="${className} portrait-fallback" role="img" aria-label="${escape(hero.name)}">${escape(hero.name.slice(0, 2))}</span>`;
 }
 function cooldownLabel(seconds) { return Number.isFinite(seconds) ? seconds === 0 ? 'Ready' : `${Math.ceil(seconds)}s` : '?'; }
-function ultimateState(player) {
-  const trained = player.ultimateTrained !== false;
-  const ready = player.alive === true && trained && player.ultCooldown === 0;
-  const label = !trained ? 'Locked' : player.alive === false && player.ultCooldown === 0 ? 'Dead' : cooldownLabel(player.ultCooldown);
-  return { ready, label };
-}
 function ultimateStatus(player) {
   const ability = heroData(player).ultimate;
   const status = ultimateState(player);
-  return `<span class="ultimate-status ${status.ready ? 'ready' : ''}" title="${escape(ability?.name || 'Ultimate')} · ${status.label}" aria-label="Ultimate: ${escape(ability?.name || '')}, ${status.label === '?' ? 'cooldown unknown' : status.label}">${ability?.image ? `<img src="${escape(ability.image)}" alt="" width="20" height="20">` : '<span class="ult-label">ULT</span>'}<span>${status.label}</span></span>`;
+  return `<span class="ultimate-status ${status.ready ? 'ready' : ''}" title="${escape(ability?.name || 'Ultimate')} · ${status.description}" aria-label="Ultimate: ${escape(ability?.name || '')}, ${status.description}">${ability?.image ? `<img src="${escape(ability.image)}" alt="" width="20" height="20">` : '<span class="ult-label">ULT</span>'}<span>${status.label}</span></span>`;
 }
 function outcomeMark(score) {
   return `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="${score === 1 ? 'm3.5 8 3 3 6-6' : 'M4.5 8h7'}" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 }
 function lobbyGlance(scenario, you) {
-  const group = (players, relation) => `<div class="glance-team ${relation}" role="group" aria-label="${relation === 'allies' ? 'Your team' : 'Enemy team'} snapshot">${players.map(player => {
+  const group = (players, relation) => `<div class="glance-team ${relation}" role="group" aria-label="${relation === 'allies' ? 'Your team' : 'Enemy team'} snapshot">${players.map(rawPlayer => {
+    const player = presentPlayer(rawPlayer, you);
     const hero = heroData(player), ult = ultimateState(player);
     const hp = Number.isFinite(player.health) ? clamp(player.health) : null;
     const healthState = hp === null ? 'unknown' : hp > 60 ? 'healthy' : hp >= 30 ? 'hurt' : 'critical';
     const life = player.alive ? `${hp === null ? 'unknown' : Math.round(hp) + ' percent'} health` : `dead, respawns in ${Number.isFinite(player.respawn) ? Math.ceil(player.respawn) + ' seconds' : 'unknown time'}`;
-    return `<button class="glance-player ${player.id === you.id ? 'you' : ''} ${player.alive ? '' : 'dead'}" data-player="${escape(player.id)}" aria-label="${escape(hero.name)}${player.id === you.id ? ', you' : ''}. ${escape(life)}. ${escape(souls(player.souls))} souls. Ultimate ${escape(ult.label)}. Inspect items."><span class="glance-portrait">${portrait(player)}${player.alive ? '' : `${gameIcon('deathSkull','glance-skull')}<span class="glance-respawn">${Number.isFinite(player.respawn) ? Math.ceil(player.respawn) + 's' : '?'}</span>`}</span><span class="glance-health ${healthState}" role="img" aria-label="${hp === null ? 'Health unknown' : Math.round(hp) + '% health'}"><span style="width:${player.alive && hp !== null ? hp : 0}%"></span></span><span class="glance-souls">${souls(player.souls)}</span><span class="glance-ultimate ${ult.ready ? 'ready' : ''}">${hero.ultimate?.image ? `<img src="${escape(hero.ultimate.image)}" alt="" width="12" height="12">` : ''}<span>${escape(ult.label)}</span></span></button>`;
+    return `<button class="glance-player ${player.id === you.id ? 'you' : ''} ${player.alive ? '' : 'dead'}" data-player="${escape(player.id)}" aria-label="${escape(hero.name)}${player.id === you.id ? ', you' : ''}. ${escape(life)}. ${escape(souls(player.souls))} souls. Ultimate ${escape(ult.description)}. Inspect items."><span class="glance-portrait">${portrait(player)}${player.alive ? '' : `${gameIcon('deathSkull','glance-skull')}<span class="glance-respawn">${Number.isFinite(player.respawn) ? Math.ceil(player.respawn) + 's' : '?'}</span>`}</span><span class="glance-health ${healthState}" role="img" aria-label="${hp === null ? 'Health unknown' : Math.round(hp) + '% health'}"><span style="width:${player.alive && hp !== null ? hp : 0}%"></span></span><span class="glance-souls">${souls(player.souls)}</span><span class="glance-ultimate ${ult.ready ? 'ready' : ''}" title="Ultimate ${escape(ult.description)}">${hero.ultimate?.image ? `<img src="${escape(hero.ultimate.image)}" alt="" width="12" height="12">` : ''}<span>${escape(ult.label)}</span></span></button>`;
   }).join('')}</div>`;
   return `<div class="lobby-glance">${group(scenario.players.filter(p => p.team === you.team), 'allies')}${group(scenario.players.filter(p => p.team !== you.team), 'enemies')}</div>`;
 }
@@ -91,9 +90,9 @@ $('#close-dialog').addEventListener('click', closeDialog);
 dialog.addEventListener('click', e => { if (e.target === dialog) { const r = dialog.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) closeDialog(); } });
 dialog.addEventListener('close', () => { if (dialogOpener?.isConnected) dialogOpener.focus(); });
 
-$('#help-button').addEventListener('click', () => showDialog('Read the room.', `<div class="dialog-body"><div class="how-step"><span>1</span><div><strong>Read the snapshot.</strong>You're the hero marked YOU. Check positions, respawns, souls and items.</div></div><div class="how-step"><span>2</span><div><strong>Pick your next move.</strong>Click the map, then lock it in. No timer.</div></div><div class="how-step"><span>3</span><div><strong>See the bigger picture.</strong>One answer. One point per round. Ten points total.</div></div><p class="dialog-note">Only revealed enemies appear. Tap a hero for items. Hold a map marker to inspect it. On the map, arrows move and Enter places or locks your pin. Tab to Choose a location for a named list.</p></div><button class="primary dialog-action" id="got-it">Got it<span class="button-arrow">→</span></button>`));
+$('#help-button').addEventListener('click', () => showDialog('Read the room.', `<div class="dialog-body"><div class="how-step"><span>1</span><div><strong>Read the snapshot.</strong>You're the hero marked YOU. Check positions, respawns, souls and items.</div></div><div class="how-step"><span>2</span><div><strong>Place your pin.</strong>Predict the player's recorded position 60 seconds later, at the target clock. No timer.</div></div><div class="how-step"><span>3</span><div><strong>Compare the move.</strong>One point for matching the recorded region. It is not a claim of the uniquely optimal play.</div></div><p class="dialog-note">Only revealed enemies appear. Tap a hero for items. Hold a map marker to inspect it. On the map, arrows move and Enter places or locks your pin. Tab to Choose a location for a named list.</p></div><button class="primary dialog-action" id="got-it">Got it<span class="button-arrow">→</span></button>`));
 $('#dialog-content').addEventListener('click', e => { if (e.target.closest('#got-it')) closeDialog(); });
-$('#about-button').addEventListener('click', () => showDialog('MacroLock.', `<div class="dialog-body"><p>A little practice for the decisions between the fights.</p><p>Recorded practice uses match data and the player's actual next destination as its single answer. Missing replay fields stay unknown.</p><p>Daily sets require reviewed ranked replay snapshots. Each round keeps its source, map version and answer review. For recorded rounds, the answer is the player's next move.</p><p class="dialog-note">Game artwork © Valve. Assets delivered by <a href="https://deadlock-api.com" target="_blank" rel="noopener noreferrer">Deadlock API</a>. Unaffiliated fan project. Results stay in this browser.</p></div>`));
+$('#about-button').addEventListener('click', () => showDialog('MacroLock.', `<div class="dialog-body"><p>Recorded practice compares your pin with the player's recorded position 60 seconds later. The target clock shows that moment. Matching the region earns one point; the recorded play is not necessarily optimal.</p><p>Missing replay fields stay unknown. Daily sets require reviewed ranked replay snapshots.</p><p class="dialog-note">Game artwork © Valve. Assets delivered by <a href="https://deadlock-api.com" target="_blank" rel="noopener noreferrer">Deadlock API</a>. Unaffiliated fan project. Results stay in this browser.</p></div>`));
 $('#stats-button').addEventListener('click', () => {
   const scores = getHistory();
   showDialog('Your bigger picture.', `<div class="dialog-body"><div class="stats-grid"><div><strong>${scores.length}</strong><span>Sets played</span></div><div><strong>${scores.length ? fmt(scores.reduce((a, r) => a + r.score, 0) / scores.length) : '—'}</strong><span>Average</span></div><div><strong>${scores.length ? fmt(Math.max(...scores.map(r => r.score))) : '—'}</strong><span>Best</span></div></div><p class="dialog-note">Practice and daily results on this browser. Replays of the same set count once.</p></div>`);
@@ -119,6 +118,7 @@ function soulDifference(scenario, you) {
   return `<span class="soul-difference ${difference > 0 ? 'ahead' : difference < 0 ? 'behind' : 'even'}" title="${escape(label)}" aria-label="${escape(label)}"><span class="soul-gap-label">Soul gap</span>${gameIcon('souls')}<strong>${difference === null ? '?' : `${difference > 0 ? '+' : difference < 0 ? '−' : ''}${souls(Math.abs(difference))}`}</strong></span>`;
 }
 function playerCard(p, scenario) {
+  p = presentPlayer(p, scenario.players.find(player => player.id === scenario.you));
   const hero = heroData(p);
   const inventory = p.items || [];
   const slots = Number.isInteger(catalog.inventorySlots) && catalog.inventorySlots <= 24 ? Math.max(inventory.length, catalog.inventorySlots) : inventory.length;
@@ -126,8 +126,8 @@ function playerCard(p, scenario) {
   const carrier = scenario.urn?.carrier === p.id ? `<span class="hero-effect" title="Carrying the Soul Urn" aria-label="Carrying the Soul Urn">${gameIcon('urn')}</span>` : '';
   const life = p.alive === false ? `Dead, ${Number.isFinite(p.respawn) ? `respawns in ${Math.ceil(p.respawn)} seconds` : 'respawn unknown'}` : Number.isFinite(p.health) ? `${Math.round(p.health)} percent health` : 'health unknown';
   const wealth = Number.isFinite(p.souls) ? `${p.souls.toLocaleString('en-GB')} souls` : 'souls unknown';
-  const ult = ultimateState(p).label;
-  const description = `${hero.name}${p.id === scenario.you ? ', you' : ''}. ${wealth}. ${life}. Ultimate ${ult === '?' ? 'cooldown unknown' : ult}. Inspect ${inventory.length} held items.`;
+  const ult = ultimateState(p);
+  const description = `${hero.name}${p.id === scenario.you ? ', you' : ''}. ${wealth}. ${life}. Ultimate ${ult.description}. Inspect ${inventory.length} held items.`;
   return `<div role="button" tabindex="0" data-player="${escape(p.id)}" aria-label="${escape(description)}" class="player ${p.id === scenario.you ? 'you' : ''} ${p.alive === false ? 'dead' : ''}">
     <div class="player-top">
       <div class="portrait-wrap">${portrait(p)}${p.alive === false ? `<img class="roster-death-icon" src="${escape(catalog.icons?.deathSkull || 'assets/game-icons/death.svg')}" alt="" aria-hidden="true">` : ''}</div>
@@ -147,9 +147,9 @@ function objectiveName(o, scenario) {
   return phase === 'patron' ? 'Patron' : phase === 'weakened' ? 'Weakened Patron' : o.kind;
 }
 function staticTargets(scenario) {
-  const targets = mapFor(scenario).objectives.filter(o => !(scenario.objectivesDown || []).includes(o.id) && scenario.objectiveStates?.[o.id]?.active !== false).map(o => ({ id: o.id, x: o.x, y: o.y, label: `${o.team === 'amber' ? 'Amber' : 'Sapphire'} ${objectiveName(o,scenario)}${o.kind === 'walker' || o.kind === 'guardian' ? ` · ${o.x < 34 ? 'left' : o.x > 65 ? 'right' : 'mid'}` : ''} · ${Number.isFinite(scenario.objectiveStates?.[o.id]?.health) ? `${scenario.objectiveStates[o.id].health}% HP` : 'HP unknown'}` }));
+  const targets = mapFor(scenario).objectives.filter(o => !(scenario.objectivesDown || []).includes(o.id) && scenario.objectiveStates?.[o.id]?.active !== false).map(o => ({ id: o.id, x: o.x, y: o.y, label: `${o.team === 'amber' ? 'Amber' : 'Sapphire'} ${objectiveName(o,scenario)}${o.kind === 'walker' || o.kind === 'guardian' ? ` · ${o.x < 34 ? 'left' : o.x > 65 ? 'right' : 'mid'}` : ''} · ${healthLabel(scenario.objectiveStates?.[o.id]?.health)}` }));
   if (scenario.midbossAlive === true) targets.push({ id: 'midboss', x: 50, y: 50, label: 'Mid Boss' });
-  targets.push(...(mapFor(scenario).camps || []).map(c => ({id:c.id,x:c.x,y:c.y,label:c.label})));
+  targets.push(...namedCampTargets(mapFor(scenario).camps || [], scenario.players.find(p => p.id === scenario.you).team));
   targets.push(...waveTargets(scenario));
   targets.push(...(scenario.signals || []).map(s => ({ ...s, label: s.label })));
   return targets;
@@ -161,12 +161,13 @@ function inspectionTargets(scenario, stage) {
   const healthMeta = value => Number.isFinite(value) ? `${Math.round(value)}% HP` : 'HP unknown';
   const targets = [];
   for (const node of stage.querySelectorAll('[data-map-player]')) {
-    const player = scenario.players.find(p => p.id === node.dataset.mapPlayer);
-    if (!player || !player.alive || (player.team !== you.team && player.visible !== true)) continue;
+    const rawPlayer = scenario.players.find(p => p.id === node.dataset.mapPlayer);
+    if (!rawPlayer || !rawPlayer.alive || (rawPlayer.team !== you.team && rawPlayer.visible !== true)) continue;
+    const player = presentPlayer(rawPlayer, you);
     const hero = heroData(player);
-    const ultimate = ultimateState(player).label;
+    const ultimate = ultimateState(player);
     targets.push({ id:player.id, element:node, x:player.x, y:player.y, name:hero.name, image:hero.image, health:player.health,
-      meta:[player.id === you.id ? 'You' : relation(player.team), healthMeta(player.health), `${souls(player.souls)} souls`, `Ult ${ultimate === '?' ? 'unknown' : ultimate}`].join(' · ') });
+      meta:[player.id === you.id ? 'You' : relation(player.team), healthMeta(player.health), `${souls(player.souls)} souls`, `Ult ${ultimate.description}`].join(' · ') });
   }
   for (const node of stage.querySelectorAll('[data-objective]')) {
     const objective = map.objectives.find(o => o.id === node.dataset.objective);
@@ -301,7 +302,7 @@ function nativeObjective(o, scenario, you) {
   const laneColor = o.x < 34 ? 'yellow' : o.x > 65 ? 'green' : 'blue';
   const tint = o.team !== you.team ? 'enemy' : (kind === 'patron' || kind === 'weakened' || kind === 'shrine') ? 'friendly' : laneColor;
   const rotation = kind === 'patron' && o.team === you.team ? 'rotate(180deg)' : 'none';
-  return `<div class="map-marker native-objective ${escape(kind === 'weakened' ? 'patron' : kind)}" style="left:${o.x}%;top:${o.y}%;--native-tint:url(#native-${tint});--objective-rotation:${rotation}" title="${escape(kind)} · ${health === null ? 'Health unknown' : `${health}% HP`}" aria-label="${escape(kind)}, ${health === null ? 'health unknown' : `${health}% health`}" data-objective="${escape(o.id)}" data-health="${health === null ? 'unknown' : health}">${gameIcon(base,'native-health-bg')}${health === null ? '' : `<span class="native-health-clip" style="clip-path:inset(${cut}% 0 0 0)">${gameIcon(fill,'native-health-fill')}</span>`}</div>`;
+  return `<div class="map-marker native-objective ${escape(kind === 'weakened' ? 'patron' : kind)}" style="left:${o.x}%;top:${o.y}%;--native-tint:url(#native-${tint});--objective-rotation:${rotation}" title="${escape(kind)} · ${healthLabel(health)}" aria-label="${escape(kind)}, ${healthLabel(health)}" data-objective="${escape(o.id)}" data-health="${health === null ? 'unknown' : health}">${gameIcon(base,'native-health-bg')}${health === null ? '' : `<span class="native-health-clip" style="clip-path:inset(${cut}% 0 0 0)">${gameIcon(fill,'native-health-fill')}</span>`}</div>`;
 }
 function waveTargets(scenario) {
   return (scenario.laneStates || []).flatMap(lane => lane.waves.map(wave => ({...wave,label:`${lane.label} · ${wave.count} ${wave.team} troopers`,kind:'wave'})));
@@ -385,16 +386,19 @@ function renderRound({reveal = false} = {}) {
   const recorded = s.source?.kind === 'match';
   const dailyDate = new Date(`${challenge.date || today}T12:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
   $('#source-label').textContent = mode === 'daily' ? `Ranked · ${dailyDate}` : 'Authored practice';
-  if (recorded && /^[1-9]\d*$/.test(s.source.matchId)) {
+  if (recorded) $('#source-label').textContent = `${s.source.playerName || 'Match'} · ${s.source.matchId}`;
+  if (recorded && (result || review) && /^[1-9]\d*$/.test(s.source.matchId)) {
     const link = document.createElement('a');
     link.href = `https://statlocker.gg/match/${s.source.matchId}`;
     link.textContent = `${s.source.playerName || 'Match'} · ${s.source.matchId}`;
     link.target = '_blank'; link.rel = 'noopener noreferrer';
     $('#source-label').replaceChildren(link);
   }
+  const targetSecond = recordedTargetSecond(s);
+  const matchClock = `<span class="match-clock" role="img" aria-label="Match time ${clock(s.time)}${targetSecond === null ? '' : `, recorded position at ${clock(targetSecond)}`}">${clock(s.time)}${targetSecond === null ? '' : `<span class="target-clock" aria-hidden="true"> &rarr; ${clock(targetSecond)}</span>`}</span>`;
   const heading = result ? result.score === 1 ? 'Matched.' : 'Different move.' : 'Where will you go next?';
   app.innerHTML = `<section class="intro"><div class="eyebrow"><span class="round-counter" aria-label="Round ${index + 1} of 10">${String(index + 1).padStart(2, '0')} <span>/ 10</span></span></div><h1 id="round-title" tabindex="-1">${heading}</h1><div class="round-progress" role="img" aria-label="Round ${index + 1} of 10; ${calculateTotal(results)} correct decisions">${challenge.scenarios.map((_, i) => `<span class="progress-pip ${i === index ? 'current ' : ''}${results[i] ? `done ${results[i].score === 1 ? 'correct' : 'wrong'}` : ''}" aria-hidden="true">${results[i] ? outcomeMark(results[i].score) : ''}</span>`).join('')}</div></section>
-  <section class="play-table ${reveal ? 'is-revealing' : ''}" style="--ally:#ffefd7;--enemy:#ef9886">${teamPanel(s, you.team)}<div class="map-column"><div class="map-frame ${result ? 'has-result' : ''}"><div class="match-bar"><button class="match-perspective" id="locate-you" aria-label="Locate ${escape(heroData(you).name)}, you, on the map">${portrait(you, 'mini-portrait')}<span><span class="perspective-label">You are</span><strong>${escape(heroData(you).name)}</strong></span></button><div class="match-state"><span class="match-clock" aria-label="Match time ${clock(s.time)}">${clock(s.time)}</span>${soulDifference(s,you)}</div><div class="alive-summary" aria-label="${yours} allies alive, ${theirs} enemies alive"><span style="color:var(--ally)">${yours} alive</span><span class="alive-divider">/</span><span style="color:var(--enemy)">${theirs} alive</span></div></div>${lobbyGlance(s, you)}${nativeMapStage(s, result)}</div><div id="decision-area" aria-live="polite">${result ? feedbackHTML(s, result) : decisionHTML()}</div>${result ? '<div class="feedback-key"><span class="key-entry"><span class="key-ring"></span>Recorded move</span><span class="key-entry"><span class="key-ring choice"></span>Your pin</span></div>' : `<details class="accessible-targets"><summary>Choose a location</summary><div class="target-options">${staticTargets(s).map(t => `<button data-target="${escape(t.id)}">${escape(t.label)}</button>`).join('')}</div></details>`}${review ? `<div class="review-nav"><button id="prev-review" ${index === 0 ? 'disabled' : ''}>&larr; Previous</button><span>${index + 1} / 10</span><button id="next-review" ${index === 9 ? 'disabled' : ''}>Next &rarr;</button><button class="back-results" id="back-results">Results</button></div>` : ''}${!storageAvailable ? '<p class="storage-warning">Browser storage is unavailable. This run will not survive a refresh.</p>' : ''}</div>${teamPanel(s, you.team === 'amber' ? 'sapphire' : 'amber')}</section>`;
+  <section class="play-table ${reveal ? 'is-revealing' : ''}" style="--ally:#ffefd7;--enemy:#ef9886">${teamPanel(s, you.team)}<div class="map-column"><div class="map-frame ${result ? 'has-result' : ''}"><div class="match-bar"><button class="match-perspective" id="locate-you" aria-label="Locate ${escape(heroData(you).name)}, you, on the map">${portrait(you, 'mini-portrait')}<span><span class="perspective-label">You are</span><strong>${escape(heroData(you).name)}</strong></span></button><div class="match-state">${matchClock}${soulDifference(s,you)}</div><div class="alive-summary" aria-label="${yours} allies alive, ${theirs} enemies alive"><span style="color:var(--ally)">${yours} alive</span><span class="alive-divider">/</span><span style="color:var(--enemy)">${theirs} alive</span></div></div>${lobbyGlance(s, you)}${nativeMapStage(s, result)}</div><div id="decision-area" aria-live="polite">${result ? feedbackHTML(s, result) : decisionHTML()}</div>${result ? '<div class="feedback-key"><span class="key-entry"><span class="key-ring"></span>Recorded move</span><span class="key-entry"><span class="key-ring choice"></span>Your pin</span></div>' : `<details class="accessible-targets"><summary>Choose a location</summary><div class="target-options">${staticTargets(s).map(t => `<button data-target="${escape(t.id)}">${escape(t.label)}</button>`).join('')}</div></details>`}${review ? `<div class="review-nav"><button id="prev-review" ${index === 0 ? 'disabled' : ''}>&larr; Previous</button><span>${index + 1} / 10</span><button id="next-review" ${index === 9 ? 'disabled' : ''}>Next &rarr;</button><button class="back-results" id="back-results">Results</button></div>` : ''}${!storageAvailable ? '<p class="storage-warning">Browser storage is unavailable. This run will not survive a refresh.</p>' : ''}</div>${teamPanel(s, you.team === 'amber' ? 'sapphire' : 'amber')}</section>`;
   attachRound();
 }
 function decisionHTML() {
@@ -504,6 +508,7 @@ function recordCompletion() {
 function renderResults() {
   disposeMapInspection();
   review = false;
+  $('#source-label').textContent = mode === 'daily' ? 'Daily results' : 'Recorded practice';
   const total = calculateTotal(results);
   app.innerHTML = `<section class="results"><h1 id="results-title" tabindex="-1">${mode === 'daily' ? 'Daily' : 'Practice'} complete</h1><div class="final-score">${total}<span class="denominator">/ 10</span></div><div class="result-grid" aria-label="Round scores">${results.map((r, i) => {
     const s = challenge.scenarios[i], player = s.players.find(p => p.id === s.you);
@@ -513,7 +518,7 @@ function renderResults() {
   $('#replay-button').addEventListener('click', () => {
     if (mode === 'daily') return setMode('practice');
     if (practiceLibrary) return setMode('practice', {fresh:true});
-    index = 0; results = []; selected = null; review = false; finished = false; persist(); renderRound(); scrollTop(); focusContent();
+    index = 0; results = []; selected = null; review = false; finished = false; completedAt = null; persist(); renderRound(); scrollTop(); focusContent();
   });
   app.querySelectorAll('[data-review]').forEach(b => b.addEventListener('click', () => { index = Number(b.dataset.review); review = true; renderRound(); scrollTop(); focusContent(); }));
   focusContent('#results-title');
@@ -528,8 +533,9 @@ async function share() {
 }
 function loadRun() {
   const saved = readStorage(key(), null);
-  index = 0; results = []; selected = null; review = false; finished = false;
+  index = 0; results = []; selected = null; review = false; finished = false; completedAt = null;
   if (saved?.version !== 2 || !Array.isArray(saved.results)) return;
+  if (mode === 'practice' && isCompletedRunStale(saved, today)) { persist(); return; }
   const restored = [];
   for (let i = 0; i < Math.min(10, saved.results.length); i++) {
     const r = saved.results[i];
@@ -538,14 +544,20 @@ function loadRun() {
   }
   results = restored;
   finished = saved.finished === true && results.length === 10;
+  if (finished) {
+    completedAt = typeof saved.completedAt === 'string' && Number.isFinite(Date.parse(saved.completedAt)) ? saved.completedAt : new Date().toISOString();
+  }
   // A locked round stays on its feedback until Next is pressed.
   index = Math.max(0, Math.min(9, Number.isInteger(saved.index) ? saved.index : results.length, results.length));
   const p = saved.selected;
   if (!results[index] && p && Number.isFinite(p.x) && Number.isFinite(p.y) && p.x >= 0 && p.x <= 100 && p.y >= 0 && p.y <= 100) selected = p;
+  // An older finished run gains a date on upgrade, preserving its results for today.
+  if (finished && completedAt !== saved.completedAt) persist();
 }
 async function preparePracticeSession(fresh = false) {
   if (!practiceLibrary) return practiceFallback;
-  const saved = fresh ? null : readStorage(practiceSessionKey, null);
+  let saved = fresh ? null : readStorage(practiceSessionKey, null);
+  if (saved?.id && isCompletedRunStale(readStorage(`macrolock:run:binary-v1:practice:${saved.id}:v1`, null), today)) saved = null;
   const canResume = typeof saved?.id === 'string' && /^practice-session-[a-zA-Z0-9-]+$/.test(saved.id) && validatePracticeReferences(practiceLibrary, saved.references);
   if (saved && !canResume) toast('Practice refreshed. Your previous set is unavailable.');
   const selection = canResume ? saved : selectPracticeReferences(practiceLibrary, readStorage(practiceSeenKey, []));
@@ -598,7 +610,7 @@ async function setMode(newMode, {fresh = false} = {}) {
   challenge = mode === 'daily' ? daily : practice;
   if (fresh) {
     // Play again also starts over if a failed pack resolves to the fixed fallback id.
-    index = 0; results = []; selected = null; review = false; finished = false; persist();
+    index = 0; results = []; selected = null; review = false; finished = false; completedAt = null; persist();
   } else loadRun();
   if (finished) renderResults(); else renderRound(); scrollTop(); focusContent();
 }
@@ -606,11 +618,13 @@ $('#practice-tab').addEventListener('click', () => setMode('practice'));
 $('#daily-tab').addEventListener('click', () => setMode('daily'));
 
 function inspectPlayer(id) {
-  const player = challenge?.scenarios[index]?.players.find(p => p.id === id);
-  if (!player) return;
+  const scenario = challenge?.scenarios[index];
+  const rawPlayer = scenario?.players.find(p => p.id === id);
+  if (!rawPlayer) return;
+  const player = presentPlayer(rawPlayer, scenario.players.find(p => p.id === scenario.you));
   const ability = heroData(player).ultimate;
   const status = ultimateState(player);
-  showDialog(heroData(player).name, `<div class="snapshot-ultimate">${ability?.image ? `<img src="${escape(ability.image)}" alt="" width="40" height="40">` : ''}<div><span>Ultimate</span><strong>${escape(ability?.name || 'Unknown ability')}</strong></div><span class="snapshot-cooldown ${status.ready ? 'ready' : ''}">${status.label}</span></div><div class="inventory-detail">${(player.items || []).map(id => {
+  showDialog(heroData(player).name, `<div class="snapshot-ultimate">${ability?.image ? `<img src="${escape(ability.image)}" alt="" width="40" height="40">` : ''}<div><span>Ultimate</span><strong>${escape(ability?.name || 'Unknown ability')}</strong></div><span class="snapshot-cooldown ${status.ready ? 'ready' : ''}" title="${escape(status.description)}" aria-label="Ultimate ${escape(status.description)}">${status.label}</span></div><div class="inventory-detail">${(player.items || []).map(id => {
     const item = itemData(id);
     const cooldown = player.itemCooldowns?.[id];
     const showCooldown = item.active === true || cooldown === null || Number.isFinite(cooldown);
@@ -650,6 +664,8 @@ async function init() {
         if (candidate.kind === 'daily' && candidate.date === today && validateChallenge(candidate).valid) { daily = candidate; $('.daily-dot').hidden = false; }
       }
     } catch (error) { console.warn('Daily challenge unavailable:', error.message); }
+    $('#daily-tab').hidden = !daily;
+    $('.mode-nav').hidden = !daily;
     await setMode(new URLSearchParams(location.search).get('mode') === 'daily' ? 'daily' : 'practice');
   } catch (error) {
     console.error(error);

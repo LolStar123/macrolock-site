@@ -2020,9 +2020,9 @@
         "toSecond": 600.0
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 35187362,
@@ -4211,9 +4211,9 @@
         "toSecond": 780.0
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 35187362,
@@ -6415,9 +6415,9 @@
         "toSecond": 960.0
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 35187362,
@@ -8605,9 +8605,9 @@
         "toSecond": 1260.0
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 35187362,
@@ -10704,9 +10704,9 @@
         "toSecond": 2160.0
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 35187362,
@@ -12876,9 +12876,9 @@
         "toSecond": 2460.0
       },
       "reviewWarnings": [
-        "Enemy positions are hidden because metadata does not prove player perspective vision.",
-        "Objective health, camp state, and lane state are unknown in this metadata build.",
-        "raw objective IDs require the optional verified objective map"
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
       ],
       "source": {
         "accountId": 35187362,
