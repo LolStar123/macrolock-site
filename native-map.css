@@ -1,0 +1,50 @@
+/* Valve build 6795 Panorama HUD, ported into browser layout units.
+   Source: assets/catalog.json map.nativeHud; original artwork is never redrawn.
+   Outer compass 400, inner minimap 360. map units remain the source image space. */
+.native-map-stage{position:relative;aspect-ratio:1;width:100%;isolation:isolate;background:transparent}
+.native-compass-frame{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;z-index:0}
+.native-map-mask{position:absolute;inset:0;z-index:1;mask-size:100% 100%;mask-repeat:no-repeat;mask-mode:luminance;-webkit-mask-size:100% 100%;-webkit-mask-repeat:no-repeat}
+.map-viewport.native-map-plane{position:absolute;inset:5%;width:90%;height:90%;aspect-ratio:1;background:transparent;overflow:visible}
+.native-map-plane .map-image.native-surface{opacity:1;filter:none;object-fit:contain}
+.native-filters{position:absolute;pointer-events:none;overflow:hidden}
+.native-lines{z-index:0;overflow:visible}
+.native-map-plane .map-input{z-index:30;background:transparent}
+.native-map-plane .answer-overlay{z-index:25;overflow:visible}
+.native-map-plane .target-pin{z-index:35}
+.map-key .key-dot{border-color:#FFEFD7}.map-key .key-dot.enemy{border-color:#FF410D}
+.native-map-plane .map-marker.native-objective{width:11.111111%;height:11.111111%;z-index:15;transform:var(--objective-rotation);pointer-events:none;display:block}
+.native-map-plane .native-objective.walker{width:17.777778%;height:17.777778%}
+.native-map-plane .native-objective.patron{width:22.222222%;height:22.222222%}
+.native-map-plane .native-objective.shrine{width:11.111111%;height:11.111111%}
+.native-map-plane .native-objective .game-icon{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:var(--native-tint)}
+.native-health-clip{position:absolute;inset:0;pointer-events:none}
+.native-map-plane .map-marker.native-midboss{width:17.777778%;height:17.777778%;z-index:4}
+.native-map-plane .native-midboss .game-icon{width:100%;height:100%;filter:none;object-fit:contain}
+.native-map-plane .map-camp.native-camp{width:6.666667%;height:6.666667%;z-index:2;display:block}
+.native-map-plane .native-camp img{width:100%;height:100%;object-fit:contain;filter:none;opacity:1}
+.native-map-plane .native-camp.unknown img{opacity:.35}
+.native-map-plane .map-poi.native-poi{width:10%;height:10%;z-index:3;display:grid;place-items:center}
+.native-map-plane .native-poi img{width:50%;height:50%;object-fit:contain;filter:drop-shadow(0 0 3px #000);opacity:1}
+.native-map-plane .native-poi.teleporter{width:4.444444%;height:4.444444%;z-index:1}
+.native-map-plane .native-poi.teleporter img{width:100%;height:100%}
+.native-trooper{position:absolute;width:3%;height:3%;translate:-50% -50%;z-index:5;pointer-events:none}
+.native-trooper .game-icon{width:100%;height:100%;object-fit:contain;image-rendering:auto}
+.native-map-plane .map-hero.native-player{width:7%;height:7%;background:#ffefd7e6;border:none;box-shadow:none;border-radius:50%;filter:none;z-index:14;display:grid;place-items:center;pointer-events:none}
+.native-map-plane .native-player.enemy{background:#ff410de6;z-index:13}
+.native-map-plane .native-player .native-player-image{width:85%;height:85%;object-fit:contain;border-radius:0}
+.native-map-plane .native-player.is-you{width:12%;height:12%;background:none;border:none;box-shadow:none;z-index:18}
+.native-map-plane .native-player.is-you .native-player-image{position:absolute;width:110%;height:110%;left:-5%;top:-5%;object-fit:contain;transform:rotate(-90deg)}
+.native-map-plane .native-self-highlight{position:absolute;width:110%;height:110%;left:-5%;top:-5%;object-fit:contain;transform:rotate(-90deg)}
+.native-map-plane .map-signal.native-signal{width:8.888889%;height:8.888889%;z-index:23}
+.native-map-plane .native-signal .game-icon{width:100%;height:100%;object-fit:contain;filter:none}
+.native-map-plane .native-signal.fight{width:8%;height:8%}
+.lane-stats{margin:0;color:var(--muted);font-size:11px}
+.lane-stats summary{min-height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.lane-stats-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:12px 0}
+.lane-stat{display:flex;align-items:center;justify-content:space-between;gap:8px;font:11px ui-monospace,monospace}
+.lane-name{font:10px ui-sans-serif,system-ui,sans-serif;display:flex;align-items:center;gap:5px}
+.lane-name:before{content:"";height:4px;width:4px;border-radius:50%;background:#f1cc30}
+.lane-name.mid:before{background:#29b1cc}.lane-name.right:before{background:#59b247}
+.lane-unit-count{display:flex;align-items:center;gap:3px}
+.lane-unit-count img{width:16px;height:16px;object-fit:contain}
+@media(max-width:540px){.lane-stat{gap:3px;font-size:10px}.lane-stats-grid{gap:10px}.lane-name{font-size:9px}.lane-stats summary{font-size:10px}}
