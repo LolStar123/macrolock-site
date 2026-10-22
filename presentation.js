@@ -46,14 +46,30 @@ export function modeURL(href, mode) {
   return `${url.pathname}${url.search}${url.hash}`;
 }
 
-/** Camp IDs carry the authored map location, making otherwise identical names distinct. */
+/** Sapphire's HUD uses Valve's invert_map rotation, keeping each viewer's base at the bottom. */
+export function isMapInverted(yourTeam) { return yourTeam === 'sapphire'; }
+
+/** Lane names follow the screen the viewer sees, not the raw world axis. */
+export function screenLane(x, yourTeam) {
+  const screenX = isMapInverted(yourTeam) ? 100 - x : x;
+  return screenX < 34 ? 'left' : screenX > 66 ? 'right' : 'mid';
+}
+
+/** Player-facing camp names. Duplicates are numbered from the viewer's base outward. */
 export function namedCampTargets(camps, yourTeam) {
-  return camps.map(camp => {
+  const described = camps.map(camp => {
     const side = camp.y >= 45 && camp.y <= 55 ? 'River' : (camp.y > 50) === (yourTeam === 'amber') ? 'Your side' : 'Enemy side';
-    const lane = camp.x < 34 ? 'left' : camp.x > 66 ? 'right' : 'mid';
-    const location = String(camp.id).replace(/[_-]+/g, ' ').replace(/\bcamp\b/gi, '').replace(/\s+/g, ' ').trim();
-    return {...camp, label:`${camp.label} · ${side}, ${lane}${location ? ` · ${location}` : ''}`};
+    return {...camp, label:`${camp.label} · ${side}, ${screenLane(camp.x, yourTeam)}`};
   });
+  const groups = new Map();
+  for (const camp of described) groups.set(camp.label, [...(groups.get(camp.label) || []), camp]);
+  const baseY = yourTeam === 'amber' ? 100 : 0;
+  for (const group of groups.values()) {
+    if (group.length < 2) continue;
+    group.sort((a, b) => Math.abs(a.y - baseY) - Math.abs(b.y - baseY) || a.x - b.x);
+    group.forEach((camp, i) => { camp.label = camp.label.replace(' · ', ` ${i + 1} · `); });
+  }
+  return described;
 }
 
 export function recordedTargetSecond(scenario) {

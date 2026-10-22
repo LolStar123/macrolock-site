@@ -1,6 +1,6 @@
 import { calculateTotal, serializeShare, validateChallenge, validatePracticeLibrary, validatePracticeReferences, selectPracticeReferences, assemblePracticeSession, isPracticeRoundEligible } from './engine.js';
 import { deadHeroStrip } from './snapshot-status.js';
-import { presentPlayer, ultimateState, healthLabel, namedCampTargets, recordedTargetSecond, isCompletedRunStale, teleporterTargets, modeURL } from './presentation.js';
+import { presentPlayer, ultimateState, healthLabel, namedCampTargets, recordedTargetSecond, isCompletedRunStale, teleporterTargets, modeURL, isMapInverted, screenLane } from './presentation.js';
 import {restoreRun, transitionRun, createSharedCoordinator} from './shared-run.js';
 
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -12,6 +12,9 @@ const clock = (seconds) => `${Math.floor(seconds / 60)}:${String(Math.floor(seco
 const souls = (value) => Number.isFinite(value) ? `${(value / 1000).toFixed(1)}k` : '?';
 const clamp = (v) => Math.max(0, Math.min(100, v));
 const fmt = (value) => Number(value).toFixed(1);
+const youIn = (scenario) => scenario.players.find(p => p.id === scenario.you);
+// Valve's invert_map is a 180 degree turn, so the same flip maps screen to plane and back.
+const viewPoint = (point, scenario) => isMapInverted(youIn(scenario).team) ? {x:100 - point.x, y:100 - point.y} : {x:point.x, y:point.y};
 let catalog, practice, challenge, daily, mode = 'practice', index = 0, results = [], selected = null, review = false, finished = false, completedAt = null, dialogOpener = null, toastTimer;
 let storageAvailable = true;
 const memoryStorage = new Map();
@@ -102,7 +105,7 @@ function lobbyGlance(scenario, you) {
     const life = player.alive ? `${hp === null ? 'unknown' : Math.round(hp) + ' percent'} health` : `dead, respawns in ${Number.isFinite(player.respawn) ? Math.ceil(player.respawn) + ' seconds' : 'unknown time'}`;
     return `<button class="glance-player ${player.id === you.id ? 'you' : ''} ${player.alive ? '' : 'dead'}" data-player="${escape(player.id)}" aria-label="${escape(hero.name)}${player.id === you.id ? ', you' : ''}. ${escape(life)}. ${escape(souls(player.souls))} souls. Ultimate ${escape(ult.description)}. Inspect items."><span class="glance-portrait">${portrait(player)}${player.alive ? '' : `${gameIcon('deathSkull','glance-skull')}<span class="glance-respawn">${Number.isFinite(player.respawn) ? Math.ceil(player.respawn) + 's' : '?'}</span>`}</span><span class="glance-health ${healthState}" role="img" aria-label="${hp === null ? 'Health unknown' : Math.round(hp) + '% health'}"><span style="width:${player.alive && hp !== null ? hp : 0}%"></span></span><span class="glance-souls">${souls(player.souls)}</span><span class="glance-ultimate ${ult.ready ? 'ready' : ''}" title="Ultimate ${escape(ult.description)}">${hero.ultimate?.image ? `<img src="${escape(hero.ultimate.image)}" alt="" width="12" height="12">` : ''}<span>${escape(ult.label)}</span></span></button>`;
   }).join('')}</div>`;
-  return `<div class="lobby-glance">${group(scenario.players.filter(p => p.team === you.team), 'allies')}${group(scenario.players.filter(p => p.team !== you.team), 'enemies')}</div>`;
+  return `<div class="lobby-glance">${group(scenario.players.filter(p => p.team === you.team).sort((a, b) => (b.id === you.id) - (a.id === you.id)), 'allies')}${group(scenario.players.filter(p => p.team !== you.team), 'enemies')}</div>`;
 }
 function heldItem(id, player) {
   const item = itemData(id);
@@ -128,16 +131,17 @@ $('#close-dialog').addEventListener('click', closeDialog);
 dialog.addEventListener('click', e => { if (e.target === dialog) { const r = dialog.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) closeDialog(); } });
 dialog.addEventListener('close', () => { if (dialogOpener?.isConnected) dialogOpener.focus(); });
 
-$('#help-button').addEventListener('click', () => showDialog('Read the room.', `<div class="dialog-body"><div class="how-step"><span>1</span><div><strong>Read the snapshot.</strong>You're the hero marked YOU. Check positions, respawns, souls and items.</div></div><div class="how-step"><span>2</span><div><strong>Place your pin.</strong>Predict the player's recorded position 60 seconds later, at the target clock. No timer.</div></div><div class="how-step"><span>3</span><div><strong>Compare the move.</strong>One point for matching the recorded region. It is not a claim of the uniquely optimal play.</div></div><p class="dialog-note">Only revealed enemies appear. Tap a hero for items. Hold a map marker to inspect it. On the map, arrows move and Enter places or locks your pin. Tab to Choose a location for a named list.</p></div><button class="primary dialog-action" id="got-it">Got it<span class="button-arrow">→</span></button>`));
+$('#help-button').addEventListener('click', () => showDialog('Read the room.', `<div class="dialog-body"><div class="how-step"><span>1</span><div><strong>Read the snapshot.</strong>You're the hero marked YOU. Check positions, respawns, souls and items.</div></div><div class="how-step"><span>2</span><div><strong>Place your pin.</strong>Predict the player's recorded position 60 seconds later, at the target clock. No timer.</div></div><div class="how-step"><span>3</span><div><strong>Compare the move.</strong>One point for matching the recorded region. It is not a claim of the uniquely optimal play.</div></div><p class="dialog-note">Only revealed enemies appear. Tap a hero for items. Hold a map marker to inspect it. On the map, arrows move your pin (Shift for bigger steps) and Enter places or locks it. Tab to Choose a location for a named list.</p></div><button class="primary dialog-action" id="got-it">Got it<span class="button-arrow">→</span></button>`));
 $('#dialog-content').addEventListener('click', e => { if (e.target.closest('#got-it')) closeDialog(); });
 $('#about-button').addEventListener('click', () => showDialog('MacroLock.', `<div class="dialog-body"><p>Recorded practice compares your pin with the player's recorded position 60 seconds later. The target clock shows that moment. Matching the region earns one point; the recorded play is not necessarily optimal.</p><p>Missing replay fields stay unknown. Daily sets require reviewed ranked replay snapshots.</p><p class="dialog-note">Game artwork © Valve. Assets delivered by <a href="https://deadlock-api.com" target="_blank" rel="noopener noreferrer">Deadlock API</a>. Unaffiliated fan project. Results stay in this browser.</p></div>`));
 $('#stats-button').addEventListener('click', () => {
   const scores = getHistory();
-  showDialog('Your bigger picture.', `<div class="dialog-body"><div class="stats-grid"><div><strong>${scores.length}</strong><span>Sets played</span></div><div><strong>${scores.length ? fmt(scores.reduce((a, r) => a + r.score, 0) / scores.length) : '—'}</strong><span>Average</span></div><div><strong>${scores.length ? fmt(Math.max(...scores.map(r => r.score))) : '—'}</strong><span>Best</span></div></div><p class="dialog-note">Practice and daily results on this browser. Replays of the same set count once.</p></div>`);
+  showDialog('Your bigger picture.', `<div class="dialog-body"><div class="stats-grid"><div><strong>${scores.length}</strong><span>Sets played</span></div><div><strong>${scores.length ? `${fmt(scores.reduce((a, r) => a + r.score, 0) / scores.length)}<small>/10</small>` : '—'}</strong><span>Average</span></div><div><strong>${scores.length ? `${Math.max(...scores.map(r => r.score))}<small>/10</small>` : '—'}</strong><span>Best</span></div></div><p class="dialog-note">Practice and daily results on this browser. Replays of the same set count once.</p></div>`);
 });
 
 function teamPanel(scenario, team) {
-  const players = scenario.players.filter(p => p.team === team);
+  // The tracked hero always leads its roster, so it never falls below the fold.
+  const players = scenario.players.filter(p => p.team === team).sort((a, b) => (b.id === scenario.you) - (a.id === scenario.you));
   const isYours = scenario.players.find(p => p.id === scenario.you).team === team;
   return `<aside class="team-panel ${team}-panel ${isYours ? 'your-panel' : 'enemy-panel'}" aria-label="${isYours ? 'Your' : 'Enemy'} team"><div class="team-heading"><div class="team-name ${team}"><span class="team-dot"></span>${isYours ? 'Your team' : 'Enemy team'}</div><span class="team-total" title="Team net worth">${players.every(p => Number.isFinite(p.souls)) ? souls(players.reduce((a, p) => a + p.souls, 0)) : '?'}</span></div>${players.map(p => playerCard(p, scenario)).join('')}</aside>`;
 }
@@ -153,7 +157,7 @@ function soulDifference(scenario, you) {
   const known = scenario.players.every(p => Number.isFinite(p.souls));
   const difference = known ? ours.reduce((sum,p)=>sum+p.souls,0)-theirs.reduce((sum,p)=>sum+p.souls,0) : null;
   const label = difference === null ? 'Team soul difference unknown' : difference === 0 ? 'Teams are equal in souls' : `Your team is ${difference > 0 ? 'ahead' : 'behind'} by ${Math.abs(difference).toLocaleString('en-GB')} souls`;
-  return `<span class="soul-difference ${difference > 0 ? 'ahead' : difference < 0 ? 'behind' : 'even'}" title="${escape(label)}" aria-label="${escape(label)}"><span class="soul-gap-label">Soul gap</span>${gameIcon('souls')}<strong>${difference === null ? '?' : `${difference > 0 ? '+' : difference < 0 ? '−' : ''}${souls(Math.abs(difference))}`}</strong></span>`;
+  return `<span class="soul-difference ${difference > 0 ? 'ahead' : difference < 0 ? 'behind' : 'even'}" title="${escape(label)}" role="img" aria-label="${escape(label)}">${gameIcon('souls')}<strong>${difference === null ? '?' : `${difference > 0 ? '+' : difference < 0 ? '−' : ''}${souls(Math.abs(difference))}`}</strong></span>`;
 }
 function playerCard(p, scenario) {
   p = presentPlayer(p, scenario.players.find(player => player.id === scenario.you));
@@ -185,9 +189,13 @@ function objectiveName(o, scenario) {
   return phase === 'patron' ? 'Patron' : phase === 'weakened' ? 'Weakened Patron' : o.kind;
 }
 function staticTargets(scenario) {
-  const targets = mapFor(scenario).objectives.filter(o => !(scenario.objectivesDown || []).includes(o.id) && scenario.objectiveStates?.[o.id]?.active !== false).map(o => ({ id: o.id, x: o.x, y: o.y, label: `${o.team === 'amber' ? 'Amber' : 'Sapphire'} ${objectiveName(o,scenario)}${o.kind === 'walker' || o.kind === 'guardian' ? ` · ${o.x < 34 ? 'left' : o.x > 65 ? 'right' : 'mid'}` : ''} · ${healthLabel(scenario.objectiveStates?.[o.id]?.health)}` }));
+  const team = youIn(scenario).team;
+  const targets = mapFor(scenario).objectives.filter(o => !(scenario.objectivesDown || []).includes(o.id) && scenario.objectiveStates?.[o.id]?.active !== false).map(o => {
+    const name = objectiveName(o, scenario);
+    return { id: o.id, x: o.x, y: o.y, label: `${o.team === team ? 'Your' : 'Enemy'} ${name.toLowerCase()}${o.kind === 'walker' || o.kind === 'guardian' ? ` · ${screenLane(o.x, team)}` : ''} · ${healthLabel(scenario.objectiveStates?.[o.id]?.health)}` };
+  });
   if (scenario.midbossAlive === true) targets.push({ id: 'midboss', x: 50, y: 50, label: 'Mid Boss' });
-  targets.push(...namedCampTargets(mapFor(scenario).camps || [], scenario.players.find(p => p.id === scenario.you).team));
+  targets.push(...namedCampTargets(mapFor(scenario).camps || [], team));
   targets.push(...waveTargets(scenario));
   targets.push(...teleporterTargets(mapFor(scenario), scenario));
   targets.push(...(scenario.signals || []).map(s => ({ ...s, label: s.label })));
@@ -234,7 +242,7 @@ function inspectionTargets(scenario, stage) {
 function inspectionHTML(target) {
   const hp = Number.isFinite(target.health) ? clamp(target.health) : null;
   const state = hp === null ? '' : hp > 60 ? 'healthy' : hp >= 30 ? 'hurt' : 'critical';
-  return `${target.image ? `<img class="map-inspect-image" src="${escape(target.image)}" alt="">` : ''}<div class="map-inspect-copy"><strong class="map-inspect-name">${escape(target.name)}</strong><span class="map-inspect-meta">${escape(target.meta)}</span>${hp === null ? '' : `<div class="map-inspect-health ${state}" aria-hidden="true"><span style="width:${hp}%"></span></div>`}</div>`;
+  return `<div class="map-inspect-row">${target.image ? `<img class="map-inspect-image" src="${escape(target.image)}" alt="">` : ''}<div class="map-inspect-copy"><strong class="map-inspect-name">${escape(target.name)}</strong><span class="map-inspect-meta">${escape(target.meta)}</span>${hp === null ? '' : `<div class="map-inspect-health ${state}" aria-hidden="true"><span style="width:${hp}%"></span></div>`}</div></div>`;
 }
 function attachMapInspection(map, scenario) {
   const stage = map.closest('.native-map-stage');
@@ -254,12 +262,13 @@ function attachMapInspection(map, scenario) {
   };
   const pointFromEvent = event => {
     const rect = map.getBoundingClientRect();
-    return {x:(event.clientX-rect.left)/rect.width*100,y:(event.clientY-rect.top)/rect.height*100};
+    return viewPoint({x:(event.clientX-rect.left)/rect.width*100,y:(event.clientY-rect.top)/rect.height*100}, scenario);
   };
   const nearest = point => {
     const rect = map.getBoundingClientRect();
-    const clientX = rect.left + point.x / 100 * rect.width;
-    const clientY = rect.top + point.y / 100 * rect.height;
+    const screen = viewPoint(point, scenario);
+    const clientX = rect.left + screen.x / 100 * rect.width;
+    const clientY = rect.top + screen.y / 100 * rect.height;
     let target = null, distance = Infinity;
     for (const candidate of targets) {
       const d = Math.hypot(candidate.x-point.x,candidate.y-point.y);
@@ -272,13 +281,26 @@ function attachMapInspection(map, scenario) {
     }
     return target;
   };
+  const anchor = target => {
+    // Anchor beside the marker, flipping below when the top edge has no room.
+    const stageRect = stage.getBoundingClientRect(), mark = target.element.getBoundingClientRect();
+    const x = mark.left + mark.width / 2 - stageRect.left, top = mark.top - stageRect.top, bottom = mark.bottom - stageRect.top;
+    const half = card.offsetWidth / 2, gap = 8;
+    card.style.left = `${Math.max(half + 4, Math.min(stageRect.width - half - 4, x))}px`;
+    const above = top - card.offsetHeight - gap >= 0;
+    card.style.top = `${above ? top - card.offsetHeight - gap : Math.min(stageRect.height - card.offsetHeight, bottom + gap)}px`;
+  };
   const show = (target, explicit = false) => {
     if (disposed || !map.isConnected) return;
     if (!target) { dismiss(); return; }
-    card.innerHTML = inspectionHTML(target); card.hidden = false;
+    // Heroes stacked in a fight are listed together instead of hiding under the top token.
+    const group = target.named ? [target] : [target, ...targets.filter(t => !t.named && t !== target && Math.hypot(t.x-target.x,t.y-target.y) < 4)];
+    card.innerHTML = group.map(inspectionHTML).join(''); card.hidden = false;
+    card.classList.toggle('stack', group.length > 1);
+    anchor(target);
     card.setAttribute('aria-hidden', explicit ? 'false' : 'true');
     if (explicit) {
-      announcement.textContent = `${target.name}. ${target.meta}`;
+      announcement.textContent = group.map(t => `${t.name}. ${t.meta}`).join(' ');
       map.setAttribute('aria-describedby', 'map-inspect-card');
     } else { announcement.textContent = ''; map.removeAttribute('aria-describedby'); }
   };
@@ -306,8 +328,9 @@ function attachMapInspection(map, scenario) {
   listen(map, 'pointercancel', cancelPress);
   listen(map, 'pointerleave', () => { cancelPress(); if (!heldOpen) dismiss(); });
   listen(map, 'contextmenu', event => { if (Date.now() < suppressContextUntil) event.preventDefault(); });
-  listen(map, 'focus', () => { if (selected) inspect(selected); });
-  listen(map, 'blur', cancelPress);
+  // Only keyboard focus inspects the pin; a tap focuses the map too and must not pin a card open.
+  listen(map, 'focus', () => { if (selected && map.matches(':focus-visible')) inspect(selected); });
+  listen(map, 'blur', () => { cancelPress(); if (!heldOpen) dismiss(); });
   listen(document, 'pointerdown', event => { if (!stage.contains(event.target)) { cancelPress(); dismiss(); } });
   listen(document, 'keydown', event => { if (event.key === 'Escape') { cancelPress(); dismiss(); } });
   const dispose = () => {
@@ -366,7 +389,7 @@ function nativeMapStage(scenario, result) {
   const map = mapFor(scenario);
   const frame = map.frame || (map.clientVersion === catalog.map.clientVersion ? catalog.map.frame : null);
   const mask = map.frameMask || (map.clientVersion === catalog.map.clientVersion ? catalog.map.frameMask : null);
-  return `<div class="native-map-stage">${frame ? `<img class="native-compass-frame" src="${escape(frame)}" alt="" draggable="false">` : ''}<div class="native-map-mask" ${mask ? `style="mask-image:url('${escape(mask)}');-webkit-mask-image:url('${escape(mask)}')"` : ''}><div class="map-viewport native-map-plane" id="map-viewport">${mapContent(scenario,result)}</div></div>${deadHeroStrip(scenario,catalog)}<div class="map-inspect-card" id="map-inspect-card" hidden aria-hidden="true"></div><span class="visually-hidden" id="map-inspect-status" role="status" aria-live="polite" aria-atomic="true"></span></div>`;
+  return `<div class="native-map-stage ${isMapInverted(youIn(scenario).team) ? 'inverted' : ''}">${frame ? `<img class="native-compass-frame" src="${escape(frame)}" alt="" draggable="false">` : ''}<div class="native-map-mask" ${mask ? `style="mask-image:url('${escape(mask)}');-webkit-mask-image:url('${escape(mask)}')"` : ''}><div class="map-viewport native-map-plane" id="map-viewport">${mapContent(scenario,result)}</div></div>${deadHeroStrip(scenario,catalog)}<div class="map-inspect-card" id="map-inspect-card" hidden aria-hidden="true"></div><span class="visually-hidden" id="map-inspect-status" role="status" aria-live="polite" aria-atomic="true"></span></div>`;
 }
 function mapContent(scenario, result) {
   const you = scenario.players.find(p => p.id === scenario.you);
@@ -379,7 +402,9 @@ function mapContent(scenario, result) {
     const enemySide = you.team === 'amber' ? 'north' : 'south';
     return `<${geometry} fill="none" stroke="${escape(l.color)}" stroke-width=".4" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#native-${friendSide})"/><${geometry} fill="none" stroke="#DC4C2F" stroke-width=".4" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#native-${enemySide})"/>`;
   }).join('');
-  const zones = result ? scenario.answerZones.map(z => `<circle cx="${z.x}" cy="${z.y}" r="${z.radius}" fill="#a8c6a4" fill-opacity=".10" stroke="#a8c6a4" stroke-width=".28" stroke-dasharray="1.1 .8"/><circle class="recorded-destination-halo" cx="${z.x}" cy="${z.y}" r="1.7" fill="#172422" stroke="#edeade" stroke-width=".45"/><circle class="recorded-destination-dot" cx="${z.x}" cy="${z.y}" r=".7" fill="#b6d9be"/>`).join('') : '';
+  // A miss draws the gap from your pin to the recorded region; scoring itself stays binary.
+  const gap = result && result.score !== 1 && scenario.answerZones[0] ? `<line class="miss-gap" x1="${result.point.x}" y1="${result.point.y}" x2="${scenario.answerZones[0].x}" y2="${scenario.answerZones[0].y}"/>` : '';
+  const zones = result ? gap + scenario.answerZones.map(z => `<circle class="answer-region ${result.score === 1 ? 'hit' : ''}" cx="${z.x}" cy="${z.y}" r="${z.radius}"/><circle class="recorded-destination-halo" cx="${z.x}" cy="${z.y}" r="1.7"/><circle class="recorded-destination-dot" cx="${z.x}" cy="${z.y}" r=".7"/>`).join('') : '';
   const recordedPath = result && Array.isArray(scenario.recordedMove?.path) ? scenario.recordedMove.path : [];
   let previous = null;
   const routeCommands = [];
@@ -389,7 +414,8 @@ function mapContent(scenario, result) {
     routeCommands.push(`${discontinuity ? 'M' : 'L'} ${p.x} ${p.y}`);
     previous = p;
   }
-  const route = routeCommands.length > 1 ? `<path class="recorded-route" d="${routeCommands.join(' ')}" fill="none" stroke="#a8c6a4" stroke-width=".5" stroke-linejoin="round" stroke-linecap="round"/>` : !scenario.recordedMove && result && you.x != null ? `<line x1="${you.x}" y1="${you.y}" x2="${result.point.x}" y2="${result.point.y}" stroke="#e9e5da" stroke-width=".3" stroke-opacity=".65" stroke-dasharray=".8 1"/>` : '';
+  const routePath = routeCommands.join(' ');
+  const route = routeCommands.length > 1 ? `<path class="recorded-route-casing" d="${routePath}"/><path class="recorded-route" d="${routePath}" pathLength="1"/>` : !scenario.recordedMove && result && you.x != null ? `<line x1="${you.x}" y1="${you.y}" x2="${result.point.x}" y2="${result.point.y}" stroke="#e9e5da" stroke-width=".3" stroke-opacity=".65" stroke-dasharray=".8 1"/>` : '';
   const objectives = map.objectives.map(o => nativeObjective(o,scenario,you)).join('');
   const camps = (map.camps || []).map(c => {
     const state = scenario.campStates?.[c.id];
@@ -416,9 +442,10 @@ function mapContent(scenario, result) {
   }).join('');
   const signals = (scenario.signals || []).filter(p => p.kind !== 'camp' && p.kind !== 'wave').map(p => `<div class="map-signal native-signal ${escape(p.kind)} ${p.team !== you.team ? 'enemy' : ''}" style="left:${p.x}%;top:${p.y}%" title="${escape(p.label)}">${gameIcon(p.kind === 'fight' ? 'attack' : p.kind)}</div>`).join('');
   const point = result?.point || selected;
+  const pinState = result ? result.score === 1 ? 'locked hit' : 'locked miss' : '';
   const layer = scenario.mapLayer === 'tunnels' ? 'tunnels' : scenario.mapLayer === 'ratTunnels' ? 'ratTunnels' : 'surface';
   const image = map.layers?.[layer] || map.image;
-  return `${nativeTintFilters()}<img class="map-image native-surface" src="${escape(image)}" alt="Deadlock minimap" draggable="false" width="1024" height="1024"><svg class="map-overlay native-lines" viewBox="0 0 100 100" aria-hidden="true">${paths}</svg>${pois}${camps}${nativeWaves(scenario,you)}${objectives}${boss}${signals}${markers}<svg class="map-overlay answer-overlay" viewBox="0 0 100 100" aria-hidden="true">${route}${zones}</svg><button class="map-input ${result ? 'locked' : ''}" id="map-input" aria-label="${result ? 'Your choice and scored answer regions' : 'Choose your next destination on the minimap. Click, or use arrow keys and Enter.'}" ${result ? 'tabindex="-1"' : ''}></button><div class="target-pin" id="target-pin" style="${point ? `left:${point.x}%;top:${point.y}%` : 'display:none'}">${gameIcon('ping')}<span class="selection-center"></span></div>`;
+  return `${nativeTintFilters()}<img class="map-image native-surface" src="${escape(image)}" alt="Deadlock minimap" draggable="false" width="1024" height="1024"><svg class="map-overlay native-lines" viewBox="0 0 100 100" aria-hidden="true">${paths}</svg>${pois}${camps}${nativeWaves(scenario,you)}${objectives}${boss}${signals}${markers}<svg class="map-overlay answer-overlay" viewBox="0 0 100 100" aria-hidden="true">${route}${zones}</svg><button class="map-input ${result ? 'locked' : ''}" id="map-input" aria-label="${result ? 'Your choice and scored answer regions' : 'Choose your next destination on the minimap. Click, or use arrow keys and Enter.'}" ${result ? 'tabindex="-1"' : ''}></button><div class="target-pin ${pinState}" id="target-pin" style="${point ? `left:${point.x}%;top:${point.y}%` : 'display:none'}">${gameIcon('ping')}<span class="selection-center"></span></div>`;
 }
 
 function renderRound({reveal = false} = {}) {
@@ -442,8 +469,8 @@ function renderRound({reveal = false} = {}) {
   const targetSecond = recordedTargetSecond(s);
   const matchClock = `<span class="match-clock" role="img" aria-label="Match time ${clock(s.time)}${targetSecond === null ? '' : `, recorded position at ${clock(targetSecond)}`}">${clock(s.time)}${targetSecond === null ? '' : `<span class="target-clock" aria-hidden="true"> &rarr; ${clock(targetSecond)}</span>`}</span>`;
   const heading = result ? result.score === 1 ? 'Matched.' : 'Different move.' : 'Where will you go next?';
-  app.innerHTML = `<section class="intro"><div class="eyebrow"><span class="round-counter" aria-label="Round ${index + 1} of 10">${String(index + 1).padStart(2, '0')} <span>/ 10</span></span></div><h1 id="round-title" tabindex="-1">${heading}</h1><div class="round-progress" role="img" aria-label="Round ${index + 1} of 10; ${calculateTotal(results)} recorded move${calculateTotal(results) === 1 ? '' : 's'} matched">${challenge.scenarios.map((_, i) => `<span class="progress-pip ${i === index ? 'current ' : ''}${results[i] ? `done ${results[i].score === 1 ? 'correct' : 'wrong'}` : ''}" aria-hidden="true">${results[i] ? outcomeMark(results[i].score) : ''}</span>`).join('')}</div></section>
-  <section class="play-table ${reveal ? 'is-revealing' : ''}" style="--ally:#ffefd7;--enemy:#ef9886">${teamPanel(s, you.team)}<div class="map-column"><div class="map-frame ${result ? 'has-result' : ''}"><div class="match-bar"><button class="match-perspective" id="locate-you" aria-label="Locate ${escape(heroData(you).name)}, you, on the map">${portrait(you, 'mini-portrait')}<span><span class="perspective-label">You are</span><strong>${escape(heroData(you).name)}</strong></span></button><div class="match-state">${matchClock}${soulDifference(s,you)}</div><div class="alive-summary" aria-label="${yours} allies alive, ${theirs} enemies alive"><span style="color:var(--ally)">${yours} alive</span><span class="alive-divider">/</span><span style="color:var(--enemy)">${theirs} alive</span></div></div>${lobbyGlance(s, you)}${nativeMapStage(s, result)}</div><div id="decision-area" aria-live="polite">${result ? feedbackHTML(s, result) : decisionHTML()}</div>${result ? '<div class="feedback-key"><span class="key-entry"><span class="key-ring"></span>Recorded move</span><span class="key-entry"><span class="key-ring choice"></span>Your pin</span></div>' : `<details class="accessible-targets"><summary>Choose a location</summary><div class="target-options">${staticTargets(s).map(t => `<button data-target="${escape(t.id)}">${escape(t.label)}</button>`).join('')}</div></details>`}${review ? `<div class="review-nav"><button id="prev-review" ${index === 0 ? 'disabled' : ''}>&larr; Previous</button><span>${index + 1} / 10</span><button id="next-review" ${index === 9 ? 'disabled' : ''}>Next &rarr;</button><button class="back-results" id="back-results">Results</button></div>` : ''}${!storageAvailable ? '<p class="storage-warning">Browser storage is unavailable. This run will not survive a refresh.</p>' : ''}</div>${teamPanel(s, you.team === 'amber' ? 'sapphire' : 'amber')}</section>`;
+  app.innerHTML = `<section class="intro"><span class="round-counter" aria-label="Round ${index + 1} of 10">${String(index + 1).padStart(2, '0')}<span>/10</span></span><h1 id="round-title" tabindex="-1">${heading}</h1><div class="round-progress" role="img" aria-label="Round ${index + 1} of 10; ${calculateTotal(results)} recorded move${calculateTotal(results) === 1 ? '' : 's'} matched">${challenge.scenarios.map((_, i) => `<span class="progress-pip ${i === index ? 'current ' : ''}${results[i] ? `done ${results[i].score === 1 ? 'correct' : 'wrong'}` : ''}" aria-hidden="true">${results[i] ? outcomeMark(results[i].score) : ''}</span>`).join('')}</div></section>
+  <section class="play-table ${reveal ? 'is-revealing' : ''}" style="--ally:#ffefd7;--enemy:#ef9886">${teamPanel(s, you.team)}<div class="map-column"><div class="map-frame ${result ? 'has-result' : ''}"><div class="match-bar"><button class="match-perspective" id="locate-you" aria-label="Locate ${escape(heroData(you).name)}, you, on the map">${portrait(you, 'mini-portrait')}<span><span class="perspective-label">You are</span><strong>${escape(heroData(you).name)}</strong></span></button><div class="match-state">${matchClock}</div><div class="match-economy">${soulDifference(s,you)}<div class="alive-summary" role="img" aria-label="${yours} allies alive, ${theirs} enemies alive"><span class="alive-ally">${yours}</span><span class="alive-divider">v</span><span class="alive-enemy">${theirs}</span><span class="alive-word">alive</span></div></div></div>${lobbyGlance(s, you)}${nativeMapStage(s, result)}</div><div id="decision-area" aria-live="polite">${result ? feedbackHTML(s, result) : decisionHTML()}</div>${result ? '' : `<details class="accessible-targets"><summary>Choose a location</summary><div class="target-options">${staticTargets(s).map(t => `<button data-target="${escape(t.id)}">${escape(t.label)}</button>`).join('')}</div></details>`}${review ? `<div class="review-nav"><button id="prev-review" ${index === 0 ? 'disabled' : ''}>&larr; Previous</button><span>${index + 1} / 10</span><button id="next-review" ${index === 9 ? 'disabled' : ''}>Next &rarr;</button><button class="back-results" id="back-results">Results</button></div>` : ''}${!storageAvailable ? '<p class="storage-warning">Browser storage is unavailable. This run will not survive a refresh.</p>' : ''}</div>${teamPanel(s, you.team === 'amber' ? 'sapphire' : 'amber')}</section>`;
   attachRound();
 }
 function decisionHTML() {
@@ -452,9 +479,12 @@ function decisionHTML() {
 function feedbackHTML(s, result) {
   const best = result.bestZone;
   const answerSecond = s.source?.roundEvidence?.answerSampleSecond ?? s.recordedMove?.toSecond;
-  const title = s.source?.kind === 'match' && Number.isFinite(answerSecond) && answerSecond >= s.time ? `Recorded move · ${clock(answerSecond)}` : best.label;
-  const explanation = result.score > 0 && result.explanation ? result.explanation : best.explanation;
-  return `<div class="feedback ${result.score === 1 ? 'matched' : 'different'}"><div class="feedback-mark">${outcomeMark(result.score)}</div><div class="feedback-copy"><div class="feedback-top"><span class="feedback-score ${result.score === 0 ? 'low' : ''}" data-score="${result.score}">${result.score === 1 ? '<span class="plus" aria-hidden="true">+</span>' : ''}${result.score}<span class="visually-hidden"> point${result.score === 1 ? '' : 's'}</span></span><span class="feedback-title">${escape(title)}</span></div>${explanation ? `<details class="replay-details"><summary>${s.source?.kind === 'match' ? 'Replay details' : 'Answer details'}</summary><p class="feedback-explanation">${escape(explanation)}</p></details>` : ''}</div>${!review ? `<button class="primary" id="next-button">${index === 9 ? 'See score' : 'Next'}<span class="button-arrow">&rarr;</span></button>` : ''}</div>`;
+  const recorded = s.source?.kind === 'match' && Number.isFinite(answerSecond) && answerSecond >= s.time;
+  const zone = s.answerZones[0];
+  // Name where the tracked hero actually ended up; the generic replay sentence added nothing.
+  const title = recorded ? `${clock(answerSecond)} · ${zone ? locationName(zone) : best.label}` : best.label;
+  const explanation = recorded ? '' : result.score > 0 && result.explanation ? result.explanation : best.explanation;
+  return `<div class="feedback ${result.score === 1 ? 'matched' : 'different'}"><div class="feedback-copy"><span class="feedback-score ${result.score === 0 ? 'low' : ''}" data-score="${result.score}">${result.score === 1 ? '<span class="plus" aria-hidden="true">+</span>' : ''}${result.score}<span class="visually-hidden"> point${result.score === 1 ? '' : 's'}</span></span><span class="feedback-title"><span class="feedback-kicker">${recorded ? 'Recorded move' : 'Answer'}</span><span class="feedback-place">${escape(title)}</span></span>${explanation ? `<details class="replay-details"><summary>Answer details</summary><p class="feedback-explanation">${escape(explanation)}</p></details>` : ''}</div>${!review ? `<button class="primary" id="next-button">${index === 9 ? 'See score' : 'Next'}<span class="button-arrow">&rarr;</span></button>` : ''}</div>`;
 }
 function locationName(point) {
   const s = challenge.scenarios[index];
@@ -463,10 +493,12 @@ function locationName(point) {
     const d = Math.hypot(t.x - point.x, t.y - point.y);
     if (d < 7 && (!nearest || d < nearest.distance)) nearest = { ...t, distance: d };
   }
-  if (nearest) return nearest.label;
-  const x = point.x < 33 ? 'Left' : point.x > 67 ? 'Right' : 'Mid';
-  const you = s.players.find(p => p.id === s.you);
+  if (nearest) return nearest.label.replace(/ · (\d+% HP|HP unknown)$/, '');
+  const you = youIn(s);
+  const lane = screenLane(point.x, you.team);
+  const x = lane.charAt(0).toUpperCase() + lane.slice(1);
   const yourSide = you.team === 'amber' ? point.y > 65 : point.y < 35;
+  if (point.y > 88 || point.y < 12) return yourSide ? 'Your base' : 'Enemy base';
   const y = point.y > 65 || point.y < 35 ? yourSide ? 'your side' : 'enemy side' : 'river';
   return `${x} · ${y}`;
 }
@@ -486,29 +518,37 @@ function place(point, announce = true) {
 }
 function attachRound() {
   const map = $('#map-input');
+  const scenario = challenge.scenarios[index];
+  const you = youIn(scenario);
   $('#locate-you').addEventListener('click', () => {
     const marker = $('.native-player.is-you');
-    if (marker && !matchMedia('(prefers-reduced-motion: reduce)').matches) marker.animate([{opacity:.5}, {opacity:1}], {duration:150});
+    if (marker) {
+      // A visible ring, not a faint opacity blink; reduced motion keeps a static highlight.
+      marker.classList.remove('locating'); void marker.offsetWidth; marker.classList.add('locating');
+      setTimeout(() => marker.classList.remove('locating'), 1400);
+    }
     map.focus({preventScroll:true});
   });
-  const inspection = attachMapInspection(map, challenge.scenarios[index]);
+  const inspection = attachMapInspection(map, scenario);
   disposeMapInspection = inspection.dispose;
   map.addEventListener('click', e => {
     if (inspection.consumeClick(e)) return;
     inspection.dismiss();
     if (results[index] || review) return;
     const rect = map.getBoundingClientRect();
-    place({ x: (e.clientX - rect.left) / rect.width * 100, y: (e.clientY - rect.top) / rect.height * 100 });
+    place(viewPoint({ x: (e.clientX - rect.left) / rect.width * 100, y: (e.clientY - rect.top) / rect.height * 100 }, scenario));
   });
   map.addEventListener('keydown', e => {
     if (results[index] || review) return;
     if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) {
       e.preventDefault();
-      const p = selected || { x: 50, y: 75 }; const step = e.shiftKey ? 5 : 1;
+      // Keyboard pins start on your own hero; arrows move in screen directions on an inverted map.
+      const p = selected || (Number.isFinite(you.x) && Number.isFinite(you.y) ? {x:you.x, y:you.y} : { x: 50, y: 75 });
+      const step = (e.shiftKey ? 5 : 1) * (isMapInverted(you.team) ? -1 : 1);
       place({ x: p.x + (e.key === 'ArrowLeft' ? -step : e.key === 'ArrowRight' ? step : 0), y: p.y + (e.key === 'ArrowUp' ? -step : e.key === 'ArrowDown' ? step : 0) });
       inspection.inspect(selected);
     } else if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault(); if (selected) lock(); else { place({ x: 50, y: 50 }); inspection.inspect(selected); }
+      e.preventDefault(); if (selected) lock(); else { place(Number.isFinite(you.x) && Number.isFinite(you.y) ? {x:you.x, y:you.y} : { x: 50, y: 50 }); inspection.inspect(selected); }
     }
   });
   $('#lock-button')?.addEventListener('click', lock);
@@ -551,7 +591,7 @@ function renderResults() {
   review = false;
   $('#source-label').textContent = mode === 'daily' ? 'Daily results' : 'Recorded practice';
   const total = calculateTotal(results);
-  app.innerHTML = `<section class="results"><h1 id="results-title" tabindex="-1">${mode === 'daily' ? 'Daily' : 'Practice'} complete</h1><div class="final-score">${total}<span class="denominator">/ 10</span></div><div class="result-grid" aria-label="Round scores">${results.map((r, i) => {
+  app.innerHTML = `<section class="results"><h1 id="results-title" tabindex="-1">${mode === 'daily' ? 'Daily' : 'Practice'} complete</h1><div class="final-score" role="img" aria-label="${total} out of 10">${total}<span class="denominator" aria-hidden="true">/10</span></div><div class="result-grid" aria-label="Round scores">${results.map((r, i) => {
     const s = challenge.scenarios[i], player = s.players.find(p => p.id === s.you);
     return `<button class="result-tile ${r.score === 0 ? 'low' : ''}" data-review="${i}" aria-label="Review round ${i + 1}, ${escape(heroData(player).name)}, ${r.score === 1 ? 'matched' : 'different move'}, score ${r.score}, at ${clock(s.time)}"><span class="result-round">${String(i + 1).padStart(2, '0')}</span><span class="result-portrait">${portrait(player)}<span class="result-outcome">${outcomeMark(r.score)}</span></span><small>${clock(s.time)}</small></button>`;
   }).join('')}</div><div class="results-actions"><button class="primary" id="replay-button">${mode === 'daily' ? 'Play practice' : 'Keep playing'}<span class="button-arrow">&rarr;</span></button><button class="secondary" id="share-button">Share score<span class="button-arrow">&rarr;</span></button></div></section>`;
@@ -690,6 +730,9 @@ function inspectPlayer(id) {
 app.addEventListener('click', e => {
   const player = e.target.closest('[data-player]');
   if (player) inspectPlayer(player.dataset.player);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && review && !dialog.open && !e.defaultPrevented) { renderResults(); scrollTop(); }
 });
 app.addEventListener('keydown', e => {
   const player = e.target.closest('[data-player]');

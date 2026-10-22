@@ -6,14 +6,14 @@
 .map-death-hero{display:block;width:100%;height:100%;border-radius:5px;object-fit:cover;filter:grayscale(1) brightness(.65)}
 .map-death-symbol{position:absolute;right:-3px;bottom:-3px;width:13px;height:13px;padding:2px;border-radius:50%;background:#2d362e;color:#f2d7d1;object-fit:contain;box-sizing:border-box;filter:drop-shadow(0 1px 1px #0008)}
 .map-death-portrait.is-unavailable .map-death-symbol{right:20%;bottom:20%;width:60%;height:60%;padding:3px;background:transparent}
-.map-death-timer{max-width:100%;padding:2px 3px;border-radius:4px;background:#161c17e8;color:#f0ddd8;font:600 14px/1.1 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:-.6px;white-space:nowrap;text-shadow:0 1px 2px #000;font-variant-numeric:tabular-nums}
+.map-death-timer{max-width:100%;padding:2px 3px;border-radius:4px;background:#161c17e8;color:#f0ddd8;font:700 14px/1.1 var(--mono);letter-spacing:-.2px;white-space:nowrap;text-shadow:0 1px 2px #000;font-variant-numeric:tabular-nums}
 .map-death-timer>span{font-size:9px;letter-spacing:0;opacity:.75;margin-left:1px}
-.player:not(.dead) .ultimate-status.ready{gap:5px;max-width:100%;min-height:26px;padding:2px 5px 2px 2px;border-radius:5px;background:#345134;color:#d4f4cc;box-shadow:inset 0 0 0 1px #b4d7ac40;font-weight:600;line-height:1.2}
-.player:not(.dead) .ultimate-status.ready img{width:22px;height:22px;flex-shrink:0;background:#c6e0be1a;padding:1px;border-radius:3px}
+.player:not(.dead) .ultimate-status.ready{gap:5px;max-width:100%;min-height:26px;padding:2px 7px 2px 2px;border-radius:6px;background:var(--ready);color:var(--ready-ink);box-shadow:inset 0 0 0 1px #c9f5cf55,0 0 12px #7fd58a33;font-weight:700;line-height:1.2;letter-spacing:.3px;text-transform:uppercase}
+.player:not(.dead) .ultimate-status.ready img{width:22px;height:22px;flex-shrink:0;background:#10240f22;padding:1px;border-radius:4px}
 .player.dead .portrait{filter:grayscale(1) brightness(.65);opacity:.65}
 .player.dead .ultimate-status{filter:grayscale(1);color:var(--muted,#a5aaa8);opacity:.55}
 .player.dead .hero-subline .respawn,.player.dead .respawn{display:inline-flex;width:fit-content;padding:2px 5px;border-radius:4px;background:#d994861a;color:#efab9b;font-size:11px;font-weight:600;line-height:1.3;font-variant-numeric:tabular-nums}
-@media(max-width:540px){.map-deaths-allies,.map-deaths-enemies{gap:7px 3px}.map-death-timer{font-size:12px;padding:2px}.map-death-timer>span{font-size:8px}.player:not(.dead) .ultimate-status.ready{gap:3px;padding-right:4px;font-size:9px}.player:not(.dead) .ultimate-status.ready img{width:21px;height:21px}.player.dead .hero-subline .respawn{font-size:10px}}
+@media(max-width:540px){.map-deaths-allies,.map-deaths-enemies{gap:7px 3px}.map-death-timer{font-size:12px;padding:2px}.map-death-timer>span{font-size:9px}.player:not(.dead) .ultimate-status.ready{gap:3px;padding-right:5px;font-size:10px}.player:not(.dead) .ultimate-status.ready img{width:21px;height:21px}.player.dead .hero-subline .respawn{font-size:11px}}
 .player-health{display:block;width:100%;height:7px;min-height:6px;box-sizing:border-box;position:relative;overflow:hidden;margin:9px 0 0;border:1px solid #ffffff1c;border-radius:3px;background:#101811;box-shadow:inset 0 1px 2px #0005}
 .player-health-fill{display:block;height:100%;max-width:100%;border-radius:2px;background:#9bc68f;box-shadow:inset 0 1px 0 #ffffff1a}
 .player-health.healthy .player-health-fill,.player-health .player-health-fill.healthy{background:#9bc68f}
@@ -24,14 +24,13 @@
 .match-perspective{gap:9px;min-width:0}
 .match-perspective .mini-portrait{width:38px;height:38px;flex-shrink:0;border-radius:9px;object-fit:cover;outline:1px solid #ffffff1a}
 .match-perspective>span{display:flex;flex-direction:column;gap:3px;min-width:0}
-.match-perspective .perspective-label{font:9px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
+.match-perspective .perspective-label{font:11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
 .match-perspective strong{font:600 20px/1.1 ui-sans-serif,system-ui,sans-serif;color:var(--text,#eee9df);white-space:nowrap}
-.match-state{display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;padding:3px 0}
-.soul-difference{display:flex;align-items:center;gap:4px;font:12px/1 ui-monospace,Consolas,monospace;white-space:nowrap}
-.soul-difference .game-icon{width:12px;height:12px;opacity:.8}
+.match-state{justify-self:center;display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0;padding:3px 0}
+.soul-difference{display:flex;align-items:center;gap:6px;font:700 22px/1 var(--mono);letter-spacing:-.3px;white-space:nowrap}
+.soul-difference .game-icon{width:17px;height:17px}
 .soul-difference strong{font-weight:600}.soul-difference.ahead{color:#c0dfb7}.soul-difference.behind{color:#efab9b}.soul-difference.even{color:var(--muted)}
-.soul-gap-label{font:9px/1 ui-sans-serif,system-ui,sans-serif;color:var(--muted);margin-right:2px}
-@media(max-width:540px){.match-perspective{gap:7px}.match-perspective .mini-portrait{width:28px;height:28px}.match-perspective strong{font-size:15px}.match-perspective .perspective-label{font-size:8px;letter-spacing:.8px}}
+@media(max-width:540px){.match-perspective{gap:7px}.match-perspective .mini-portrait{width:28px;height:28px}.match-perspective strong{font-size:15px}.match-perspective .perspective-label{font-size:10px;letter-spacing:.8px}}
 
 /* Deaths stay visible in the native map corners, with the same team relationship as the roster. */
 .map-deaths-allies .map-death-portrait{outline-color:#ffefd74d}
