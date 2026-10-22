@@ -10,10 +10,8 @@
       "scenarioIds": [
         "recorded-119444900-540-1",
         "recorded-119444900-720-1",
-        "recorded-119444900-900-1",
         "recorded-119444900-1200-1",
         "recorded-119444900-1500-1",
-        "recorded-119444900-1800-1",
         "recorded-119444900-2100-1"
       ]
     },
@@ -23,9 +21,7 @@
       "path": "practice/119465312.json",
       "playerName": "Ascendant VI player",
       "scenarioIds": [
-        "recorded-119465312-540-7",
-        "recorded-119465312-720-7",
-        "recorded-119465312-900-7"
+        "recorded-119465312-540-7"
       ]
     },
     {
@@ -36,7 +32,6 @@
       "scenarioIds": [
         "recorded-119488065-540-2",
         "recorded-119488065-720-2",
-        "recorded-119488065-900-2",
         "recorded-119488065-1200-2"
       ]
     },
@@ -73,7 +68,6 @@
       "playerName": "Zerggy",
       "scenarioIds": [
         "recorded-119547167-540-8",
-        "recorded-119547167-720-8",
         "recorded-119547167-900-8",
         "recorded-119547167-1200-8"
       ]
@@ -100,8 +94,7 @@
       "scenarioIds": [
         "recorded-119569512-540-1",
         "recorded-119569512-720-1",
-        "recorded-119569512-900-1",
-        "recorded-119569512-1200-1"
+        "recorded-119569512-900-1"
       ]
     },
     {
@@ -126,8 +119,7 @@
         "recorded-119587496-540-1",
         "recorded-119587496-720-1",
         "recorded-119587496-900-1",
-        "recorded-119587496-1200-1",
-        "recorded-119587496-1500-1"
+        "recorded-119587496-1200-1"
       ]
     },
     {
@@ -140,8 +132,6 @@
         "recorded-119607159-720-12",
         "recorded-119607159-900-12",
         "recorded-119607159-1200-12",
-        "recorded-119607159-1500-12",
-        "recorded-119607159-1800-12",
         "recorded-119607159-2100-12",
         "recorded-119607159-2400-12"
       ]
@@ -194,7 +184,6 @@
         "recorded-120239850-540-6",
         "recorded-120239850-720-6",
         "recorded-120239850-900-6",
-        "recorded-120239850-1200-6",
         "recorded-120239850-1500-6"
       ]
     },
@@ -218,7 +207,6 @@
       "playerName": "Ascendant VI player",
       "scenarioIds": [
         "recorded-120269509-540-6",
-        "recorded-120269509-720-6",
         "recorded-120269509-900-6",
         "recorded-120269509-1200-6",
         "recorded-120269509-1500-6"
@@ -268,7 +256,6 @@
       "playerName": "Ascendant VI player",
       "scenarioIds": [
         "recorded-120350309-540-3",
-        "recorded-120350309-720-3",
         "recorded-120350309-900-3",
         "recorded-120350309-1200-3",
         "recorded-120350309-1500-3"
@@ -288,5 +275,6 @@
       ]
     }
   ],
+  "perspectiveMustBeAlive": true,
   "version": 1
 }

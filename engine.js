@@ -196,9 +196,19 @@ export function selectPracticeReferences(library, previousSeen = [], random = Ma
   return {references:selected, seen:[...seen]};
 }
 
-/** Practice starts after the opening six minutes. Daily eligibility is independent. */
+/** Practice starts after the opening six minutes and only shows a live tracked player. */
 export function isPracticeRoundEligible(scenario) {
-  return isRecord(scenario) && Number.isFinite(scenario.time) && scenario.time > 360;
+  if (!isRecord(scenario) || !Number.isFinite(scenario.time) || scenario.time <= 360 ||
+      !Array.isArray(scenario.players) || !nonEmptyString(scenario.you)) return false;
+
+  const tracked = scenario.players.filter(player => isRecord(player) && player.id === scenario.you);
+  if (tracked.length !== 1 || tracked[0].alive !== true) return false;
+
+  const player = tracked[0];
+  if (player.health !== undefined && (!Number.isFinite(player.health) || player.health <= 0)) return false;
+  if (player.respawn !== undefined && player.respawn !== null &&
+      (!Number.isFinite(player.respawn) || player.respawn < 0 || player.respawn > 0)) return false;
+  return true;
 }
 
 /** Resolve only selected packs and verify that source identity matches the index. */
@@ -212,7 +222,7 @@ export function assemblePracticeSession(library, references, packs, id) {
     if (pack.scenarios.length !== entry.scenarioIds.length || pack.scenarios.some(s => !entry.scenarioIds.includes(s.id))) throw new TypeError(`Practice pack ${entry.id} has changed`);
     const scenario = pack.scenarios.find(s => s.id === reference.scenarioId);
     if (!scenario || scenario.source?.kind !== "match" || scenario.source.matchId !== entry.matchId) throw new TypeError(`Practice source ${entry.id} does not match its index`);
-    if (!isPracticeRoundEligible(scenario)) throw new TypeError(`Practice round ${scenario.id} must be after 6:00`);
+    if (!isPracticeRoundEligible(scenario)) throw new TypeError(`Practice round ${scenario.id} must be after 6:00 with a live tracked player`);
     return scenario;
   });
   const challenge = {id, kind:"practice", date:null, title:"Recorded practice", scenarios};
