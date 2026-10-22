@@ -424,11 +424,12 @@ button.match-perspective:active { scale: 1; }
 }
 @media (max-width: 374px) {
   .header { height: auto; min-height: 108px; display: grid; grid-template-columns: 1fr auto; grid-template-areas: 'brand actions' 'mode mode'; row-gap: 0; padding: 5px 12px 9px; }
+  .header:has(.mode-nav[hidden]) { height: 64px; min-height: 64px; display: flex; padding-block: 0; }
   .brand { grid-area: brand; font-size: 24px; }
   .header-actions { grid-area: actions; }
   .mode-nav { grid-area: mode; justify-self: center; }
   .mode { min-width: 90px; }
-  .intro { padding-top: 15px; padding-bottom: 16px; }
+  .intro { padding-top: 12px; padding-bottom: 16px; }
   h1 { font-size: 26px; }
   .team-panel { padding-inline: 5px; }
   .play-table { gap: 22px 8px; }
