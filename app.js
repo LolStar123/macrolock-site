@@ -554,7 +554,7 @@ function renderResults() {
   app.innerHTML = `<section class="results"><h1 id="results-title" tabindex="-1">${mode === 'daily' ? 'Daily' : 'Practice'} complete</h1><div class="final-score">${total}<span class="denominator">/ 10</span></div><div class="result-grid" aria-label="Round scores">${results.map((r, i) => {
     const s = challenge.scenarios[i], player = s.players.find(p => p.id === s.you);
     return `<button class="result-tile ${r.score === 0 ? 'low' : ''}" data-review="${i}" aria-label="Review round ${i + 1}, ${escape(heroData(player).name)}, ${r.score === 1 ? 'matched' : 'different move'}, score ${r.score}, at ${clock(s.time)}"><span class="result-round">${String(i + 1).padStart(2, '0')}</span><span class="result-portrait">${portrait(player)}<span class="result-outcome">${outcomeMark(r.score)}</span></span><small>${clock(s.time)}</small></button>`;
-  }).join('')}</div><div class="results-actions"><button class="primary" id="replay-button">${mode === 'daily' ? 'Play practice' : 'Play again'}<span class="button-arrow">&rarr;</span></button><button class="secondary" id="share-button">Share score<span class="button-arrow">&rarr;</span></button></div></section>`;
+  }).join('')}</div><div class="results-actions"><button class="primary" id="replay-button">${mode === 'daily' ? 'Play practice' : 'Keep playing'}<span class="button-arrow">&rarr;</span></button><button class="secondary" id="share-button">Share score<span class="button-arrow">&rarr;</span></button></div></section>`;
   $('#share-button').addEventListener('click', share);
   $('#replay-button').addEventListener('click', () => {
     if (mode === 'daily') return setMode('practice');
