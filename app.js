@@ -697,9 +697,13 @@ app.addEventListener('keydown', e => {
 });
 
 async function getJSON(url, optional = false) {
-  const response = await fetch(url, { cache: 'no-cache' });
-  if (!response.ok) { if (optional && response.status === 404) return null; throw new Error(`Could not load ${url} (${response.status})`); }
-  return response.json();
+  const controller = new AbortController();
+  const deadline = setTimeout(() => controller.abort(), 12_000);
+  try {
+    const response = await fetch(url, { cache: 'no-cache', signal:controller.signal });
+    if (!response.ok) { if (optional && response.status === 404) return null; throw new Error(`Could not load ${url} (${response.status})`); }
+    return await response.json();
+  } finally { clearTimeout(deadline); }
 }
 async function init() {
   try {

@@ -1,0 +1,6674 @@
+{
+  "acquisitionProof": {
+    "accountId": 87624911,
+    "clientVersion": 6795,
+    "excludedSnapshots": [
+      {
+        "reason": "practice excludes the first six minutes",
+        "time": 180
+      },
+      {
+        "reason": "practice excludes the first six minutes",
+        "time": 360
+      },
+      {
+        "controllerAlive": true,
+        "controllerHealthPercent": 88.98305084745763,
+        "id": "recorded-120372102-540-10",
+        "pawnAlive": true,
+        "positionDistance": 0.30203789893176747,
+        "reason": "Practice requires a complete living route through exactly T+60",
+        "snapshotTick": 34561,
+        "time": 540
+      },
+      {
+        "controllerAlive": true,
+        "controllerHealthPercent": 100.0,
+        "id": "recorded-120372102-900-10",
+        "pawnAlive": true,
+        "positionDistance": 0.17605988807898143,
+        "reason": "Practice requires a complete living route through exactly T+60",
+        "snapshotTick": 57601,
+        "time": 900
+      },
+      {
+        "id": "recorded-120372102-1500-10",
+        "reason": "Practice requires the perspective player to be alive",
+        "time": 1500
+      },
+      {
+        "id": "recorded-120372102-2100-10",
+        "reason": "Practice requires the perspective player to be alive",
+        "time": 2100
+      },
+      {
+        "id": "recorded-120372102-2400-10",
+        "reason": "Practice requires the perspective player to be alive",
+        "time": 2400
+      }
+    ],
+    "headerSha256": "9c1fb899d70f737c304e369df9f691d0e1efaeae6dda38cd8ed240f091f976e0",
+    "metadataSha256": "4290225651c66ea1e58688e460a76cef7f2827481ad82309acadc60bca945a6d",
+    "pipelineVersion": 1,
+    "queries": [
+      {
+        "kind": "executed-query",
+        "name": "clock",
+        "querySha256": "244061ca5d8bed111b49c2b26263645afea1de86b6f876eab492d9a314cb67d4",
+        "resultUrl": "https://demo-extracts.deadlock-api.com/1b9a44e74492a1f6ca93f90f18f68f02.ndjson.zst",
+        "rowsSha256": "e695e920d14bd67096d72f7bda5b7e39c5efc16b798ebe17624f927131df5664"
+      },
+      {
+        "bundleProofSha256": "6ef968b4920824abbef87713dcc2e40f7ab514dd44aa908f88735f51cdd033d8",
+        "bundleResultUrl": "https://demo-extracts.deadlock-api.com/df1779fe96e231448c40186232e291be.ndjson.zst",
+        "kind": "bundle-projection",
+        "name": "controllers",
+        "querySha256": "8f6b1a119792a66fba44baf6880bcf7973e6f7f6e48764463a514b17af2e274d",
+        "rowsSha256": "578573b0d943e073b5fbe5da2b3064432f42858c2efb98dd6e456483af30534a"
+      },
+      {
+        "bundleProofSha256": "6ef968b4920824abbef87713dcc2e40f7ab514dd44aa908f88735f51cdd033d8",
+        "bundleResultUrl": "https://demo-extracts.deadlock-api.com/df1779fe96e231448c40186232e291be.ndjson.zst",
+        "kind": "bundle-projection",
+        "name": "objectives",
+        "querySha256": "93adffca7686c409eb4ca13582afaa4339030c54a6026a96fdcd0f48bce124f0",
+        "rowsSha256": "84940a0bfb1d353eb484ad7c8e015496deb6e3afa5aeda9f9fac3aef819406f3"
+      },
+      {
+        "bundleProofSha256": "6ef968b4920824abbef87713dcc2e40f7ab514dd44aa908f88735f51cdd033d8",
+        "bundleResultUrl": "https://demo-extracts.deadlock-api.com/df1779fe96e231448c40186232e291be.ndjson.zst",
+        "kind": "bundle-projection",
+        "name": "fow",
+        "querySha256": "e150479b121a90d3942b478fb10da84c641be46ec3e3fcd15f1c37761e0351ea",
+        "rowsSha256": "0985284358684a56b504dfc269a3bca44eb83d1c7abd82efdefaad671138ae20"
+      },
+      {
+        "bundleProofSha256": "6ef968b4920824abbef87713dcc2e40f7ab514dd44aa908f88735f51cdd033d8",
+        "bundleResultUrl": "https://demo-extracts.deadlock-api.com/df1779fe96e231448c40186232e291be.ndjson.zst",
+        "kind": "bundle-projection",
+        "name": "troopers",
+        "querySha256": "b7aaa26cf611b2c9372609875e18e2aebf75c4bd3a3a9aa016b02632a6516302",
+        "rowsSha256": "98afcf1814e9b3616c53be7d9ab331eb2b4eee4ec940c02c04987ca8a4e8bcc7"
+      },
+      {
+        "bundleProofSha256": "6ef968b4920824abbef87713dcc2e40f7ab514dd44aa908f88735f51cdd033d8",
+        "bundleResultUrl": "https://demo-extracts.deadlock-api.com/df1779fe96e231448c40186232e291be.ndjson.zst",
+        "kind": "bundle-projection",
+        "name": "units",
+        "querySha256": "c544d94be2799ca3416c9caf89a70dbb41341495cafde1a9244ec279d9eeb846",
+        "rowsSha256": "9672f9b2df9066840f0f4c0c2071aff569621ea7390e39e8baa13a8bd2354083"
+      },
+      {
+        "bundleProofSha256": "6ef968b4920824abbef87713dcc2e40f7ab514dd44aa908f88735f51cdd033d8",
+        "bundleResultUrl": "https://demo-extracts.deadlock-api.com/df1779fe96e231448c40186232e291be.ndjson.zst",
+        "kind": "bundle-projection",
+        "name": "movement-pawn",
+        "querySha256": "01c8c2f3467184c8adfab9662679f62db8db2bf3fab3225893c41f29580965ec",
+        "rowsSha256": "91d99c69fb8712212b34b75327c740d40062e6164404891b572338806646c13e"
+      }
+    ],
+    "queryBundle": {
+      "bundleResultUrl": "https://demo-extracts.deadlock-api.com/df1779fe96e231448c40186232e291be.ndjson.zst",
+      "executionSqlSha256": "81f33750df1b06299704ea0c8412cfa445ce70c8a1f2855269c729a3362a30e7",
+      "jobId": "df1779fe96e231448c40186232e291be",
+      "proofSha256": "6ef968b4920824abbef87713dcc2e40f7ab514dd44aa908f88735f51cdd033d8",
+      "querySha256": "4f43610f1c48b9307c51244098f409aea919ac39d88dc14641c2395bfa01e232",
+      "rawBundleSha256": "c7b4c99f5e28163a109ccdc535eb37e5a97ec59d386bdf9b3ea61292d5b38475",
+      "status": "done",
+      "transport": "typed-columns-v1"
+    },
+    "recordedRank": 116
+  },
+  "clientVersion": 6795,
+  "date": null,
+  "id": "recorded-practice-601b5be6b82fe218",
+  "kind": "practice",
+  "mapVersion": 6795,
+  "mergeProof": {
+    "catalogSha256": "2b2e1401f3966ac4fd30c21c742eb7e02bebb8e25a30b7baab21e0c2319692c6",
+    "clientVersion": 6795,
+    "clockCalibrationSha256": "74862dbe2ec2b63b7493380d67ece159b0185d5f708440a386d9a372ddb4e4e1",
+    "clockStartSeconds": 116.0,
+    "clockTickRate": 64,
+    "controllersSha256": "578573b0d943e073b5fbe5da2b3064432f42858c2efb98dd6e456483af30534a",
+    "inventorySha256": "578573b0d943e073b5fbe5da2b3064432f42858c2efb98dd6e456483af30534a",
+    "objectivesSha256": "84940a0bfb1d353eb484ad7c8e015496deb6e3afa5aeda9f9fac3aef819406f3",
+    "replayHeaderSha256": "9c1fb899d70f737c304e369df9f691d0e1efaeae6dda38cd8ed240f091f976e0",
+    "serverStartTick": 7423
+  },
+  "scenarios": [
+    {
+      "answerZones": [
+        {
+          "explanation": "Recorded replay movement 60s after the snapshot.",
+          "id": "recorded-destination",
+          "label": "Recorded destination",
+          "radius": 6,
+          "score": 1,
+          "x": 70.66577729724702,
+          "y": 60.7330322265625
+        }
+      ],
+      "approved": false,
+      "campStates": {
+        "basketball_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "chinatown_alley_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "chinatown_bell_02_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "chinatown_bell_1": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "chinatown_fish_neutrals": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "chinatown_street_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "construction_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "dept_store_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "dock_authority_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "dock_authority_vault": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "dock_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "drug_store_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "hotel_01_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "hq_01_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "hq_roof_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "ne_theater_upstairs_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "nursery_downstairs_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "nw_bank_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "nw_utility_south_neutrals": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "oracle_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "park_chapel_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "park_club_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "park_club_vault": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "park_gate_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "park_library_roof_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "park_library_vault": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "park_mansion_roof_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "plaza_corner_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "plaza_pit_vault1": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "plaza_pit_vault2": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "plaza_rink_01_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "plaza_rink_02_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "plaza_rink_03_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "se_utility_neutrals": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "slums_alley_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "slums_bodega_down_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "slums_garage_down_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "slums_garage_up_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "slums_roof_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "slums_storage_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "slums_warehouse_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "sw_asylum_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "sw_bodega_upstairs_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "theater_balcony_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "theater_down_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "theater_lobby_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "theater_stage_01_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "theater_stage_02_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "theater_upstairs_01_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "theater_upstairs_02_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "york_radio_vault": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        }
+      },
+      "id": "recorded-120372102-720-10",
+      "laneStates": null,
+      "midbossAlive": true,
+      "minimapTroopers": [
+        {
+          "id": "trooper-6",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-7",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-8",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-9",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-10",
+          "team": "amber",
+          "x": 81.96078431372548,
+          "y": 30.588235294117652
+        },
+        {
+          "id": "trooper-11",
+          "team": "sapphire",
+          "x": 80.7843137254902,
+          "y": 28.627450980392155
+        },
+        {
+          "id": "trooper-12",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-13",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-14",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-15",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-16",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-17",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-18",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-19",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-20",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-21",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-22",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-23",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-24",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-25",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-26",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-27",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-28",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-29",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-30",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-31",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-32",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-33",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-34",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-35",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-36",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-37",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-38",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-39",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-40",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-41",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-43",
+          "team": "sapphire",
+          "x": 50.19607843137255,
+          "y": 49.80392156862745
+        },
+        {
+          "id": "trooper-52",
+          "team": "sapphire",
+          "x": 49.411764705882355,
+          "y": 49.01960784313726
+        },
+        {
+          "id": "trooper-54",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-55",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-56",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-57",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-58",
+          "team": "amber",
+          "x": 81.17647058823529,
+          "y": 32.15686274509804
+        },
+        {
+          "id": "trooper-60",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-61",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-62",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-63",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-64",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-65",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-66",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-67",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-68",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-69",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-70",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-71",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-73",
+          "team": "sapphire",
+          "x": 23.137254901960784,
+          "y": 29.80392156862746
+        },
+        {
+          "id": "trooper-74",
+          "team": "sapphire",
+          "x": 80.0,
+          "y": 29.411764705882348
+        },
+        {
+          "id": "trooper-76",
+          "team": "amber",
+          "x": 16.07843137254902,
+          "y": 63.92156862745098
+        },
+        {
+          "id": "trooper-77",
+          "team": "amber",
+          "x": 76.86274509803923,
+          "y": 67.84313725490196
+        },
+        {
+          "id": "trooper-78",
+          "team": "sapphire",
+          "x": 49.80392156862745,
+          "y": 48.62745098039216
+        },
+        {
+          "id": "trooper-79",
+          "team": "sapphire",
+          "x": 80.7843137254902,
+          "y": 29.80392156862746
+        },
+        {
+          "id": "trooper-80",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-83",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-84",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-85",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-86",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-87",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-88",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-89",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-90",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-91",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-92",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-93",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-94",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-95",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-97",
+          "team": "sapphire",
+          "x": 20.784313725490197,
+          "y": 34.117647058823536
+        },
+        {
+          "id": "trooper-100",
+          "team": "amber",
+          "x": 12.549019607843137,
+          "y": 62.35294117647059
+        },
+        {
+          "id": "trooper-102",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-103",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-104",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-105",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-106",
+          "team": "sapphire",
+          "x": 21.96078431372549,
+          "y": 32.941176470588246
+        },
+        {
+          "id": "trooper-107",
+          "team": "amber",
+          "x": 80.0,
+          "y": 65.88235294117646
+        },
+        {
+          "id": "trooper-108",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-109",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-110",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-111",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-112",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-113",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-114",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-115",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-116",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-117",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-118",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-119",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-121",
+          "team": "sapphire",
+          "x": 49.411764705882355,
+          "y": 50.19607843137255
+        },
+        {
+          "id": "trooper-122",
+          "team": "sapphire",
+          "x": 81.17647058823529,
+          "y": 29.80392156862746
+        },
+        {
+          "id": "trooper-124",
+          "team": "amber",
+          "x": 48.627450980392155,
+          "y": 59.21568627450981
+        },
+        {
+          "id": "trooper-126",
+          "team": "sapphire",
+          "x": 11.76470588235294,
+          "y": 56.86274509803921
+        },
+        {
+          "id": "trooper-127",
+          "team": "amber",
+          "x": 83.13725490196079,
+          "y": 32.549019607843135
+        },
+        {
+          "id": "trooper-128",
+          "team": "amber",
+          "x": 14.50980392156863,
+          "y": 62.745098039215684
+        },
+        {
+          "id": "trooper-129",
+          "team": "amber",
+          "x": 49.411764705882355,
+          "y": 59.21568627450981
+        },
+        {
+          "id": "trooper-132",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-133",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-134",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-135",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-136",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-137",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-138",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-139",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-140",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-141",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-142",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-143",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-145",
+          "team": "amber",
+          "x": 78.82352941176471,
+          "y": 67.05882352941177
+        },
+        {
+          "id": "trooper-149",
+          "team": "sapphire",
+          "x": 12.549019607843137,
+          "y": 56.86274509803921
+        },
+        {
+          "id": "trooper-150",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-151",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-152",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-153",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-155",
+          "team": "amber",
+          "x": 49.01960784313725,
+          "y": 57.64705882352941
+        },
+        {
+          "id": "trooper-156",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-157",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-158",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-159",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-160",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-161",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-162",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-163",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-164",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-165",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-166",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-167",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-168",
+          "team": "amber",
+          "x": 50.19607843137255,
+          "y": 62.35294117647059
+        },
+        {
+          "id": "trooper-171",
+          "team": "amber",
+          "x": 76.07843137254902,
+          "y": 69.41176470588235
+        },
+        {
+          "id": "trooper-174",
+          "team": "sapphire",
+          "x": 23.137254901960784,
+          "y": 31.372549019607845
+        },
+        {
+          "id": "trooper-176",
+          "team": "amber",
+          "x": 17.647058823529413,
+          "y": 64.31372549019608
+        },
+        {
+          "id": "trooper-177",
+          "team": "sapphire",
+          "x": 13.333333333333334,
+          "y": 57.64705882352941
+        },
+        {
+          "id": "trooper-179",
+          "team": "amber",
+          "x": 80.3921568627451,
+          "y": 29.411764705882348
+        },
+        {
+          "id": "trooper-180",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-181",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-182",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-183",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-184",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-185",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-186",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-187",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-188",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-189",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-190",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-191",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.6078431372549
+        }
+      ],
+      "objectiveStates": {
+        "team0_core": {
+          "active": false,
+          "health": null,
+          "phase": "weakened"
+        },
+        "team0_tier1_1": {
+          "active": false,
+          "health": 0.0
+        },
+        "team0_tier1_3": {
+          "active": false,
+          "health": 0
+        },
+        "team0_tier1_4": {
+          "active": false,
+          "health": 0
+        },
+        "team0_tier2_1": {
+          "active": true,
+          "health": 100.0
+        },
+        "team0_tier2_3": {
+          "active": true,
+          "health": 96.6
+        },
+        "team0_tier2_4": {
+          "active": true,
+          "health": 100.0
+        },
+        "team0_titan": {
+          "active": true,
+          "health": 100.0,
+          "phase": "patron"
+        },
+        "team1_core": {
+          "active": false,
+          "health": null,
+          "phase": "weakened"
+        },
+        "team1_tier1_1": {
+          "active": false,
+          "health": 0
+        },
+        "team1_tier1_3": {
+          "active": false,
+          "health": 0
+        },
+        "team1_tier1_4": {
+          "active": false,
+          "health": 0
+        },
+        "team1_tier2_1": {
+          "active": true,
+          "health": 88.23333333333333
+        },
+        "team1_tier2_3": {
+          "active": true,
+          "health": 97.48333333333333
+        },
+        "team1_tier2_4": {
+          "active": true,
+          "health": 100.0
+        },
+        "team1_titan": {
+          "active": true,
+          "health": 100.0,
+          "phase": "patron"
+        }
+      },
+      "objectivesDown": [
+        "team1_tier1_1",
+        "team1_tier1_3",
+        "team0_tier1_4",
+        "team1_tier1_4",
+        "team0_tier1_1",
+        "team0_tier1_3"
+      ],
+      "players": [
+        {
+          "alive": true,
+          "effects": [],
+          "health": 85.35954474909467,
+          "hero": "rat-king",
+          "id": "1",
+          "itemCooldowns": {},
+          "items": [
+            "2829638276",
+            "2064029594",
+            "1009965641",
+            "4104549924",
+            "2447176615",
+            "3403085434",
+            "2356412290"
+          ],
+          "level": 18,
+          "respawn": 0,
+          "souls": 12157,
+          "team": "amber",
+          "ultCooldown": 65.07500000000005,
+          "ultimateTrained": true,
+          "unspentSouls": 2557,
+          "visible": false,
+          "x": null,
+          "y": null
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 83.68686868686869,
+          "hero": "yamato",
+          "id": "2",
+          "itemCooldowns": {},
+          "items": [
+            "3862866912",
+            "1437614329",
+            "98582110",
+            "2481177645",
+            "2947183272",
+            "2971868509",
+            "2829638276"
+          ],
+          "level": 19,
+          "respawn": 0,
+          "souls": 12718,
+          "team": "amber",
+          "ultCooldown": 4.734400000000051,
+          "ultimateTrained": true,
+          "unspentSouls": 718,
+          "visible": false,
+          "x": null,
+          "y": null
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "violet",
+          "id": "3",
+          "itemCooldowns": {},
+          "items": [
+            "3776945997",
+            "2922054143",
+            "2947183272",
+            "112198670",
+            "805079544"
+          ],
+          "level": 15,
+          "respawn": 0,
+          "souls": 9708,
+          "team": "amber",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 1708,
+          "visible": false,
+          "x": null,
+          "y": null
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "venator",
+          "id": "4",
+          "itemCooldowns": {},
+          "items": [
+            "3862866912",
+            "3633614685",
+            "4104549924",
+            "709540378",
+            "2356412290",
+            "1235347618"
+          ],
+          "level": 17,
+          "respawn": 0,
+          "souls": 11558,
+          "team": "amber",
+          "ultCooldown": 37.03125,
+          "ultimateTrained": true,
+          "unspentSouls": 1958,
+          "visible": false,
+          "x": null,
+          "y": null
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 75.47169811320755,
+          "hero": "ivy",
+          "id": "5",
+          "itemCooldowns": {},
+          "items": [
+            "2356412290",
+            "1710079648",
+            "1813726886",
+            "3776945997",
+            "754480263",
+            "968099481",
+            "2603935618"
+          ],
+          "level": 15,
+          "respawn": 0,
+          "souls": 9421,
+          "team": "amber",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 1421,
+          "visible": false,
+          "x": null,
+          "y": null
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 68.75,
+          "hero": "graves",
+          "id": "6",
+          "itemCooldowns": {},
+          "items": [
+            "3862866912",
+            "1672893796",
+            "968099481",
+            "395867183",
+            "811521119",
+            "3970837787"
+          ],
+          "level": 17,
+          "respawn": 0,
+          "souls": 10877,
+          "team": "amber",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 2077,
+          "visible": false,
+          "x": null,
+          "y": null
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "solomon",
+          "id": "7",
+          "itemCooldowns": {},
+          "items": [
+            "2064029594",
+            "1672893796",
+            "7409189",
+            "2061878743",
+            "3270001687"
+          ],
+          "level": 17,
+          "respawn": 0,
+          "souls": 10828,
+          "team": "sapphire",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 428,
+          "visible": true,
+          "x": 44.70588235294118,
+          "y": 41.96078431372548
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "vindicta",
+          "id": "8",
+          "itemCooldowns": {},
+          "items": [
+            "2064029594",
+            "1998374645",
+            "3074274290",
+            "3776945997",
+            "968099481"
+          ],
+          "level": 15,
+          "respawn": 0,
+          "souls": 9272,
+          "team": "sapphire",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 3672,
+          "visible": true,
+          "x": 66.66666666666666,
+          "y": 42.74509803921569
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 89.54314720812182,
+          "hero": "baba",
+          "id": "9",
+          "itemCooldowns": {},
+          "items": [
+            "3776945997",
+            "2947183272",
+            "465043967",
+            "395944548",
+            "2566692615"
+          ],
+          "level": 18,
+          "respawn": 0,
+          "souls": 12210,
+          "team": "sapphire",
+          "ultCooldown": 52.87810000000002,
+          "ultimateTrained": true,
+          "unspentSouls": 2610,
+          "visible": true,
+          "x": 45.490196078431374,
+          "y": 34.50980392156863
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 80.45363575717145,
+          "hero": "deadman-danny",
+          "id": "10",
+          "itemCooldowns": {},
+          "items": [
+            "3077079169",
+            "7409189",
+            "1644605047",
+            "395867183",
+            "2121044373"
+          ],
+          "level": 15,
+          "respawn": 0,
+          "souls": 9451,
+          "team": "sapphire",
+          "ultCooldown": 17.64020000000005,
+          "ultimateTrained": true,
+          "unspentSouls": 651,
+          "visible": true,
+          "x": 12.156862745098039,
+          "y": 54.509803921568626
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "shiv",
+          "id": "11",
+          "itemCooldowns": {},
+          "items": [
+            "3862866912",
+            "1342610602",
+            "2947183272",
+            "2971868509",
+            "2603935618"
+          ],
+          "level": 16,
+          "respawn": 0,
+          "souls": 10430,
+          "team": "sapphire",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 2430,
+          "visible": true,
+          "x": 77.64705882352942,
+          "y": 29.411764705882348
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 93.37748344370861,
+          "hero": "victor",
+          "id": "12",
+          "itemCooldowns": {},
+          "items": [
+            "7409189",
+            "2566692615",
+            "2603935618",
+            "395944548"
+          ],
+          "level": 15,
+          "respawn": 0,
+          "souls": 9778,
+          "team": "sapphire",
+          "ultCooldown": 28.446900000000028,
+          "ultimateTrained": true,
+          "unspentSouls": 1778,
+          "visible": true,
+          "x": 12.156862745098039,
+          "y": 57.64705882352941
+        }
+      ],
+      "recordedMove": {
+        "fromSecond": 720,
+        "path": [
+          {
+            "alive": true,
+            "second": 720,
+            "worldX": -8131.5,
+            "worldY": -894.875,
+            "x": 12.186104910714285,
+            "y": 54.161435081845234
+          },
+          {
+            "alive": true,
+            "second": 721,
+            "worldX": -7992.4375,
+            "worldY": -1062.90625,
+            "x": 12.832786923363093,
+            "y": 54.942830403645836
+          },
+          {
+            "alive": true,
+            "second": 722,
+            "worldX": -8217.6875,
+            "worldY": -1685.5,
+            "x": 11.785307384672617,
+            "y": 57.838076636904766
+          },
+          {
+            "alive": true,
+            "second": 723,
+            "worldX": -8301.65625,
+            "worldY": -2236.53125,
+            "x": 11.394827706473215,
+            "y": 60.400535946800595
+          },
+          {
+            "alive": true,
+            "second": 724,
+            "worldX": -8191.46875,
+            "worldY": -2314.8125,
+            "x": 11.907232375372024,
+            "y": 60.764567057291664
+          },
+          {
+            "alive": true,
+            "second": 725,
+            "worldX": -8084.78125,
+            "worldY": -2186.6875,
+            "x": 12.403361002604168,
+            "y": 60.16874767485119
+          },
+          {
+            "alive": true,
+            "second": 726,
+            "worldX": -8096.4375,
+            "worldY": -1501.9375,
+            "x": 12.349155970982146,
+            "y": 56.984456380208336
+          },
+          {
+            "alive": true,
+            "second": 727,
+            "worldX": -7641.25,
+            "worldY": -886.8125,
+            "x": 14.465913318452383,
+            "y": 54.123942057291664
+          },
+          {
+            "alive": true,
+            "second": 728,
+            "worldX": -6769.15625,
+            "worldY": -604.0625,
+            "x": 18.521408807663693,
+            "y": 52.809070405505956
+          },
+          {
+            "alive": true,
+            "second": 729,
+            "worldX": -6316.0625,
+            "worldY": -725.34375,
+            "x": 20.628429594494047,
+            "y": 53.37306431361607
+          },
+          {
+            "alive": true,
+            "second": 730,
+            "worldX": -5819.21875,
+            "worldY": -581.21875,
+            "x": 22.938900902157737,
+            "y": 52.702840169270836
+          },
+          {
+            "alive": true,
+            "second": 731,
+            "worldX": -4808.25,
+            "worldY": -231.90625,
+            "x": 27.640206473214285,
+            "y": 51.078433082217266
+          },
+          {
+            "alive": true,
+            "second": 732,
+            "worldX": -3913.15625,
+            "worldY": -447.375,
+            "x": 31.802658807663693,
+            "y": 52.08042689732143
+          },
+          {
+            "alive": true,
+            "second": 733,
+            "worldX": -3197.5625,
+            "worldY": -424.65625,
+            "x": 35.130382719494044,
+            "y": 51.97477794828869
+          },
+          {
+            "alive": true,
+            "second": 734,
+            "worldX": -2623.09375,
+            "worldY": -213.28125,
+            "x": 37.80183337983631,
+            "y": 50.9918212890625
+          },
+          {
+            "alive": true,
+            "second": 735,
+            "worldX": -2079.90625,
+            "worldY": -283.9375,
+            "x": 40.32781691778274,
+            "y": 51.320393880208336
+          },
+          {
+            "alive": true,
+            "second": 736,
+            "worldX": -1608.53125,
+            "worldY": -264.75,
+            "x": 42.51985095796131,
+            "y": 51.23116629464286
+          },
+          {
+            "alive": true,
+            "second": 737,
+            "worldX": -991.03125,
+            "worldY": -491.4375,
+            "x": 45.391409737723215,
+            "y": 52.28533063616071
+          },
+          {
+            "alive": true,
+            "second": 738,
+            "worldX": -326.65625,
+            "worldY": -301.5625,
+            "x": 48.480951218377974,
+            "y": 51.402355375744044
+          },
+          {
+            "alive": true,
+            "second": 739,
+            "worldX": -143.59375,
+            "worldY": 61.90625,
+            "x": 49.33224632626489,
+            "y": 49.71211751302083
+          },
+          {
+            "alive": true,
+            "second": 740,
+            "worldX": 396.1875,
+            "worldY": 177.625,
+            "x": 51.84238978794643,
+            "y": 49.17399088541667
+          },
+          {
+            "alive": true,
+            "second": 741,
+            "worldX": 496.375,
+            "worldY": 788.25,
+            "x": 52.308291480654766,
+            "y": 46.334402901785715
+          },
+          {
+            "alive": true,
+            "second": 742,
+            "worldX": 751.96875,
+            "worldY": 1103.9375,
+            "x": 53.49687848772321,
+            "y": 44.86636207217261
+          },
+          {
+            "alive": true,
+            "second": 743,
+            "worldX": 742.03125,
+            "worldY": 1181.625,
+            "x": 53.45066615513393,
+            "y": 44.505092075892854
+          },
+          {
+            "alive": true,
+            "second": 744,
+            "worldX": 549.4375,
+            "worldY": 1388.90625,
+            "x": 52.555047898065474,
+            "y": 43.54117257254464
+          },
+          {
+            "alive": true,
+            "second": 745,
+            "worldX": 255.0,
+            "worldY": 1222.0,
+            "x": 51.18582589285714,
+            "y": 44.31733630952381
+          },
+          {
+            "alive": true,
+            "second": 746,
+            "worldX": -5.9375,
+            "worldY": 776.9375,
+            "x": 49.972388857886905,
+            "y": 46.38700939360119
+          },
+          {
+            "alive": true,
+            "second": 747,
+            "worldX": 350.125,
+            "worldY": 61.125,
+            "x": 51.628185453869044,
+            "y": 49.715750558035715
+          },
+          {
+            "alive": true,
+            "second": 748,
+            "worldX": 853.0625,
+            "worldY": -138.4375,
+            "x": 53.96699451264881,
+            "y": 50.643775576636905
+          },
+          {
+            "alive": true,
+            "second": 749,
+            "worldX": 1357.75,
+            "worldY": -166.03125,
+            "x": 56.313941592261905,
+            "y": 50.7720947265625
+          },
+          {
+            "alive": true,
+            "second": 750,
+            "worldX": 1727.46875,
+            "worldY": -134.0625,
+            "x": 58.033243815104164,
+            "y": 50.62343052455357
+          },
+          {
+            "alive": true,
+            "second": 751,
+            "worldX": 1751.125,
+            "worldY": -354.875,
+            "x": 58.143252418154766,
+            "y": 51.650274367559526
+          },
+          {
+            "alive": true,
+            "second": 752,
+            "worldX": 1722.84375,
+            "worldY": -867.6875,
+            "x": 58.01173618861607,
+            "y": 54.03500511532739
+          },
+          {
+            "alive": true,
+            "second": 753,
+            "worldX": 1665.3125,
+            "worldY": -1260.4375,
+            "x": 57.744198753720234,
+            "y": 55.861409505208336
+          },
+          {
+            "alive": true,
+            "second": 754,
+            "worldX": 1232.9375,
+            "worldY": -1413.40625,
+            "x": 55.733526320684526,
+            "y": 56.572759719122026
+          },
+          {
+            "alive": true,
+            "second": 755,
+            "worldX": 710.59375,
+            "worldY": -1527.5,
+            "x": 53.30447242373511,
+            "y": 57.103329613095234
+          },
+          {
+            "alive": true,
+            "second": 756,
+            "worldX": 407.25,
+            "worldY": -1761.53125,
+            "x": 51.89383370535714,
+            "y": 58.191644577752974
+          },
+          {
+            "alive": true,
+            "second": 757,
+            "worldX": 431.09375,
+            "worldY": -2182.9375,
+            "x": 52.00471423921131,
+            "y": 60.151309058779766
+          },
+          {
+            "alive": true,
+            "second": 758,
+            "worldX": 175.3125,
+            "worldY": -2577.9375,
+            "x": 50.81525530133929,
+            "y": 61.98817661830357
+          },
+          {
+            "alive": true,
+            "second": 759,
+            "worldX": 144.46875,
+            "worldY": -2781.90625,
+            "x": 50.67182268415179,
+            "y": 62.93669201078869
+          },
+          {
+            "alive": true,
+            "second": 760,
+            "worldX": 743.84375,
+            "worldY": -3164.78125,
+            "x": 53.459094819568456,
+            "y": 64.71717471168155
+          },
+          {
+            "alive": true,
+            "second": 761,
+            "worldX": 1027.625,
+            "worldY": -3121.03125,
+            "x": 54.77876209077381,
+            "y": 64.51372419084822
+          },
+          {
+            "alive": true,
+            "second": 762,
+            "worldX": 1020.84375,
+            "worldY": -3293.1875,
+            "x": 54.74722726004464,
+            "y": 65.31430199032738
+          },
+          {
+            "alive": true,
+            "second": 763,
+            "worldX": 815.03125,
+            "worldY": -3196.75,
+            "x": 53.790137881324405,
+            "y": 64.86583891369048
+          },
+          {
+            "alive": true,
+            "second": 764,
+            "worldX": 525.90625,
+            "worldY": -3106.96875,
+            "x": 52.445620582217266,
+            "y": 64.44832938058036
+          },
+          {
+            "alive": true,
+            "second": 765,
+            "worldX": 423.625,
+            "worldY": -2978.21875,
+            "x": 51.969982328869044,
+            "y": 63.849603562127974
+          },
+          {
+            "alive": true,
+            "second": 766,
+            "worldX": 413.625,
+            "worldY": -2510.0,
+            "x": 51.92347935267857,
+            "y": 61.672247023809526
+          },
+          {
+            "alive": true,
+            "second": 767,
+            "worldX": 547.9375,
+            "worldY": -1923.84375,
+            "x": 52.548072451636905,
+            "y": 58.94644601004464
+          },
+          {
+            "alive": true,
+            "second": 768,
+            "worldX": 536.84375,
+            "worldY": -1575.90625,
+            "x": 52.496483212425595,
+            "y": 57.328433082217266
+          },
+          {
+            "alive": true,
+            "second": 769,
+            "worldX": 978.90625,
+            "worldY": -1335.09375,
+            "x": 54.552205403645836,
+            "y": 56.20858328683036
+          },
+          {
+            "alive": true,
+            "second": 770,
+            "worldX": 1485.75,
+            "worldY": -1329.09375,
+            "x": 56.9091796875,
+            "y": 56.18068150111607
+          },
+          {
+            "alive": true,
+            "second": 771,
+            "worldX": 1854.125,
+            "worldY": -1298.90625,
+            "x": 58.622233072916664,
+            "y": 56.04030064174107
+          },
+          {
+            "alive": true,
+            "second": 772,
+            "worldX": 2178.21875,
+            "worldY": -1584.09375,
+            "x": 60.12936546688989,
+            "y": 57.36650739397321
+          },
+          {
+            "alive": true,
+            "second": 773,
+            "worldX": 2446.125,
+            "worldY": -1929.90625,
+            "x": 61.37520926339286,
+            "y": 58.97463843936011
+          },
+          {
+            "alive": true,
+            "second": 774,
+            "worldX": 2473.84375,
+            "worldY": -2335.46875,
+            "x": 61.504109700520836,
+            "y": 60.86062476748511
+          },
+          {
+            "alive": true,
+            "second": 775,
+            "worldX": 2618.96875,
+            "worldY": -2619.75,
+            "x": 62.17898414248511,
+            "y": 62.1826171875
+          },
+          {
+            "alive": true,
+            "second": 776,
+            "worldX": 3107.625,
+            "worldY": -2707.9375,
+            "x": 64.45138113839286,
+            "y": 62.592715308779766
+          },
+          {
+            "alive": true,
+            "second": 777,
+            "worldX": 3616.125,
+            "worldY": -2601.28125,
+            "x": 66.81605747767857,
+            "y": 62.09673200334821
+          },
+          {
+            "alive": true,
+            "second": 778,
+            "worldX": 3997.21875,
+            "worldY": -2571.46875,
+            "x": 68.5882568359375,
+            "y": 61.95809500558036
+          },
+          {
+            "alive": true,
+            "second": 779,
+            "worldX": 4231.15625,
+            "worldY": -2538.15625,
+            "x": 69.67613583519345,
+            "y": 61.803181966145836
+          },
+          {
+            "alive": true,
+            "second": 780,
+            "worldX": 4443.96875,
+            "worldY": -2308.03125,
+            "x": 70.66577729724702,
+            "y": 60.7330322265625
+          }
+        ],
+        "toSecond": 780
+      },
+      "reviewWarnings": [
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
+      ],
+      "source": {
+        "accountId": 87624911,
+        "assetDefinitionsVersionVerified": true,
+        "averageBadge": 112.91666666666667,
+        "buildEvidenceSha256": "6d07ee6fc8d1f8d625556a572d9dc8d079614f6999681883a9f350bae65140ed",
+        "campVisibilityVerified": true,
+        "catalogSha256": "2b2e1401f3966ac4fd30c21c742eb7e02bebb8e25a30b7baab21e0c2319692c6",
+        "clientVersion": 6795,
+        "clientVersionEvidence": "Valve demo header /opt/srcds/deadlock/citadel_v6795/citadel; sha256 54407d60c126c08748623eb00fb1df3d471220227e3f605b7949b4b8497ee18c",
+        "clockCalibrationSha256": "74862dbe2ec2b63b7493380d67ece159b0185d5f708440a386d9a372ddb4e4e1",
+        "clockStartSeconds": 116.0,
+        "clockTickRate": 64,
+        "controllerTick": 46081,
+        "controllersSha256": "578573b0d943e073b5fbe5da2b3064432f42858c2efb98dd6e456483af30534a",
+        "fowSnapshot": {
+          "ageTicks": 0,
+          "campEntityMappingSha256": "4dd4615cdca301d6abc8096f8f4e03e26aa3ac08cea3ef97ff842261c47d2a20",
+          "campNodesExpected": 51,
+          "campNodesMatched": 51,
+          "campRespawnBasis": "Unknown; no countdown is emitted",
+          "campStateBasis": "bVisibleOnMap is replay HUD marker availability, not HP or a camp death inference",
+          "entityIndex": 56,
+          "gameTime": 720,
+          "heroNodesExpected": 12,
+          "heroNodesMatched": 12,
+          "positionEncoding": "x=uint8/255*100; y=100-uint8/255*100",
+          "snapshotTick": 46081,
+          "sources": {
+            "fowSha256": "0985284358684a56b504dfc269a3bca44eb83d1c7abd82efdefaad671138ae20",
+            "metadataSha256": "4290225651c66ea1e58688e460a76cef7f2827481ad82309acadc60bca945a6d",
+            "trooperCalibrationSha256": "ad3a16e565139bf6d0c9a20ea59b4e06b018656f1bc00b97fc1912878d3d50f9",
+            "troopersSha256": "98afcf1814e9b3616c53be7d9ab331eb2b4eee4ec940c02c04987ca8a4e8bcc7"
+          },
+          "targetTick": 46081,
+          "team": 3,
+          "unknownCampReasons": {},
+          "visibilityUnknownReason": null
+        },
+        "gameClockSeconds": 836.0,
+        "gameDirectory": "/opt/srcds/deadlock/citadel_v6795/citadel",
+        "gameMode": 1,
+        "heroesDefinitionSha256": "0a987618e380a677e5635f5bb85eac72c151a5136791441fa6630a3d0ba50964",
+        "identityBasis": "\"120372102\"|1792429141|87624911|116",
+        "identitySha256": "601b5be6b82fe2187424bf3a40d0576569c8efb312b81f97a9c5aa33b6086965",
+        "inventorySha256": "578573b0d943e073b5fbe5da2b3064432f42858c2efb98dd6e456483af30534a",
+        "itemsDefinitionSha256": "1f6fc3760e03addf2c918d7ee3b9ef59705668258ba3a7b1d0d44f04c6bb7b34",
+        "kind": "match",
+        "laneStatesVerified": false,
+        "mapDefinitionSha256": "4daf179af39392e573247dbd35234b8d0bc3aa05f6b1d96f97b422647c42632c",
+        "mapDefinitionUrl": "https://api.deadlock-api.com/v1/assets/map?client_version=6795",
+        "mapImage": "assets/minimap.png",
+        "mapImageSha256": null,
+        "mapRadius": 10752,
+        "mapVerified": true,
+        "matchId": "120372102",
+        "matchMode": 4,
+        "metadataSha256": "4290225651c66ea1e58688e460a76cef7f2827481ad82309acadc60bca945a6d",
+        "metadataUrl": "https://api.deadlock-api.com/v1/matches/120372102/metadata",
+        "movementCalibrationSha256": "3b83473459e4390cf2f14803687cef6feb52936c4beb30485cdc42044a419f6d",
+        "movementProjectionSha256": "1b951e19f31faf340710f1032f202dc9bfeaae2c8996141d0ee85b2e87ef989b",
+        "movementRowsSha256": "91d99c69fb8712212b34b75327c740d40062e6164404891b572338806646c13e",
+        "movementSha256": "91d99c69fb8712212b34b75327c740d40062e6164404891b572338806646c13e",
+        "movementVerified": true,
+        "objectiveTick": 46081,
+        "objectivesDownReason": "metadata team_objective_id and destroyed_time_s mapped to catalog objectives",
+        "objectivesDownUnknown": false,
+        "objectivesDownVerified": true,
+        "objectivesSha256": "84940a0bfb1d353eb484ad7c8e015496deb6e3afa5aeda9f9fac3aef819406f3",
+        "objectivesVerified": true,
+        "pathFormat": {
+          "formula": "min+(max-min)*encoded/resolution",
+          "intervalSeconds": 1.0,
+          "xResolution": 16383,
+          "yResolution": 16383
+        },
+        "playerName": "Ascendant VI player",
+        "playerRank": 116,
+        "rankBasis": "initial_display_rank_all_12",
+        "rankVerified": true,
+        "recordedMovementBasis": "replay pawn 1Hz",
+        "replayBuildNum": 10932,
+        "replayHeaderSha256": "9c1fb899d70f737c304e369df9f691d0e1efaeae6dda38cd8ed240f091f976e0",
+        "replaySourceUrl": "http://replay404.valve.net/1422450/120372102_135342327.dem.bz2",
+        "roundEvidence": {
+          "answerDelaySeconds": 60,
+          "answerSampleSecond": 780,
+          "movementControllerEntityIndex": 7,
+          "movementControllerHandle": 14630919,
+          "movementControllerHeroId": 78,
+          "movementControllerSteamId": 76561198047890639,
+          "movementPawnEntityIndex": 81,
+          "movementPawnHandle": 81,
+          "movementPawnHeroId": 78,
+          "movementRawPawnHeroId": null,
+          "movementWorldUnits": 12654.62069242459,
+          "pathSampleSeconds": {
+            "10": 720.0,
+            "11": 720.0,
+            "12": 720.0,
+            "7": 720.0,
+            "8": 720.0,
+            "9": 720.0
+          },
+          "statsSampleSeconds": {
+            "1": 720,
+            "10": 720,
+            "11": 720,
+            "12": 720,
+            "2": 720,
+            "3": 720,
+            "4": 720,
+            "5": 720,
+            "6": 720,
+            "7": 720,
+            "8": 720,
+            "9": 720
+          },
+          "statsTimestamp": 720
+        },
+        "serverStartTick": 7423,
+        "snapshotTick": 46081,
+        "startTime": 1792429141,
+        "trooperFOWSnapshot": {
+          "ageTicks": 0,
+          "codecScope": "empirically calibrated only for match 120372102",
+          "entityIndex": 2902,
+          "flagMapping": {
+            "4": "sapphire",
+            "5": "amber"
+          },
+          "gameTime": 720,
+          "matchId": "120372102",
+          "snapshotTick": 46081,
+          "sources": {
+            "trooperCalibrationSha256": "ad3a16e565139bf6d0c9a20ea59b4e06b018656f1bc00b97fc1912878d3d50f9",
+            "troopersSha256": "98afcf1814e9b3616c53be7d9ab331eb2b4eee4ec940c02c04987ca8a4e8bcc7"
+          },
+          "targetTick": 46081,
+          "updateIntervalSeconds": 0.2,
+          "visibleTroopers": 151
+        },
+        "visibilityVerified": true
+      },
+      "time": 720,
+      "you": "10"
+    },
+    {
+      "answerZones": [
+        {
+          "explanation": "Recorded replay movement 60s after the snapshot.",
+          "id": "recorded-destination",
+          "label": "Recorded destination",
+          "radius": 6,
+          "score": 1,
+          "x": 54.682559058779766,
+          "y": 35.028802780877974
+        }
+      ],
+      "approved": false,
+      "campStates": {
+        "basketball_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "chinatown_alley_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "chinatown_bell_02_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "chinatown_bell_1": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "chinatown_fish_neutrals": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "chinatown_street_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "construction_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "dept_store_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "dock_authority_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "dock_authority_vault": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "dock_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "drug_store_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "hotel_01_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "hq_01_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "hq_roof_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "ne_theater_upstairs_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "nursery_downstairs_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "nw_bank_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "nw_utility_south_neutrals": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "oracle_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "park_chapel_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "park_club_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "park_club_vault": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "park_gate_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "park_library_roof_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "park_library_vault": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "park_mansion_roof_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "plaza_corner_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "plaza_pit_vault1": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "plaza_pit_vault2": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "plaza_rink_01_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "plaza_rink_02_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "plaza_rink_03_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "se_utility_neutrals": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "slums_alley_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "slums_bodega_down_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "slums_garage_down_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "slums_garage_up_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "slums_roof_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "slums_storage_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "slums_warehouse_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "sw_asylum_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "sw_bodega_upstairs_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "theater_balcony_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "theater_down_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "theater_lobby_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "theater_stage_01_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "theater_stage_02_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "theater_upstairs_01_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "theater_upstairs_02_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "york_radio_vault": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        }
+      },
+      "id": "recorded-120372102-1200-10",
+      "laneStates": null,
+      "midbossAlive": false,
+      "minimapTroopers": [
+        {
+          "id": "trooper-6",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-8",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-9",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-11",
+          "team": "amber",
+          "x": 49.01960784313725,
+          "y": 55.29411764705882
+        },
+        {
+          "id": "trooper-12",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-13",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-14",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-15",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-16",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-17",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-18",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-19",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-20",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-21",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-22",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-23",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-24",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-25",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-26",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-27",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-28",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-29",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-30",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-31",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-32",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-33",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-34",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-35",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-36",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-37",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-38",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-39",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-40",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-41",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-43",
+          "team": "amber",
+          "x": 49.411764705882355,
+          "y": 54.11764705882353
+        },
+        {
+          "id": "trooper-52",
+          "team": "sapphire",
+          "x": 50.98039215686274,
+          "y": 41.96078431372548
+        },
+        {
+          "id": "trooper-54",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-55",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-56",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-57",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-58",
+          "team": "amber",
+          "x": 51.37254901960784,
+          "y": 55.29411764705882
+        },
+        {
+          "id": "trooper-59",
+          "team": "sapphire",
+          "x": 13.333333333333334,
+          "y": 61.96078431372549
+        },
+        {
+          "id": "trooper-60",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-61",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-62",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-63",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-64",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-65",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-66",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-67",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-68",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-69",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-70",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-71",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-72",
+          "team": "amber",
+          "x": 18.823529411764707,
+          "y": 67.05882352941177
+        },
+        {
+          "id": "trooper-73",
+          "team": "amber",
+          "x": 78.82352941176471,
+          "y": 67.05882352941177
+        },
+        {
+          "id": "trooper-76",
+          "team": "sapphire",
+          "x": 23.137254901960784,
+          "y": 29.80392156862746
+        },
+        {
+          "id": "trooper-78",
+          "team": "amber",
+          "x": 76.07843137254902,
+          "y": 69.41176470588235
+        },
+        {
+          "id": "trooper-79",
+          "team": "amber",
+          "x": 82.74509803921568,
+          "y": 50.588235294117645
+        },
+        {
+          "id": "trooper-80",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-83",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-84",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-85",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-86",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-87",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-88",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-89",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-90",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-91",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-92",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-93",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-94",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-95",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-100",
+          "team": "amber",
+          "x": 50.588235294117645,
+          "y": 54.509803921568626
+        },
+        {
+          "id": "trooper-102",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-103",
+          "team": "amber",
+          "x": 76.86274509803923,
+          "y": 67.84313725490196
+        },
+        {
+          "id": "trooper-104",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-105",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-106",
+          "team": "amber",
+          "x": 87.84313725490196,
+          "y": 51.76470588235294
+        },
+        {
+          "id": "trooper-107",
+          "team": "sapphire",
+          "x": 23.137254901960784,
+          "y": 31.372549019607845
+        },
+        {
+          "id": "trooper-108",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-109",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-110",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-111",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-112",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-113",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-114",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-115",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-116",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-117",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-118",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-119",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-123",
+          "team": "amber",
+          "x": 86.27450980392157,
+          "y": 51.76470588235294
+        },
+        {
+          "id": "trooper-126",
+          "team": "amber",
+          "x": 17.647058823529413,
+          "y": 64.70588235294117
+        },
+        {
+          "id": "trooper-127",
+          "team": "sapphire",
+          "x": 21.96078431372549,
+          "y": 32.941176470588246
+        },
+        {
+          "id": "trooper-128",
+          "team": "amber",
+          "x": 18.03921568627451,
+          "y": 65.49019607843138
+        },
+        {
+          "id": "trooper-132",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-133",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-134",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-135",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-136",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.39215686274509665
+        },
+        {
+          "id": "trooper-138",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-139",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-140",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-141",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-142",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-143",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-149",
+          "team": "sapphire",
+          "x": 21.176470588235293,
+          "y": 34.117647058823536
+        },
+        {
+          "id": "trooper-150",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-152",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-153",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-155",
+          "team": "amber",
+          "x": 17.254901960784313,
+          "y": 66.66666666666667
+        },
+        {
+          "id": "trooper-156",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-157",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-158",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-159",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-160",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-161",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-162",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-163",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-164",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-165",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-166",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-167",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-168",
+          "team": "sapphire",
+          "x": 49.80392156862745,
+          "y": 39.6078431372549
+        },
+        {
+          "id": "trooper-171",
+          "team": "sapphire",
+          "x": 50.588235294117645,
+          "y": 42.74509803921569
+        },
+        {
+          "id": "trooper-174",
+          "team": "amber",
+          "x": 80.0,
+          "y": 65.88235294117646
+        },
+        {
+          "id": "trooper-178",
+          "team": "sapphire",
+          "x": 50.19607843137255,
+          "y": 41.96078431372548
+        },
+        {
+          "id": "trooper-180",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-181",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-182",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-183",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-185",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-186",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-187",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-188",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-189",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-190",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-191",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.6078431372549
+        }
+      ],
+      "objectiveStates": {
+        "team0_core": {
+          "active": false,
+          "health": null,
+          "phase": "weakened"
+        },
+        "team0_tier1_1": {
+          "active": false,
+          "health": 0
+        },
+        "team0_tier1_3": {
+          "active": false,
+          "health": 0
+        },
+        "team0_tier1_4": {
+          "active": false,
+          "health": 0
+        },
+        "team0_tier2_1": {
+          "active": false,
+          "health": 0
+        },
+        "team0_tier2_3": {
+          "active": true,
+          "health": 96.56666666666666
+        },
+        "team0_tier2_4": {
+          "active": false,
+          "health": 0
+        },
+        "team0_titan": {
+          "active": true,
+          "health": 100.0,
+          "phase": "patron"
+        },
+        "team1_core": {
+          "active": false,
+          "health": null,
+          "phase": "weakened"
+        },
+        "team1_tier1_1": {
+          "active": false,
+          "health": 0
+        },
+        "team1_tier1_3": {
+          "active": false,
+          "health": 0
+        },
+        "team1_tier1_4": {
+          "active": false,
+          "health": 0
+        },
+        "team1_tier2_1": {
+          "active": true,
+          "health": 70.6
+        },
+        "team1_tier2_3": {
+          "active": false,
+          "health": 0
+        },
+        "team1_tier2_4": {
+          "active": false,
+          "health": 0
+        },
+        "team1_titan": {
+          "active": true,
+          "health": 100.0,
+          "phase": "patron"
+        }
+      },
+      "objectivesDown": [
+        "team1_tier1_1",
+        "team1_tier1_3",
+        "team0_tier1_4",
+        "team1_tier1_4",
+        "team0_tier1_1",
+        "team1_tier2_3",
+        "team0_tier1_3",
+        "team1_tier2_4",
+        "team0_tier2_4",
+        "team0_tier2_1"
+      ],
+      "players": [
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "rat-king",
+          "id": "1",
+          "itemCooldowns": {},
+          "items": [
+            "2829638276",
+            "2064029594",
+            "1009965641",
+            "4104549924",
+            "2447176615",
+            "3403085434",
+            "2356412290",
+            "2108215830",
+            "2163598980",
+            "3294954488",
+            "3261353684"
+          ],
+          "level": 27,
+          "respawn": 0,
+          "souls": 23413,
+          "team": "amber",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 1013,
+          "visible": false,
+          "x": null,
+          "y": null
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 92.39864864864865,
+          "hero": "yamato",
+          "id": "2",
+          "itemCooldowns": {},
+          "items": [
+            "3862866912",
+            "98582110",
+            "2481177645",
+            "2947183272",
+            "2971868509",
+            "1252627263",
+            "2566692615",
+            "1342610602",
+            "26002154",
+            "1414319208"
+          ],
+          "level": 26,
+          "respawn": 0,
+          "souls": 21451,
+          "team": "amber",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 651,
+          "visible": false,
+          "x": null,
+          "y": null
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "violet",
+          "id": "3",
+          "itemCooldowns": {},
+          "items": [
+            "3776945997",
+            "2922054143",
+            "2947183272",
+            "112198670",
+            "805079544",
+            "857669956",
+            "4104549924",
+            "7409189",
+            "2108215830"
+          ],
+          "level": 24,
+          "respawn": 0,
+          "souls": 18000,
+          "team": "amber",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 2000,
+          "visible": true,
+          "x": 83.52941176470588,
+          "y": 52.15686274509804
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 99.68499427262314,
+          "hero": "venator",
+          "id": "4",
+          "itemCooldowns": {},
+          "items": [
+            "3862866912",
+            "4104549924",
+            "709540378",
+            "2356412290",
+            "1235347618",
+            "3585132399",
+            "2447176615",
+            "3403085434",
+            "3731635960",
+            "4204808176"
+          ],
+          "level": 26,
+          "respawn": 0,
+          "souls": 22726,
+          "team": "amber",
+          "ultCooldown": 4.583100000000059,
+          "ultimateTrained": true,
+          "unspentSouls": 3526,
+          "visible": false,
+          "x": null,
+          "y": null
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "ivy",
+          "id": "5",
+          "itemCooldowns": {},
+          "items": [
+            "2356412290",
+            "3776945997",
+            "754480263",
+            "2603935618",
+            "7409189",
+            "2956256701",
+            "380806748",
+            "1152158042"
+          ],
+          "level": 24,
+          "respawn": 0,
+          "souls": 18107,
+          "team": "amber",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 507,
+          "visible": false,
+          "x": null,
+          "y": null
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "graves",
+          "id": "6",
+          "itemCooldowns": {},
+          "items": [
+            "3862866912",
+            "395867183",
+            "811521119",
+            "3970837787",
+            "1644605047",
+            "334300056",
+            "395944548",
+            "7409189"
+          ],
+          "level": 25,
+          "respawn": 0,
+          "souls": 19710,
+          "team": "amber",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 2910,
+          "visible": false,
+          "x": null,
+          "y": null
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 93.07972480777013,
+          "hero": "solomon",
+          "id": "7",
+          "itemCooldowns": {},
+          "items": [
+            "2064029594",
+            "7409189",
+            "2061878743",
+            "3270001687",
+            "1644605047",
+            "1193964439",
+            "2121044373"
+          ],
+          "level": 24,
+          "respawn": 0,
+          "souls": 19113,
+          "team": "sapphire",
+          "ultCooldown": 37.50649999999996,
+          "ultimateTrained": true,
+          "unspentSouls": 1513,
+          "visible": true,
+          "x": 46.666666666666664,
+          "y": 44.705882352941174
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 98.40746842394289,
+          "hero": "vindicta",
+          "id": "8",
+          "itemCooldowns": {},
+          "items": [
+            "2064029594",
+            "1998374645",
+            "3074274290",
+            "968099481",
+            "787198704",
+            "3970837787",
+            "1932939246",
+            "2717651715"
+          ],
+          "level": 26,
+          "respawn": 0,
+          "souls": 22622,
+          "team": "sapphire",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 6622,
+          "visible": true,
+          "x": 18.823529411764707,
+          "y": 54.11764705882353
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 97.95774647887323,
+          "hero": "baba",
+          "id": "9",
+          "itemCooldowns": {},
+          "items": [
+            "3776945997",
+            "2947183272",
+            "395944548",
+            "2566692615",
+            "2059712766",
+            "1644605047",
+            "3190916303",
+            "754480263"
+          ],
+          "level": 24,
+          "respawn": 0,
+          "souls": 19263,
+          "team": "sapphire",
+          "ultCooldown": 2.707200000000057,
+          "ultimateTrained": true,
+          "unspentSouls": 3263,
+          "visible": true,
+          "x": 9.411764705882353,
+          "y": 60.3921568627451
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 76.73939892960065,
+          "hero": "deadman-danny",
+          "id": "10",
+          "itemCooldowns": {},
+          "items": [
+            "3077079169",
+            "7409189",
+            "1644605047",
+            "395867183",
+            "2121044373",
+            "805079544",
+            "112198670",
+            "1193964439",
+            "380806748"
+          ],
+          "level": 25,
+          "respawn": 0,
+          "souls": 19502,
+          "team": "sapphire",
+          "ultCooldown": 18.674600000000055,
+          "ultimateTrained": true,
+          "unspentSouls": 2702,
+          "visible": true,
+          "x": 74.90196078431373,
+          "y": 29.01960784313725
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "shiv",
+          "id": "11",
+          "itemCooldowns": {},
+          "items": [
+            "3862866912",
+            "1342610602",
+            "2947183272",
+            "2971868509",
+            "2603935618",
+            "2481177645",
+            "3731635960",
+            "690458959"
+          ],
+          "level": 24,
+          "respawn": 0,
+          "souls": 19122,
+          "team": "sapphire",
+          "ultCooldown": 24.877300000000105,
+          "ultimateTrained": true,
+          "unspentSouls": 1522,
+          "visible": true,
+          "x": 44.31372549019608,
+          "y": 23.92156862745098
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 72.89756875249103,
+          "hero": "victor",
+          "id": "12",
+          "itemCooldowns": {},
+          "items": [
+            "7409189",
+            "2566692615",
+            "2603935618",
+            "395944548",
+            "3270001687",
+            "2447176615",
+            "3005970438"
+          ],
+          "level": 25,
+          "respawn": 0,
+          "souls": 20792,
+          "team": "sapphire",
+          "ultCooldown": 43.927200000000084,
+          "ultimateTrained": true,
+          "unspentSouls": 1592,
+          "visible": true,
+          "x": 45.490196078431374,
+          "y": 52.54901960784314
+        }
+      ],
+      "recordedMove": {
+        "fromSecond": 1200,
+        "path": [
+          {
+            "alive": true,
+            "second": 1200,
+            "worldX": 5438.53125,
+            "worldY": 4582.15625,
+            "x": 75.29078892299107,
+            "y": 28.691609700520836
+          },
+          {
+            "alive": true,
+            "second": 1201,
+            "worldX": 5306.59375,
+            "worldY": 4743.84375,
+            "x": 74.67724028087798,
+            "y": 27.93971470424107
+          },
+          {
+            "alive": true,
+            "second": 1202,
+            "worldX": 5196.53125,
+            "worldY": 4545.03125,
+            "x": 74.16541689918155,
+            "y": 28.864251999627978
+          },
+          {
+            "alive": true,
+            "second": 1203,
+            "worldX": 5030.90625,
+            "worldY": 4359.96875,
+            "x": 73.39521135602678,
+            "y": 29.724847702752978
+          },
+          {
+            "alive": true,
+            "second": 1204,
+            "worldX": 4848.96875,
+            "worldY": 4030.21875,
+            "x": 72.54914783296131,
+            "y": 31.25828334263393
+          },
+          {
+            "alive": true,
+            "second": 1205,
+            "worldX": 4693.34375,
+            "worldY": 3895.875,
+            "x": 71.82544526599702,
+            "y": 31.88302176339286
+          },
+          {
+            "alive": true,
+            "second": 1206,
+            "worldX": 4284.125,
+            "worldY": 3902.9375,
+            "x": 69.92245628720238,
+            "y": 31.850179036458336
+          },
+          {
+            "alive": true,
+            "second": 1207,
+            "worldX": 4296.53125,
+            "worldY": 4037.0,
+            "x": 69.98014904203869,
+            "y": 31.226748511904763
+          },
+          {
+            "alive": true,
+            "second": 1208,
+            "worldX": 4271.0625,
+            "worldY": 4110.90625,
+            "x": 69.86171177455357,
+            "y": 30.883062453497022
+          },
+          {
+            "alive": true,
+            "second": 1209,
+            "worldX": 4154.5625,
+            "worldY": 4440.71875,
+            "x": 69.31995210193452,
+            "y": 29.349336170014883
+          },
+          {
+            "alive": true,
+            "second": 1210,
+            "worldX": 4208.90625,
+            "worldY": 4964.40625,
+            "x": 69.57266671316964,
+            "y": 26.914033435639883
+          },
+          {
+            "alive": true,
+            "second": 1211,
+            "worldX": 4170.0625,
+            "worldY": 5261.625,
+            "x": 69.39203171502977,
+            "y": 25.53187779017857
+          },
+          {
+            "alive": true,
+            "second": 1212,
+            "worldX": 4191.40625,
+            "worldY": 5572.96875,
+            "x": 69.49128650483631,
+            "y": 24.084036690848215
+          },
+          {
+            "alive": true,
+            "second": 1213,
+            "worldX": 4406.71875,
+            "worldY": 5756.6875,
+            "x": 70.4925537109375,
+            "y": 23.229689825148807
+          },
+          {
+            "alive": true,
+            "second": 1214,
+            "worldX": 4936.21875,
+            "worldY": 5827.71875,
+            "x": 72.95488630022322,
+            "y": 22.899373372395832
+          },
+          {
+            "alive": true,
+            "second": 1215,
+            "worldX": 5835.9375,
+            "worldY": 5201.125,
+            "x": 77.13884626116072,
+            "y": 25.813220796130953
+          },
+          {
+            "alive": true,
+            "second": 1216,
+            "worldX": 6001.09375,
+            "worldY": 5162.59375,
+            "x": 77.90687197730655,
+            "y": 25.992402576264883
+          },
+          {
+            "alive": true,
+            "second": 1217,
+            "worldX": 6035.75,
+            "worldY": 5131.8125,
+            "x": 78.06803385416667,
+            "y": 26.135544549851193
+          },
+          {
+            "alive": true,
+            "second": 1218,
+            "worldX": 6064.46875,
+            "worldY": 5142.5,
+            "x": 78.20158458891369,
+            "y": 26.085844494047617
+          },
+          {
+            "alive": true,
+            "second": 1219,
+            "worldX": 6151.75,
+            "worldY": 5061.65625,
+            "x": 78.60746837797619,
+            "y": 26.4617919921875
+          },
+          {
+            "alive": true,
+            "second": 1220,
+            "worldX": 6264.46875,
+            "worldY": 4935.28125,
+            "x": 79.13164411272322,
+            "y": 27.04947335379464
+          },
+          {
+            "alive": true,
+            "second": 1221,
+            "worldX": 6407.96875,
+            "worldY": 4780.3125,
+            "x": 79.79896182105655,
+            "y": 27.77012416294643
+          },
+          {
+            "alive": true,
+            "second": 1222,
+            "worldX": 6445.1875,
+            "worldY": 4614.3125,
+            "x": 79.97204008556548,
+            "y": 28.542073567708336
+          },
+          {
+            "alive": true,
+            "second": 1223,
+            "worldX": 6269.5,
+            "worldY": 4763.8125,
+            "x": 79.15504092261905,
+            "y": 27.846854073660715
+          },
+          {
+            "alive": true,
+            "second": 1224,
+            "worldX": 6296.59375,
+            "worldY": 4877.125,
+            "x": 79.28103492373512,
+            "y": 27.319917224702383
+          },
+          {
+            "alive": true,
+            "second": 1225,
+            "worldX": 6792.5625,
+            "worldY": 4332.0,
+            "x": 81.58743722098214,
+            "y": 29.854910714285715
+          },
+          {
+            "alive": true,
+            "second": 1226,
+            "worldX": 7173.65625,
+            "worldY": 3644.625,
+            "x": 83.35963657924107,
+            "y": 33.05140904017857
+          },
+          {
+            "alive": true,
+            "second": 1227,
+            "worldX": 7121.40625,
+            "worldY": 3616.0625,
+            "x": 83.11665852864583,
+            "y": 33.18423316592261
+          },
+          {
+            "alive": true,
+            "second": 1228,
+            "worldX": 7037.78125,
+            "worldY": 3591.9375,
+            "x": 82.72777739025298,
+            "y": 33.29642159598214
+          },
+          {
+            "alive": true,
+            "second": 1229,
+            "worldX": 6758.1875,
+            "worldY": 3349.71875,
+            "x": 81.42758324032738,
+            "y": 34.422810872395836
+          },
+          {
+            "alive": true,
+            "second": 1230,
+            "worldX": 6723.125,
+            "worldY": 3507.8125,
+            "x": 81.26453218005952,
+            "y": 33.687627883184526
+          },
+          {
+            "alive": true,
+            "second": 1231,
+            "worldX": 6864.46875,
+            "worldY": 3685.59375,
+            "x": 81.92182268415178,
+            "y": 32.860892159598215
+          },
+          {
+            "alive": true,
+            "second": 1232,
+            "worldX": 7046.28125,
+            "worldY": 3662.65625,
+            "x": 82.76730492001488,
+            "y": 32.96755836123511
+          },
+          {
+            "alive": true,
+            "second": 1233,
+            "worldX": 7097.71875,
+            "worldY": 3652.1875,
+            "x": 83.00650460379464,
+            "y": 33.016241164434526
+          },
+          {
+            "alive": true,
+            "second": 1234,
+            "worldX": 7217.21875,
+            "worldY": 3357.53125,
+            "x": 83.56221516927083,
+            "y": 34.386480422247026
+          },
+          {
+            "alive": true,
+            "second": 1235,
+            "worldX": 7455.5625,
+            "worldY": 2942.59375,
+            "x": 84.67058454241072,
+            "y": 36.316063290550595
+          },
+          {
+            "alive": true,
+            "second": 1236,
+            "worldX": 7643.875,
+            "worldY": 2737.875,
+            "x": 85.54629371279762,
+            "y": 37.26806640625
+          },
+          {
+            "alive": true,
+            "second": 1237,
+            "worldX": 7888.59375,
+            "worldY": 2581.1875,
+            "x": 86.68430873325893,
+            "y": 37.996709914434526
+          },
+          {
+            "alive": true,
+            "second": 1238,
+            "worldX": 7935.09375,
+            "worldY": 2460.875,
+            "x": 86.90054757254464,
+            "y": 38.55619884672619
+          },
+          {
+            "alive": true,
+            "second": 1239,
+            "worldX": 7991.625,
+            "worldY": 2463.84375,
+            "x": 87.16343470982143,
+            "y": 38.54239327566964
+          },
+          {
+            "alive": true,
+            "second": 1240,
+            "worldX": 7728.25,
+            "worldY": 2481.59375,
+            "x": 85.93866257440477,
+            "y": 38.459850492931544
+          },
+          {
+            "alive": true,
+            "second": 1241,
+            "worldX": 7553.375,
+            "worldY": 2802.78125,
+            "x": 85.12544177827381,
+            "y": 36.96623302641369
+          },
+          {
+            "alive": true,
+            "second": 1242,
+            "worldX": 7312.71875,
+            "worldY": 3118.90625,
+            "x": 84.00631859188988,
+            "y": 35.49615769159226
+          },
+          {
+            "alive": true,
+            "second": 1243,
+            "worldX": 6770.78125,
+            "worldY": 3699.28125,
+            "x": 81.48614792596727,
+            "y": 32.7972412109375
+          },
+          {
+            "alive": true,
+            "second": 1244,
+            "worldX": 6014.1875,
+            "worldY": 5106.15625,
+            "x": 77.96776181175595,
+            "y": 26.254853748139883
+          },
+          {
+            "alive": true,
+            "second": 1245,
+            "worldX": 3825.59375,
+            "worldY": 6506.25,
+            "x": 67.79014950706845,
+            "y": 19.74400111607143
+          },
+          {
+            "alive": true,
+            "second": 1246,
+            "worldX": 1756.75,
+            "worldY": 7966.46875,
+            "x": 58.169410342261905,
+            "y": 12.953549339657739
+          },
+          {
+            "alive": true,
+            "second": 1247,
+            "worldX": 1589.1875,
+            "worldY": 9710.03125,
+            "x": 57.390194847470234,
+            "y": 4.845464797247024
+          },
+          {
+            "alive": true,
+            "second": 1248,
+            "worldX": 1521.59375,
+            "worldY": 9802.78125,
+            "x": 57.075863792782734,
+            "y": 4.414149693080355
+          },
+          {
+            "alive": true,
+            "second": 1249,
+            "worldX": 1275.90625,
+            "worldY": 9362.28125,
+            "x": 55.933343796502974,
+            "y": 6.462605794270831
+          },
+          {
+            "alive": true,
+            "second": 1250,
+            "worldX": 1251.71875,
+            "worldY": 7993.71875,
+            "x": 55.820864722842266,
+            "y": 12.826828729538692
+          },
+          {
+            "alive": true,
+            "second": 1251,
+            "worldX": 1277.03125,
+            "worldY": 5817.15625,
+            "x": 55.938575381324405,
+            "y": 22.948492140997022
+          },
+          {
+            "alive": true,
+            "second": 1252,
+            "worldX": 1257.9375,
+            "worldY": 3728.71875,
+            "x": 55.84978376116071,
+            "y": 32.660348074776785
+          },
+          {
+            "alive": true,
+            "second": 1253,
+            "worldX": 873.21875,
+            "worldY": 3199.125,
+            "x": 54.060727074032734,
+            "y": 35.123116629464285
+          },
+          {
+            "alive": true,
+            "second": 1254,
+            "worldX": 946.65625,
+            "worldY": 3263.5,
+            "x": 54.402233305431544,
+            "y": 34.823753720238095
+          },
+          {
+            "alive": true,
+            "second": 1255,
+            "worldX": 820.15625,
+            "worldY": 3379.6875,
+            "x": 53.813970656622026,
+            "y": 34.283447265625
+          },
+          {
+            "alive": true,
+            "second": 1256,
+            "worldX": 702.0625,
+            "worldY": 3314.6875,
+            "x": 53.26479957217261,
+            "y": 34.585716610863095
+          },
+          {
+            "alive": true,
+            "second": 1257,
+            "worldX": 734.90625,
+            "worldY": 3282.65625,
+            "x": 53.41753278459821,
+            "y": 34.734671456473215
+          },
+          {
+            "alive": true,
+            "second": 1258,
+            "worldX": 653.375,
+            "worldY": 3212.75,
+            "x": 53.038388206845234,
+            "y": 35.05975632440476
+          },
+          {
+            "alive": true,
+            "second": 1259,
+            "worldX": 813.3125,
+            "worldY": 3138.9375,
+            "x": 53.782145182291664,
+            "y": 35.403006417410715
+          },
+          {
+            "alive": true,
+            "second": 1260,
+            "worldX": 1006.9375,
+            "worldY": 3219.40625,
+            "x": 54.682559058779766,
+            "y": 35.028802780877974
+          }
+        ],
+        "toSecond": 1260
+      },
+      "reviewWarnings": [
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
+      ],
+      "source": {
+        "accountId": 87624911,
+        "assetDefinitionsVersionVerified": true,
+        "averageBadge": 112.91666666666667,
+        "buildEvidenceSha256": "6d07ee6fc8d1f8d625556a572d9dc8d079614f6999681883a9f350bae65140ed",
+        "campVisibilityVerified": true,
+        "catalogSha256": "2b2e1401f3966ac4fd30c21c742eb7e02bebb8e25a30b7baab21e0c2319692c6",
+        "clientVersion": 6795,
+        "clientVersionEvidence": "Valve demo header /opt/srcds/deadlock/citadel_v6795/citadel; sha256 54407d60c126c08748623eb00fb1df3d471220227e3f605b7949b4b8497ee18c",
+        "clockCalibrationSha256": "74862dbe2ec2b63b7493380d67ece159b0185d5f708440a386d9a372ddb4e4e1",
+        "clockStartSeconds": 116.0,
+        "clockTickRate": 64,
+        "controllerTick": 76801,
+        "controllersSha256": "578573b0d943e073b5fbe5da2b3064432f42858c2efb98dd6e456483af30534a",
+        "fowSnapshot": {
+          "ageTicks": 0,
+          "campEntityMappingSha256": "4dd4615cdca301d6abc8096f8f4e03e26aa3ac08cea3ef97ff842261c47d2a20",
+          "campNodesExpected": 51,
+          "campNodesMatched": 51,
+          "campRespawnBasis": "Unknown; no countdown is emitted",
+          "campStateBasis": "bVisibleOnMap is replay HUD marker availability, not HP or a camp death inference",
+          "entityIndex": 56,
+          "gameTime": 1200,
+          "heroNodesExpected": 12,
+          "heroNodesMatched": 12,
+          "positionEncoding": "x=uint8/255*100; y=100-uint8/255*100",
+          "snapshotTick": 76801,
+          "sources": {
+            "fowSha256": "0985284358684a56b504dfc269a3bca44eb83d1c7abd82efdefaad671138ae20",
+            "metadataSha256": "4290225651c66ea1e58688e460a76cef7f2827481ad82309acadc60bca945a6d",
+            "trooperCalibrationSha256": "ad3a16e565139bf6d0c9a20ea59b4e06b018656f1bc00b97fc1912878d3d50f9",
+            "troopersSha256": "98afcf1814e9b3616c53be7d9ab331eb2b4eee4ec940c02c04987ca8a4e8bcc7"
+          },
+          "targetTick": 76801,
+          "team": 3,
+          "unknownCampReasons": {},
+          "visibilityUnknownReason": null
+        },
+        "gameClockSeconds": 1316.0,
+        "gameDirectory": "/opt/srcds/deadlock/citadel_v6795/citadel",
+        "gameMode": 1,
+        "heroesDefinitionSha256": "0a987618e380a677e5635f5bb85eac72c151a5136791441fa6630a3d0ba50964",
+        "identityBasis": "\"120372102\"|1792429141|87624911|116",
+        "identitySha256": "601b5be6b82fe2187424bf3a40d0576569c8efb312b81f97a9c5aa33b6086965",
+        "inventorySha256": "578573b0d943e073b5fbe5da2b3064432f42858c2efb98dd6e456483af30534a",
+        "itemsDefinitionSha256": "1f6fc3760e03addf2c918d7ee3b9ef59705668258ba3a7b1d0d44f04c6bb7b34",
+        "kind": "match",
+        "laneStatesVerified": false,
+        "mapDefinitionSha256": "4daf179af39392e573247dbd35234b8d0bc3aa05f6b1d96f97b422647c42632c",
+        "mapDefinitionUrl": "https://api.deadlock-api.com/v1/assets/map?client_version=6795",
+        "mapImage": "assets/minimap.png",
+        "mapImageSha256": null,
+        "mapRadius": 10752,
+        "mapVerified": true,
+        "matchId": "120372102",
+        "matchMode": 4,
+        "metadataSha256": "4290225651c66ea1e58688e460a76cef7f2827481ad82309acadc60bca945a6d",
+        "metadataUrl": "https://api.deadlock-api.com/v1/matches/120372102/metadata",
+        "movementCalibrationSha256": "3b83473459e4390cf2f14803687cef6feb52936c4beb30485cdc42044a419f6d",
+        "movementProjectionSha256": "1b951e19f31faf340710f1032f202dc9bfeaae2c8996141d0ee85b2e87ef989b",
+        "movementRowsSha256": "91d99c69fb8712212b34b75327c740d40062e6164404891b572338806646c13e",
+        "movementSha256": "91d99c69fb8712212b34b75327c740d40062e6164404891b572338806646c13e",
+        "movementVerified": true,
+        "objectiveTick": 76801,
+        "objectivesDownReason": "metadata team_objective_id and destroyed_time_s mapped to catalog objectives",
+        "objectivesDownUnknown": false,
+        "objectivesDownVerified": true,
+        "objectivesSha256": "84940a0bfb1d353eb484ad7c8e015496deb6e3afa5aeda9f9fac3aef819406f3",
+        "objectivesVerified": true,
+        "pathFormat": {
+          "formula": "min+(max-min)*encoded/resolution",
+          "intervalSeconds": 1.0,
+          "xResolution": 16383,
+          "yResolution": 16383
+        },
+        "playerName": "Ascendant VI player",
+        "playerRank": 116,
+        "rankBasis": "initial_display_rank_all_12",
+        "rankVerified": true,
+        "recordedMovementBasis": "replay pawn 1Hz",
+        "replayBuildNum": 10932,
+        "replayHeaderSha256": "9c1fb899d70f737c304e369df9f691d0e1efaeae6dda38cd8ed240f091f976e0",
+        "replaySourceUrl": "http://replay404.valve.net/1422450/120372102_135342327.dem.bz2",
+        "roundEvidence": {
+          "answerDelaySeconds": 60,
+          "answerSampleSecond": 1260,
+          "movementControllerEntityIndex": 7,
+          "movementControllerHandle": 14630919,
+          "movementControllerHeroId": 78,
+          "movementControllerSteamId": 76561198047890639,
+          "movementPawnEntityIndex": 81,
+          "movementPawnHandle": 81,
+          "movementPawnHeroId": 78,
+          "movementRawPawnHeroId": null,
+          "movementWorldUnits": 4636.389837744348,
+          "pathSampleSeconds": {
+            "10": 1200.0,
+            "11": 1200.0,
+            "12": 1200.0,
+            "7": 1200.0,
+            "8": 1200.0,
+            "9": 1200.0
+          },
+          "statsSampleSeconds": {
+            "1": 1200,
+            "10": 1200,
+            "11": 1200,
+            "12": 1200,
+            "2": 1200,
+            "3": 1200,
+            "4": 1200,
+            "5": 1200,
+            "6": 1200,
+            "7": 1200,
+            "8": 1200,
+            "9": 1200
+          },
+          "statsTimestamp": 1200
+        },
+        "serverStartTick": 7423,
+        "snapshotTick": 76801,
+        "startTime": 1792429141,
+        "trooperFOWSnapshot": {
+          "ageTicks": 0,
+          "codecScope": "empirically calibrated only for match 120372102",
+          "entityIndex": 2902,
+          "flagMapping": {
+            "4": "sapphire",
+            "5": "amber"
+          },
+          "gameTime": 1200,
+          "matchId": "120372102",
+          "snapshotTick": 76801,
+          "sources": {
+            "trooperCalibrationSha256": "ad3a16e565139bf6d0c9a20ea59b4e06b018656f1bc00b97fc1912878d3d50f9",
+            "troopersSha256": "98afcf1814e9b3616c53be7d9ab331eb2b4eee4ec940c02c04987ca8a4e8bcc7"
+          },
+          "targetTick": 76801,
+          "updateIntervalSeconds": 0.2,
+          "visibleTroopers": 139
+        },
+        "visibilityVerified": true
+      },
+      "time": 1200,
+      "you": "10"
+    },
+    {
+      "answerZones": [
+        {
+          "explanation": "Recorded replay movement 60s after the snapshot.",
+          "id": "recorded-destination",
+          "label": "Recorded destination",
+          "radius": 6,
+          "score": 1,
+          "x": 35.969034830729164,
+          "y": 52.95352027529761
+        }
+      ],
+      "approved": false,
+      "campStates": {
+        "basketball_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "chinatown_alley_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "chinatown_bell_02_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "chinatown_bell_1": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "chinatown_fish_neutrals": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "chinatown_street_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "construction_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "dept_store_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "dock_authority_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "dock_authority_vault": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "dock_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "drug_store_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "hotel_01_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "hq_01_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "hq_roof_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "ne_theater_upstairs_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "nursery_downstairs_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "nw_bank_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "nw_utility_south_neutrals": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "oracle_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "park_chapel_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "park_club_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "park_club_vault": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "park_gate_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "park_library_roof_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "park_library_vault": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "park_mansion_roof_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "plaza_corner_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "plaza_pit_vault1": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "plaza_pit_vault2": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "plaza_rink_01_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "plaza_rink_02_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "plaza_rink_03_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "se_utility_neutrals": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "slums_alley_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "slums_bodega_down_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "slums_garage_down_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "slums_garage_up_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "slums_roof_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "slums_storage_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "slums_warehouse_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "sw_asylum_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "sw_bodega_upstairs_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "theater_balcony_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "theater_down_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "theater_lobby_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "theater_stage_01_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "theater_stage_02_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        },
+        "theater_upstairs_01_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "theater_upstairs_02_camp": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": true
+        },
+        "york_radio_vault": {
+          "alive": null,
+          "respawn": null,
+          "visibleOnMap": false
+        }
+      },
+      "id": "recorded-120372102-1800-10",
+      "laneStates": null,
+      "midbossAlive": false,
+      "minimapTroopers": [
+        {
+          "id": "trooper-9",
+          "team": "sapphire",
+          "x": 23.52941176470588,
+          "y": 28.627450980392155
+        },
+        {
+          "id": "trooper-10",
+          "team": "amber",
+          "x": 73.72549019607844,
+          "y": 73.33333333333333
+        },
+        {
+          "id": "trooper-12",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-13",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-14",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-15",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-16",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-17",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-18",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-19",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-20",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-21",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-22",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-23",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-24",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-25",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-26",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-27",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-28",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-29",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-30",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-31",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-32",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-33",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-34",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-35",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-36",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-37",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-38",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-39",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-40",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-41",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-43",
+          "team": "sapphire",
+          "x": 81.17647058823529,
+          "y": 63.13725490196078
+        },
+        {
+          "id": "trooper-54",
+          "team": "sapphire",
+          "x": 49.411764705882355,
+          "y": 47.843137254901954
+        },
+        {
+          "id": "trooper-57",
+          "team": "amber",
+          "x": 48.627450980392155,
+          "y": 62.745098039215684
+        },
+        {
+          "id": "trooper-58",
+          "team": "amber",
+          "x": 71.76470588235294,
+          "y": 73.33333333333333
+        },
+        {
+          "id": "trooper-60",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-61",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-62",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-63",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-64",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-65",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-66",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-67",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-68",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-69",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-70",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-71",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-72",
+          "team": "sapphire",
+          "x": 83.13725490196079,
+          "y": 62.35294117647059
+        },
+        {
+          "id": "trooper-74",
+          "team": "sapphire",
+          "x": 49.01960784313725,
+          "y": 46.27450980392157
+        },
+        {
+          "id": "trooper-76",
+          "team": "sapphire",
+          "x": 49.80392156862745,
+          "y": 50.588235294117645
+        },
+        {
+          "id": "trooper-77",
+          "team": "amber",
+          "x": 73.33333333333333,
+          "y": 73.33333333333333
+        },
+        {
+          "id": "trooper-80",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-83",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-84",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-85",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-86",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-87",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-88",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-89",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-90",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-91",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-92",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-93",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-94",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-95",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-97",
+          "team": "sapphire",
+          "x": 81.96078431372548,
+          "y": 58.431372549019606
+        },
+        {
+          "id": "trooper-100",
+          "team": "amber",
+          "x": 17.254901960784313,
+          "y": 34.50980392156863
+        },
+        {
+          "id": "trooper-102",
+          "team": "sapphire",
+          "x": 24.313725490196077,
+          "y": 27.058823529411768
+        },
+        {
+          "id": "trooper-104",
+          "team": "amber",
+          "x": 72.54901960784314,
+          "y": 74.50980392156863
+        },
+        {
+          "id": "trooper-108",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-109",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-110",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-111",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-112",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-113",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-114",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-115",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-116",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-117",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-118",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-119",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-121",
+          "team": "sapphire",
+          "x": 82.74509803921568,
+          "y": 63.92156862745098
+        },
+        {
+          "id": "trooper-122",
+          "team": "sapphire",
+          "x": 23.137254901960784,
+          "y": 31.764705882352942
+        },
+        {
+          "id": "trooper-123",
+          "team": "amber",
+          "x": 49.411764705882355,
+          "y": 62.745098039215684
+        },
+        {
+          "id": "trooper-126",
+          "team": "amber",
+          "x": 17.254901960784313,
+          "y": 64.70588235294117
+        },
+        {
+          "id": "trooper-127",
+          "team": "sapphire",
+          "x": 23.137254901960784,
+          "y": 30.196078431372555
+        },
+        {
+          "id": "trooper-129",
+          "team": "amber",
+          "x": 17.647058823529413,
+          "y": 35.294117647058826
+        },
+        {
+          "id": "trooper-132",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-133",
+          "team": "amber",
+          "x": 14.117647058823529,
+          "y": 63.13725490196078
+        },
+        {
+          "id": "trooper-134",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-135",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-138",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-139",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-140",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-141",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-142",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-143",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.2156862745098
+        },
+        {
+          "id": "trooper-145",
+          "team": "amber",
+          "x": 15.686274509803921,
+          "y": 63.92156862745098
+        },
+        {
+          "id": "trooper-151",
+          "team": "amber",
+          "x": 48.23529411764706,
+          "y": 62.745098039215684
+        },
+        {
+          "id": "trooper-152",
+          "team": "sapphire",
+          "x": 49.80392156862745,
+          "y": 49.01960784313726
+        },
+        {
+          "id": "trooper-153",
+          "team": "sapphire",
+          "x": 76.07843137254902,
+          "y": 67.84313725490196
+        },
+        {
+          "id": "trooper-155",
+          "team": "amber",
+          "x": 49.80392156862745,
+          "y": 63.529411764705884
+        },
+        {
+          "id": "trooper-156",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-157",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-158",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-159",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-160",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-161",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-162",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-163",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-164",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-165",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-166",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-167",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-168",
+          "team": "sapphire",
+          "x": 80.3921568627451,
+          "y": 67.05882352941177
+        },
+        {
+          "id": "trooper-177",
+          "team": "sapphire",
+          "x": 77.25490196078432,
+          "y": 67.84313725490196
+        },
+        {
+          "id": "trooper-178",
+          "team": "amber",
+          "x": 19.215686274509807,
+          "y": 34.117647058823536
+        },
+        {
+          "id": "trooper-179",
+          "team": "amber",
+          "x": 12.549019607843137,
+          "y": 61.96078431372549
+        },
+        {
+          "id": "trooper-180",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-183",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-185",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-186",
+          "team": "amber",
+          "x": 43.13725490196079,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-187",
+          "team": "sapphire",
+          "x": 56.07843137254902,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-188",
+          "team": "sapphire",
+          "x": 55.68627450980392,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-189",
+          "team": "amber",
+          "x": 43.92156862745098,
+          "y": 99.6078431372549
+        },
+        {
+          "id": "trooper-190",
+          "team": "sapphire",
+          "x": 55.294117647058826,
+          "y": 0.0
+        },
+        {
+          "id": "trooper-191",
+          "team": "amber",
+          "x": 44.70588235294118,
+          "y": 99.6078431372549
+        }
+      ],
+      "objectiveStates": {
+        "team0_core": {
+          "active": false,
+          "health": null,
+          "phase": "weakened"
+        },
+        "team0_tier1_1": {
+          "active": false,
+          "health": 0
+        },
+        "team0_tier1_3": {
+          "active": false,
+          "health": 0
+        },
+        "team0_tier1_4": {
+          "active": false,
+          "health": 0
+        },
+        "team0_tier2_1": {
+          "active": false,
+          "health": 0
+        },
+        "team0_tier2_3": {
+          "active": true,
+          "health": 76.55833333333334
+        },
+        "team0_tier2_4": {
+          "active": false,
+          "health": 0
+        },
+        "team0_titan": {
+          "active": true,
+          "health": 100.0,
+          "phase": "patron"
+        },
+        "team1_core": {
+          "active": false,
+          "health": null,
+          "phase": "weakened"
+        },
+        "team1_tier1_1": {
+          "active": false,
+          "health": 0
+        },
+        "team1_tier1_3": {
+          "active": false,
+          "health": 0
+        },
+        "team1_tier1_4": {
+          "active": false,
+          "health": 0
+        },
+        "team1_tier2_1": {
+          "active": true,
+          "health": 69.73333333333333
+        },
+        "team1_tier2_3": {
+          "active": false,
+          "health": 0
+        },
+        "team1_tier2_4": {
+          "active": false,
+          "health": 0
+        },
+        "team1_titan": {
+          "active": true,
+          "health": 100.0,
+          "phase": "patron"
+        }
+      },
+      "objectivesDown": [
+        "team1_tier1_1",
+        "team1_tier1_3",
+        "team0_tier1_4",
+        "team1_tier1_4",
+        "team0_tier1_1",
+        "team1_tier2_3",
+        "team0_tier1_3",
+        "team1_tier2_4",
+        "team0_tier2_4",
+        "team0_tier2_1"
+      ],
+      "players": [
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "rat-king",
+          "id": "1",
+          "itemCooldowns": {},
+          "items": [
+            "2064029594",
+            "1009965641",
+            "4104549924",
+            "2447176615",
+            "3403085434",
+            "2356412290",
+            "2108215830",
+            "2163598980",
+            "3294954488",
+            "3261353684",
+            "1282141666"
+          ],
+          "level": 31,
+          "respawn": 0,
+          "souls": 33609,
+          "team": "amber",
+          "ultCooldown": 2.3578999999999724,
+          "ultimateTrained": true,
+          "unspentSouls": 5209,
+          "visible": false,
+          "x": null,
+          "y": null
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 97.4812303221119,
+          "hero": "yamato",
+          "id": "2",
+          "itemCooldowns": {},
+          "items": [
+            "2481177645",
+            "2947183272",
+            "2971868509",
+            "1252627263",
+            "2566692615",
+            "1342610602",
+            "1414319208",
+            "1763073141",
+            "690458959",
+            "800008313",
+            "2407781327"
+          ],
+          "level": 32,
+          "respawn": 0,
+          "souls": 35747,
+          "team": "amber",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 147,
+          "visible": true,
+          "x": 25.882352941176475,
+          "y": 41.96078431372548
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "violet",
+          "id": "3",
+          "itemCooldowns": {},
+          "items": [
+            "2922054143",
+            "2947183272",
+            "112198670",
+            "805079544",
+            "857669956",
+            "4104549924",
+            "7409189",
+            "2108215830",
+            "787198704",
+            "2121044373",
+            "3261353684"
+          ],
+          "level": 28,
+          "respawn": 0,
+          "souls": 25538,
+          "team": "amber",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 738,
+          "visible": false,
+          "x": null,
+          "y": null
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "venator",
+          "id": "4",
+          "itemCooldowns": {},
+          "items": [
+            "709540378",
+            "2356412290",
+            "3585132399",
+            "2447176615",
+            "3403085434",
+            "3731635960",
+            "4204808176",
+            "1282141666",
+            "1113837674",
+            "2163598980",
+            "2480592370"
+          ],
+          "level": 34,
+          "respawn": 0,
+          "souls": 43413,
+          "team": "amber",
+          "ultCooldown": 18.636999999999944,
+          "ultimateTrained": true,
+          "unspentSouls": 3813,
+          "visible": true,
+          "x": 21.568627450980394,
+          "y": 41.96078431372548
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "ivy",
+          "id": "5",
+          "itemCooldowns": {},
+          "items": [
+            "2356412290",
+            "3776945997",
+            "2603935618",
+            "7409189",
+            "2956256701",
+            "380806748",
+            "1152158042",
+            "1932939246",
+            "754480263",
+            "2951612397",
+            "630839635"
+          ],
+          "level": 29,
+          "respawn": 0,
+          "souls": 29412,
+          "team": "amber",
+          "ultCooldown": 65.9176,
+          "ultimateTrained": true,
+          "unspentSouls": 612,
+          "visible": false,
+          "x": null,
+          "y": null
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "graves",
+          "id": "6",
+          "itemCooldowns": {},
+          "items": [
+            "395867183",
+            "811521119",
+            "3970837787",
+            "1644605047",
+            "334300056",
+            "395944548",
+            "7409189",
+            "1254091416",
+            "2617435668",
+            "3696726732"
+          ],
+          "level": 31,
+          "respawn": 0,
+          "souls": 33346,
+          "team": "amber",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 4146,
+          "visible": true,
+          "x": 22.745098039215687,
+          "y": 42.352941176470594
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "solomon",
+          "id": "7",
+          "itemCooldowns": {},
+          "items": [
+            "7409189",
+            "2061878743",
+            "3270001687",
+            "1644605047",
+            "1193964439",
+            "2121044373",
+            "343572757",
+            "3261353684"
+          ],
+          "level": 30,
+          "respawn": 0,
+          "souls": 30433,
+          "team": "sapphire",
+          "ultCooldown": 47.5145,
+          "ultimateTrained": true,
+          "unspentSouls": 4033,
+          "visible": true,
+          "x": 31.372549019607842,
+          "y": 48.23529411764705
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "vindicta",
+          "id": "8",
+          "itemCooldowns": {},
+          "items": [
+            "2064029594",
+            "1998374645",
+            "3074274290",
+            "787198704",
+            "3970837787",
+            "1932939246",
+            "2717651715",
+            "2519598785",
+            "2081037738",
+            "3261353684",
+            "1414025773"
+          ],
+          "level": 30,
+          "respawn": 0,
+          "souls": 32008,
+          "team": "sapphire",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 2408,
+          "visible": true,
+          "x": 30.58823529411765,
+          "y": 41.56862745098039
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 100.0,
+          "hero": "baba",
+          "id": "9",
+          "itemCooldowns": {},
+          "items": [
+            "2947183272",
+            "395944548",
+            "2566692615",
+            "2059712766",
+            "1644605047",
+            "3190916303",
+            "1378931225",
+            "1193964439",
+            "2717651715",
+            "3261353684",
+            "787198704"
+          ],
+          "level": 30,
+          "respawn": 0,
+          "souls": 30745,
+          "team": "sapphire",
+          "ultCooldown": 4.0219999999999345,
+          "ultimateTrained": true,
+          "unspentSouls": 345,
+          "visible": true,
+          "x": 53.333333333333336,
+          "y": 15.294117647058826
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 74.69465648854961,
+          "hero": "deadman-danny",
+          "id": "10",
+          "itemCooldowns": {},
+          "items": [
+            "7409189",
+            "1644605047",
+            "395867183",
+            "2121044373",
+            "805079544",
+            "112198670",
+            "1193964439",
+            "380806748",
+            "3696726732",
+            "3577481646",
+            "3270001687"
+          ],
+          "level": 30,
+          "respawn": 0,
+          "souls": 30643,
+          "team": "sapphire",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 1443,
+          "visible": true,
+          "x": 28.235294117647058,
+          "y": 42.74509803921569
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 83.75252963284186,
+          "hero": "shiv",
+          "id": "11",
+          "itemCooldowns": {},
+          "items": [
+            "3862866912",
+            "1342610602",
+            "2947183272",
+            "2971868509",
+            "2603935618",
+            "2481177645",
+            "3731635960",
+            "690458959",
+            "1414319208",
+            "1047818222",
+            "2163598980"
+          ],
+          "level": 30,
+          "respawn": 0,
+          "souls": 31602,
+          "team": "sapphire",
+          "ultCooldown": 63.76260000000002,
+          "ultimateTrained": true,
+          "unspentSouls": 6002,
+          "visible": true,
+          "x": 33.33333333333333,
+          "y": 31.372549019607845
+        },
+        {
+          "alive": true,
+          "effects": [],
+          "health": 94.7536788227767,
+          "hero": "victor",
+          "id": "12",
+          "itemCooldowns": {},
+          "items": [
+            "2566692615",
+            "2603935618",
+            "395944548",
+            "3270001687",
+            "2447176615",
+            "3005970438",
+            "1193964439",
+            "1797283378",
+            "2519598785"
+          ],
+          "level": 32,
+          "respawn": 0,
+          "souls": 36367,
+          "team": "sapphire",
+          "ultCooldown": 0.0,
+          "ultimateTrained": true,
+          "unspentSouls": 2767,
+          "visible": true,
+          "x": 75.68627450980392,
+          "y": 69.80392156862746
+        }
+      ],
+      "recordedMove": {
+        "fromSecond": 1800,
+        "path": [
+          {
+            "alive": true,
+            "second": 1800,
+            "worldX": -4601.28125,
+            "worldY": 1611.28125,
+            "x": 28.602672758556547,
+            "y": 42.50706263950893
+          },
+          {
+            "alive": true,
+            "second": 1801,
+            "worldX": -4561.78125,
+            "worldY": 1762.28125,
+            "x": 28.78635951450893,
+            "y": 41.80486769903274
+          },
+          {
+            "alive": true,
+            "second": 1802,
+            "worldX": -4308.5,
+            "worldY": 1757.96875,
+            "x": 29.964192708333336,
+            "y": 41.82492210751489
+          },
+          {
+            "alive": true,
+            "second": 1803,
+            "worldX": -3892.0625,
+            "worldY": 1526.0625,
+            "x": 31.900751023065478,
+            "y": 42.90335518973214
+          },
+          {
+            "alive": true,
+            "second": 1804,
+            "worldX": -3565.96875,
+            "worldY": 1657.125,
+            "x": 33.417184012276785,
+            "y": 42.293875558035715
+          },
+          {
+            "alive": true,
+            "second": 1805,
+            "worldX": -3377.8125,
+            "worldY": 1908.1875,
+            "x": 34.292166573660715,
+            "y": 41.12636021205357
+          },
+          {
+            "alive": true,
+            "second": 1806,
+            "worldX": -3104.03125,
+            "worldY": 2608.71875,
+            "x": 35.565330868675595,
+            "y": 37.86868140811011
+          },
+          {
+            "alive": true,
+            "second": 1807,
+            "worldX": -2536.71875,
+            "worldY": 3642.90625,
+            "x": 38.203502836681544,
+            "y": 33.05940173921131
+          },
+          {
+            "alive": true,
+            "second": 1808,
+            "worldX": -2632.46875,
+            "worldY": 3826.28125,
+            "x": 37.75823683965774,
+            "y": 32.206653413318456
+          },
+          {
+            "alive": true,
+            "second": 1809,
+            "worldX": -2555.34375,
+            "worldY": 3979.46875,
+            "x": 38.116891043526785,
+            "y": 31.494285946800595
+          },
+          {
+            "alive": true,
+            "second": 1810,
+            "worldX": -2608.875,
+            "worldY": 4546.03125,
+            "x": 37.86795479910714,
+            "y": 28.85960170200893
+          },
+          {
+            "alive": true,
+            "second": 1811,
+            "worldX": -2459.65625,
+            "worldY": 4956.8125,
+            "x": 38.561866396949405,
+            "y": 26.949346633184522
+          },
+          {
+            "alive": true,
+            "second": 1812,
+            "worldX": -2296.625,
+            "worldY": 5525.59375,
+            "x": 39.32001023065476,
+            "y": 24.304344540550595
+          },
+          {
+            "alive": true,
+            "second": 1813,
+            "worldX": -2321.1875,
+            "worldY": 5769.5625,
+            "x": 39.205787295386905,
+            "y": 23.16981724330357
+          },
+          {
+            "alive": true,
+            "second": 1814,
+            "worldX": -2225.375,
+            "worldY": 6053.09375,
+            "x": 39.651343936011905,
+            "y": 21.851312546502978
+          },
+          {
+            "alive": true,
+            "second": 1815,
+            "worldX": -1969.875,
+            "worldY": 6292.53125,
+            "x": 40.83949497767857,
+            "y": 20.737856910342263
+          },
+          {
+            "alive": true,
+            "second": 1816,
+            "worldX": -976.03125,
+            "worldY": 6537.09375,
+            "x": 45.46116420200893,
+            "y": 19.60056849888393
+          },
+          {
+            "alive": true,
+            "second": 1817,
+            "worldX": 393.65625,
+            "worldY": 7061.625,
+            "x": 51.83061872209821,
+            "y": 17.161342075892854
+          },
+          {
+            "alive": true,
+            "second": 1818,
+            "worldX": 852.75,
+            "worldY": 8492.65625,
+            "x": 53.96554129464286,
+            "y": 10.506620861235117
+          },
+          {
+            "alive": true,
+            "second": 1819,
+            "worldX": 979.625,
+            "worldY": 9612.8125,
+            "x": 54.555547805059526,
+            "y": 5.297560918898808
+          },
+          {
+            "alive": true,
+            "second": 1820,
+            "worldX": 1275.75,
+            "worldY": 10022.15625,
+            "x": 55.9326171875,
+            "y": 3.3939906529017847
+          },
+          {
+            "alive": true,
+            "second": 1821,
+            "worldX": 1277.6875,
+            "worldY": 9356.5,
+            "x": 55.941627139136905,
+            "y": 6.489490327380953
+          },
+          {
+            "alive": true,
+            "second": 1822,
+            "worldX": 1252.375,
+            "worldY": 8038.34375,
+            "x": 55.823916480654766,
+            "y": 12.619309198288692
+          },
+          {
+            "alive": true,
+            "second": 1823,
+            "worldX": 1277.03125,
+            "worldY": 5868.125,
+            "x": 55.938575381324405,
+            "y": 22.711472284226193
+          },
+          {
+            "alive": true,
+            "second": 1824,
+            "worldX": 1261.25,
+            "worldY": 3764.625,
+            "x": 55.86518787202381,
+            "y": 32.49337332589286
+          },
+          {
+            "alive": true,
+            "second": 1825,
+            "worldX": 393.53125,
+            "worldY": 2804.75,
+            "x": 51.830037434895836,
+            "y": 36.95707775297619
+          },
+          {
+            "alive": true,
+            "second": 1826,
+            "worldX": -131.90625,
+            "worldY": 1680.53125,
+            "x": 49.3865966796875,
+            "y": 42.18502952938989
+          },
+          {
+            "alive": true,
+            "second": 1827,
+            "worldX": -56.8125,
+            "worldY": 324.4375,
+            "x": 49.735804966517854,
+            "y": 48.49126906622024
+          },
+          {
+            "alive": true,
+            "second": 1828,
+            "worldX": 133.75,
+            "worldY": -995.375,
+            "x": 50.62197730654761,
+            "y": 54.628789992559526
+          },
+          {
+            "alive": true,
+            "second": 1829,
+            "worldX": 200.21875,
+            "worldY": -1629.625,
+            "x": 50.93107677641369,
+            "y": 57.578241257440474
+          },
+          {
+            "alive": true,
+            "second": 1830,
+            "worldX": 372.3125,
+            "worldY": -2206.6875,
+            "x": 51.731363932291664,
+            "y": 60.26175362723214
+          },
+          {
+            "alive": true,
+            "second": 1831,
+            "worldX": 535.90625,
+            "worldY": -2691.90625,
+            "x": 52.492123558407734,
+            "y": 62.518165225074405
+          },
+          {
+            "alive": true,
+            "second": 1832,
+            "worldX": 537.3125,
+            "worldY": -2804.9375,
+            "x": 52.498663039434526,
+            "y": 63.04379417782739
+          },
+          {
+            "alive": true,
+            "second": 1833,
+            "worldX": 412.09375,
+            "worldY": -2623.21875,
+            "x": 51.916358584449405,
+            "y": 62.19874790736607
+          },
+          {
+            "alive": true,
+            "second": 1834,
+            "worldX": 413.625,
+            "worldY": -2303.21875,
+            "x": 51.92347935267857,
+            "y": 60.710652669270836
+          },
+          {
+            "alive": true,
+            "second": 1835,
+            "worldX": 262.375,
+            "worldY": -2147.0625,
+            "x": 51.22012183779761,
+            "y": 59.98447963169643
+          },
+          {
+            "alive": true,
+            "second": 1836,
+            "worldX": 214.46875,
+            "worldY": -1961.0625,
+            "x": 50.99734351748511,
+            "y": 59.11952427455357
+          },
+          {
+            "alive": true,
+            "second": 1837,
+            "worldX": -89.28125,
+            "worldY": -1538.125,
+            "x": 49.584815615699405,
+            "y": 57.15273902529761
+          },
+          {
+            "alive": true,
+            "second": 1838,
+            "worldX": -625.90625,
+            "worldY": -1274.5625,
+            "x": 47.089349655877974,
+            "y": 55.92709495907739
+          },
+          {
+            "alive": true,
+            "second": 1839,
+            "worldX": -723.9375,
+            "worldY": -1044.0625,
+            "x": 46.633475167410715,
+            "y": 54.855201357886905
+          },
+          {
+            "alive": true,
+            "second": 1840,
+            "worldX": -616.90625,
+            "worldY": -1088.84375,
+            "x": 47.131202334449405,
+            "y": 55.06344749813989
+          },
+          {
+            "alive": true,
+            "second": 1841,
+            "worldX": -751.9375,
+            "worldY": -1103.96875,
+            "x": 46.50326683407739,
+            "y": 55.133783249627974
+          },
+          {
+            "alive": true,
+            "second": 1842,
+            "worldX": -735.3125,
+            "worldY": -1195.96875,
+            "x": 46.580578031994044,
+            "y": 55.56161063058036
+          },
+          {
+            "alive": true,
+            "second": 1843,
+            "worldX": -774.1875,
+            "worldY": -1076.15625,
+            "x": 46.39979771205357,
+            "y": 55.00444684709821
+          },
+          {
+            "alive": true,
+            "second": 1844,
+            "worldX": -729.15625,
+            "worldY": -852.8125,
+            "x": 46.60920642671131,
+            "y": 53.965831938244044
+          },
+          {
+            "alive": true,
+            "second": 1845,
+            "worldX": -734.78125,
+            "worldY": 44.71875,
+            "x": 46.58304850260417,
+            "y": 49.792044503348215
+          },
+          {
+            "alive": true,
+            "second": 1846,
+            "worldX": -777.03125,
+            "worldY": 391.84375,
+            "x": 46.386573428199405,
+            "y": 48.17780994233631
+          },
+          {
+            "alive": true,
+            "second": 1847,
+            "worldX": -689.0,
+            "worldY": 596.4375,
+            "x": 46.79594494047619,
+            "y": 47.226388113839285
+          },
+          {
+            "alive": true,
+            "second": 1848,
+            "worldX": -610.9375,
+            "worldY": 966.09375,
+            "x": 47.158958798363095,
+            "y": 45.507376534598215
+          },
+          {
+            "alive": true,
+            "second": 1849,
+            "worldX": -397.9375,
+            "worldY": 1191.9375,
+            "x": 48.14947219122024,
+            "y": 44.45713588169643
+          },
+          {
+            "alive": true,
+            "second": 1850,
+            "worldX": -137.09375,
+            "worldY": 1205.875,
+            "x": 49.36247326078869,
+            "y": 44.392322358630956
+          },
+          {
+            "alive": true,
+            "second": 1851,
+            "worldX": -114.0625,
+            "worldY": 1188.6875,
+            "x": 49.46957542782739,
+            "y": 44.47224934895833
+          },
+          {
+            "alive": true,
+            "second": 1852,
+            "worldX": -88.625,
+            "worldY": 829.8125,
+            "x": 49.587867373511905,
+            "y": 46.141124906994044
+          },
+          {
+            "alive": true,
+            "second": 1853,
+            "worldX": -409.0625,
+            "worldY": 210.6875,
+            "x": 48.09773763020833,
+            "y": 49.020240420386905
+          },
+          {
+            "alive": true,
+            "second": 1854,
+            "worldX": -1171.28125,
+            "worldY": 0.0625,
+            "x": 44.55319359188989,
+            "y": 49.99970935639881
+          },
+          {
+            "alive": true,
+            "second": 1855,
+            "worldX": -1895.34375,
+            "worldY": 59.46875,
+            "x": 41.186087472098215,
+            "y": 49.72345261346726
+          },
+          {
+            "alive": true,
+            "second": 1856,
+            "worldX": -2618.28125,
+            "worldY": 8.59375,
+            "x": 37.824212937127974,
+            "y": 49.96003650483631
+          },
+          {
+            "alive": true,
+            "second": 1857,
+            "worldX": -2949.28125,
+            "worldY": -180.0625,
+            "x": 36.284964425223215,
+            "y": 50.837344215029766
+          },
+          {
+            "alive": true,
+            "second": 1858,
+            "worldX": -2645.09375,
+            "worldY": -166.53125,
+            "x": 37.69952683221726,
+            "y": 50.774419875372026
+          },
+          {
+            "alive": true,
+            "second": 1859,
+            "worldX": -2827.6875,
+            "worldY": -452.75,
+            "x": 36.850411551339285,
+            "y": 52.10542224702381
+          },
+          {
+            "alive": true,
+            "second": 1860,
+            "worldX": -3017.21875,
+            "worldY": -635.125,
+            "x": 35.969034830729164,
+            "y": 52.95352027529761
+          }
+        ],
+        "toSecond": 1860
+      },
+      "reviewWarnings": [
+        "Camp HUD markers do not establish camp life, health or respawn timers.",
+        "Recorded lane markers do not establish living wave counts or reviewed lane states.",
+        "The recorded destination has not been reviewed as the optimal move."
+      ],
+      "source": {
+        "accountId": 87624911,
+        "assetDefinitionsVersionVerified": true,
+        "averageBadge": 112.91666666666667,
+        "buildEvidenceSha256": "6d07ee6fc8d1f8d625556a572d9dc8d079614f6999681883a9f350bae65140ed",
+        "campVisibilityVerified": true,
+        "catalogSha256": "2b2e1401f3966ac4fd30c21c742eb7e02bebb8e25a30b7baab21e0c2319692c6",
+        "clientVersion": 6795,
+        "clientVersionEvidence": "Valve demo header /opt/srcds/deadlock/citadel_v6795/citadel; sha256 54407d60c126c08748623eb00fb1df3d471220227e3f605b7949b4b8497ee18c",
+        "clockCalibrationSha256": "74862dbe2ec2b63b7493380d67ece159b0185d5f708440a386d9a372ddb4e4e1",
+        "clockStartSeconds": 116.0,
+        "clockTickRate": 64,
+        "controllerTick": 115201,
+        "controllersSha256": "578573b0d943e073b5fbe5da2b3064432f42858c2efb98dd6e456483af30534a",
+        "fowSnapshot": {
+          "ageTicks": 0,
+          "campEntityMappingSha256": "4dd4615cdca301d6abc8096f8f4e03e26aa3ac08cea3ef97ff842261c47d2a20",
+          "campNodesExpected": 51,
+          "campNodesMatched": 51,
+          "campRespawnBasis": "Unknown; no countdown is emitted",
+          "campStateBasis": "bVisibleOnMap is replay HUD marker availability, not HP or a camp death inference",
+          "entityIndex": 56,
+          "gameTime": 1800,
+          "heroNodesExpected": 12,
+          "heroNodesMatched": 12,
+          "positionEncoding": "x=uint8/255*100; y=100-uint8/255*100",
+          "snapshotTick": 115201,
+          "sources": {
+            "fowSha256": "0985284358684a56b504dfc269a3bca44eb83d1c7abd82efdefaad671138ae20",
+            "metadataSha256": "4290225651c66ea1e58688e460a76cef7f2827481ad82309acadc60bca945a6d",
+            "trooperCalibrationSha256": "ad3a16e565139bf6d0c9a20ea59b4e06b018656f1bc00b97fc1912878d3d50f9",
+            "troopersSha256": "98afcf1814e9b3616c53be7d9ab331eb2b4eee4ec940c02c04987ca8a4e8bcc7"
+          },
+          "targetTick": 115201,
+          "team": 3,
+          "unknownCampReasons": {},
+          "visibilityUnknownReason": null
+        },
+        "gameClockSeconds": 1916.0,
+        "gameDirectory": "/opt/srcds/deadlock/citadel_v6795/citadel",
+        "gameMode": 1,
+        "heroesDefinitionSha256": "0a987618e380a677e5635f5bb85eac72c151a5136791441fa6630a3d0ba50964",
+        "identityBasis": "\"120372102\"|1792429141|87624911|116",
+        "identitySha256": "601b5be6b82fe2187424bf3a40d0576569c8efb312b81f97a9c5aa33b6086965",
+        "inventorySha256": "578573b0d943e073b5fbe5da2b3064432f42858c2efb98dd6e456483af30534a",
+        "itemsDefinitionSha256": "1f6fc3760e03addf2c918d7ee3b9ef59705668258ba3a7b1d0d44f04c6bb7b34",
+        "kind": "match",
+        "laneStatesVerified": false,
+        "mapDefinitionSha256": "4daf179af39392e573247dbd35234b8d0bc3aa05f6b1d96f97b422647c42632c",
+        "mapDefinitionUrl": "https://api.deadlock-api.com/v1/assets/map?client_version=6795",
+        "mapImage": "assets/minimap.png",
+        "mapImageSha256": null,
+        "mapRadius": 10752,
+        "mapVerified": true,
+        "matchId": "120372102",
+        "matchMode": 4,
+        "metadataSha256": "4290225651c66ea1e58688e460a76cef7f2827481ad82309acadc60bca945a6d",
+        "metadataUrl": "https://api.deadlock-api.com/v1/matches/120372102/metadata",
+        "movementCalibrationSha256": "3b83473459e4390cf2f14803687cef6feb52936c4beb30485cdc42044a419f6d",
+        "movementProjectionSha256": "1b951e19f31faf340710f1032f202dc9bfeaae2c8996141d0ee85b2e87ef989b",
+        "movementRowsSha256": "91d99c69fb8712212b34b75327c740d40062e6164404891b572338806646c13e",
+        "movementSha256": "91d99c69fb8712212b34b75327c740d40062e6164404891b572338806646c13e",
+        "movementVerified": true,
+        "objectiveTick": 115201,
+        "objectivesDownReason": "metadata team_objective_id and destroyed_time_s mapped to catalog objectives",
+        "objectivesDownUnknown": false,
+        "objectivesDownVerified": true,
+        "objectivesSha256": "84940a0bfb1d353eb484ad7c8e015496deb6e3afa5aeda9f9fac3aef819406f3",
+        "objectivesVerified": true,
+        "pathFormat": {
+          "formula": "min+(max-min)*encoded/resolution",
+          "intervalSeconds": 1.0,
+          "xResolution": 16383,
+          "yResolution": 16383
+        },
+        "playerName": "Ascendant VI player",
+        "playerRank": 116,
+        "rankBasis": "initial_display_rank_all_12",
+        "rankVerified": true,
+        "recordedMovementBasis": "replay pawn 1Hz",
+        "replayBuildNum": 10932,
+        "replayHeaderSha256": "9c1fb899d70f737c304e369df9f691d0e1efaeae6dda38cd8ed240f091f976e0",
+        "replaySourceUrl": "http://replay404.valve.net/1422450/120372102_135342327.dem.bz2",
+        "roundEvidence": {
+          "answerDelaySeconds": 60,
+          "answerSampleSecond": 1860,
+          "movementControllerEntityIndex": 7,
+          "movementControllerHandle": 14630919,
+          "movementControllerHeroId": 78,
+          "movementControllerSteamId": 76561198047890639,
+          "movementPawnEntityIndex": 81,
+          "movementPawnHandle": 81,
+          "movementPawnHeroId": 78,
+          "movementRawPawnHeroId": null,
+          "movementWorldUnits": 2748.7442667416904,
+          "pathSampleSeconds": {
+            "10": 1800.0,
+            "11": 1800.0,
+            "12": 1800.0,
+            "7": 1800.0,
+            "8": 1800.0,
+            "9": 1800.0
+          },
+          "statsSampleSeconds": {
+            "1": 1800,
+            "10": 1800,
+            "11": 1800,
+            "12": 1800,
+            "2": 1800,
+            "3": 1800,
+            "4": 1800,
+            "5": 1800,
+            "6": 1800,
+            "7": 1800,
+            "8": 1800,
+            "9": 1800
+          },
+          "statsTimestamp": 1800
+        },
+        "serverStartTick": 7423,
+        "snapshotTick": 115201,
+        "startTime": 1792429141,
+        "trooperFOWSnapshot": {
+          "ageTicks": 0,
+          "codecScope": "empirically calibrated only for match 120372102",
+          "entityIndex": 2902,
+          "flagMapping": {
+            "4": "sapphire",
+            "5": "amber"
+          },
+          "gameTime": 1800,
+          "matchId": "120372102",
+          "snapshotTick": 115201,
+          "sources": {
+            "trooperCalibrationSha256": "ad3a16e565139bf6d0c9a20ea59b4e06b018656f1bc00b97fc1912878d3d50f9",
+            "troopersSha256": "98afcf1814e9b3616c53be7d9ab331eb2b4eee4ec940c02c04987ca8a4e8bcc7"
+          },
+          "targetTick": 115201,
+          "updateIntervalSeconds": 0.2,
+          "visibleTroopers": 128
+        },
+        "visibilityVerified": true
+      },
+      "time": 1800,
+      "you": "10"
+    }
+  ],
+  "title": "Recorded replay practice: Ascendant VI player"
+}

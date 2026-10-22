@@ -179,8 +179,9 @@ export function selectPracticeReferences(library, previousSeen = [], random = Ma
   while (selected.length < count) {
     let available = all.filter(ref => !seen.has(practiceReferenceKey(ref)) && !selectedKeys.has(practiceReferenceKey(ref)));
     if (!available.length) {
-      // Preserve this run across a cycle boundary so a round never occurs twice in a set.
-      seen = new Set(selectedKeys);
+      // Coverage starts anew; selectedKeys independently prevents duplicates within this set.
+      // Its old-cycle tail has not yet been served in the new coverage cycle.
+      seen = new Set();
       available = all.filter(ref => !selectedKeys.has(practiceReferenceKey(ref)));
     }
     const distinct = available.filter(ref => !matches.has(ref.matchId));
