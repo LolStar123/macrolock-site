@@ -117,7 +117,6 @@ h1:focus { outline: none; }
 .player .empty-item, .player .items[data-count="0"] { display: none; }
 .item.on-cooldown > img { filter: brightness(.43); }
 .item-cooldown { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font: 11px var(--mono); text-shadow: 0 1px 2px #000; }
-.item[data-tip]:hover::after { content: attr(data-tip); position: absolute; bottom: calc(100% + 8px); left: 0; background: var(--text); color: var(--ink); padding: 7px 10px; font-size: 11px; line-height: 1.4; border-radius: 6px; white-space: nowrap; z-index: 45; pointer-events: none; box-shadow: 0 4px 18px #0004; }
 .snapshot-wallet { display: flex; align-items: center; gap: 4px; color: var(--muted); font: 9px var(--mono); margin-top: 7px; }
 .snapshot-wallet img { width: 11px; height: 11px; object-fit: contain; }
 
@@ -266,6 +265,8 @@ button.match-perspective:active { scale: 1; }
 .lobby-glance { display: none; }
 .recorded-destination-halo { fill: #172418; stroke: var(--green); stroke-width: .4; }
 .recorded-destination-dot { fill: var(--green); stroke: #172418; stroke-width: .15; }
+.native-map-plane .native-poi.teleporter.unknown img { opacity: .62; }
+.native-map-plane .native-poi.teleporter.unavailable img { opacity: .35; }
 .play-table.is-revealing .answer-overlay, .play-table.is-revealing .feedback { animation: reveal-result 160ms ease-out both; }
 @keyframes reveal-result { from { opacity: .1; } to { opacity: 1; } }
 
@@ -287,6 +288,11 @@ button.match-perspective:active { scale: 1; }
   .player-top { min-height: 34px; }
   .match-bar { min-height: 68px; padding-inline: 17px; }
   .team-heading { min-height: 42px; }
+}
+@media (min-width: 851px) and (max-height: 820px) {
+  /* Reserve the full feedback row before revealing, keeping the map stable. */
+  .play-table { --map-size: min(560px, calc(100svh - 338px)); }
+  .feedback:has(#next-button) { align-items: flex-start; }
 }
 @media (max-width: 1120px) and (min-width: 851px) {
   #app { padding-inline: 22px; }

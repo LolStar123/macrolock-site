@@ -28,6 +28,24 @@ export function healthLabel(health) {
   return Number.isFinite(health) ? `${Math.round(Math.max(0, Math.min(100, health)))}% HP` : 'HP unknown';
 }
 
+/** Static teleporter geometry is known even when this snapshot has no activation evidence. */
+export function teleporterTargets(map, scenario) {
+  return (map.pois || []).filter(poi => poi.kind === 'teleporter').map(poi => {
+    const measured = scenario.poiStates?.[poi.id]?.active;
+    const state = typeof measured === 'boolean' ? measured ? 'available' : 'unavailable' : Array.isArray(scenario.activePois) && scenario.activePois.includes(poi.id) ? 'available' : 'unknown';
+    const location = `${poi.y < 50 ? 'North' : 'South'} ${poi.x < 50 ? 'west' : 'east'}`;
+    const status = state === 'unknown' ? 'Availability unknown' : state === 'available' ? 'Available' : 'Unavailable';
+    return {...poi, state, name:`Teleporter \u00b7 ${location}`, status, label:`Teleporter \u00b7 ${location} \u00b7 ${status}`};
+  });
+}
+
+export function modeURL(href, mode) {
+  const url = new URL(href);
+  if (mode === 'daily') url.searchParams.set('mode', 'daily');
+  else url.searchParams.delete('mode');
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+
 /** Camp IDs carry the authored map location, making otherwise identical names distinct. */
 export function namedCampTargets(camps, yourTeam) {
   return camps.map(camp => {

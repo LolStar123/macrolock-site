@@ -1,6 +1,7 @@
-import { scoreChoice, calculateTotal, serializeShare, validateChallenge, validatePracticeLibrary, validatePracticeReferences, selectPracticeReferences, assemblePracticeSession, isPracticeRoundEligible } from './engine.js';
+import { calculateTotal, serializeShare, validateChallenge, validatePracticeLibrary, validatePracticeReferences, selectPracticeReferences, assemblePracticeSession, isPracticeRoundEligible } from './engine.js';
 import { deadHeroStrip } from './snapshot-status.js';
-import { presentPlayer, ultimateState, healthLabel, namedCampTargets, recordedTargetSecond, isCompletedRunStale } from './presentation.js';
+import { presentPlayer, ultimateState, healthLabel, namedCampTargets, recordedTargetSecond, isCompletedRunStale, teleporterTargets, modeURL } from './presentation.js';
+import {restoreRun, transitionRun, createSharedCoordinator} from './shared-run.js';
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const app = $('#app');
@@ -13,6 +14,8 @@ const clamp = (v) => Math.max(0, Math.min(100, v));
 const fmt = (value) => Number(value).toFixed(1);
 let catalog, practice, challenge, daily, mode = 'practice', index = 0, results = [], selected = null, review = false, finished = false, completedAt = null, dialogOpener = null, toastTimer;
 let storageAvailable = true;
+const memoryStorage = new Map();
+const coordinate = createSharedCoordinator({onUnavailable:() => { storageAvailable = false; }});
 let disposeMapInspection = () => {};
 let practiceLibrary = null, practiceFallback = null, practiceLoading = null, modeRequest = 0;
 const practicePacks = new Map();
@@ -25,9 +28,13 @@ function gameIcon(kind, extraClass = '') {
 }
 
 function readStorage(key, fallback) {
-  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { storageAvailable = false; return fallback; }
+  if (!storageAvailable) return memoryStorage.get(key) ?? fallback;
+  try { const value = JSON.parse(localStorage.getItem(key)) ?? fallback; memoryStorage.set(key, value); return value; }
+  catch { storageAvailable = false; return memoryStorage.get(key) ?? fallback; }
 }
 function writeStorage(key, value) {
+  memoryStorage.set(key, value);
+  if (!storageAvailable) return;
   try { localStorage.setItem(key, JSON.stringify(value)); } catch { storageAvailable = false; }
 }
 function getHistory() {
@@ -35,9 +42,40 @@ function getHistory() {
   return Array.isArray(rows) ? rows.filter(r => r && typeof r === 'object' && typeof r.id === 'string' && Number.isFinite(r.score) && r.score >= 0 && r.score <= 10) : [];
 }
 function key() { return `macrolock:run:binary-v1:${mode}:${challenge.id}:${challenge.date || 'v1'}`; }
-function persist() {
-  if (finished && !completedAt) completedAt = new Date().toISOString();
-  writeStorage(key(), { version: 2, index, results, selected, finished, completedAt:finished ? completedAt : null });
+let appliedRunKey = null, appliedRevision = -1;
+function applyRun(run) {
+  const identity = key();
+  if (identity === appliedRunKey && run.revision < appliedRevision) return false;
+  appliedRunKey = identity; appliedRevision = run.revision;
+  ({index, results, selected, finished, completedAt} = run); review = false;
+  return true;
+}
+function displayedRun() { return {index, results, selected, finished, completedAt}; }
+function currentPracticeSession() { return readStorage(practiceSessionKey, null); }
+function currentSessionMatches(id = challenge?.id) { return mode !== 'practice' || currentPracticeSession()?.id === id; }
+function showCurrentRun({reveal = false, focus = false} = {}) {
+  if (finished) { renderResults(); if (focus) scrollTop(); }
+  else {
+    renderRound({reveal});
+    if (focus) { scrollTop(); focusContent(results[index] ? '#next-button' : '#map-input'); }
+  }
+}
+async function mutateRun(command) {
+  const source = challenge, sourceMode = mode;
+  const outcome = await coordinate(() => {
+    if (challenge !== source || mode !== sourceMode || !currentSessionMatches(source.id)) return null;
+    const before = restoreRun(readStorage(key(), null), source.scenarios);
+    const after = transitionRun(before, command, source.scenarios);
+    if (after !== before) writeStorage(key(), after);
+    return {run:after, accepted:after !== before};
+  });
+  if (challenge !== source || mode !== sourceMode) return false;
+  if (!outcome) { await setMode('practice'); toast('Practice updated in another tab.'); return false; }
+  const changed = JSON.stringify(displayedRun()) !== JSON.stringify({index:outcome.run.index,results:outcome.run.results,selected:outcome.run.selected,finished:outcome.run.finished,completedAt:outcome.run.completedAt});
+  if (!applyRun(outcome.run)) return false;
+  if (outcome.run.finished) recordCompletion();
+  if (command.type !== 'pin' || changed) showCurrentRun({reveal:command.type === 'lock' && outcome.accepted, focus:command.type !== 'pin' || !outcome.accepted});
+  return outcome.accepted;
 }
 function heroData(player) { return Object.hasOwn(catalog.heroes,player.hero) ? catalog.heroes[player.hero] : { name: String(player.hero), image: null }; }
 function itemData(id) { return Object.hasOwn(catalog.items,id) ? catalog.items[id] : {name:`Item ${id}`,type:'unknown'}; }
@@ -71,7 +109,7 @@ function heldItem(id, player) {
   const cooldown = player.itemCooldowns?.[id];
   const unknown = cooldown === null || (item.active === true && !Number.isFinite(cooldown));
   const cooldownText = unknown ? 'Cooldown unknown' : Number.isFinite(cooldown) ? cooldownLabel(cooldown) : '';
-  return `<span class="item ${escape(item.type)} ${cooldown > 0 ? 'on-cooldown' : ''}" data-tip="${escape(item.name)}${cooldownText ? ` · ${cooldownText}` : ''}" role="img" aria-label="${escape(item.name)}${cooldownText ? `, ${cooldownText}` : ''}">${item.image ? `<img src="${escape(item.image)}" alt="" loading="lazy" width="22" height="22">` : `<span aria-hidden="true">${escape(item.name.slice(0, 2))}</span>`}${unknown ? '<span class="item-cooldown">?</span>' : cooldown > 0 ? `<span class="item-cooldown">${Math.ceil(cooldown)}</span>` : ''}</span>`;
+  return `<span class="item ${escape(item.type)} ${cooldown > 0 ? 'on-cooldown' : ''}" title="${escape(item.name)}${cooldownText ? ` · ${cooldownText}` : ''}" role="img" aria-label="${escape(item.name)}${cooldownText ? `, ${cooldownText}` : ''}">${item.image ? `<img src="${escape(item.image)}" alt="" loading="lazy" width="22" height="22">` : `<span aria-hidden="true">${escape(item.name.slice(0, 2))}</span>`}${unknown ? '<span class="item-cooldown">?</span>' : cooldown > 0 ? `<span class="item-cooldown">${Math.ceil(cooldown)}</span>` : ''}</span>`;
 }
 function toast(message) {
   $('#toast').textContent = message;
@@ -151,6 +189,7 @@ function staticTargets(scenario) {
   if (scenario.midbossAlive === true) targets.push({ id: 'midboss', x: 50, y: 50, label: 'Mid Boss' });
   targets.push(...namedCampTargets(mapFor(scenario).camps || [], scenario.players.find(p => p.id === scenario.you).team));
   targets.push(...waveTargets(scenario));
+  targets.push(...teleporterTargets(mapFor(scenario), scenario));
   targets.push(...(scenario.signals || []).map(s => ({ ...s, label: s.label })));
   return targets;
 }
@@ -187,7 +226,8 @@ function inspectionTargets(scenario, stage) {
   if (boss) targets.push({id:'midboss',named:true,element:boss,x:50,y:50,name:'Mid Boss',image:catalog.icons?.midboss,meta:'Available'});
   for (const node of stage.querySelectorAll('[data-map-poi]')) {
     const poi = (map.pois || []).find(p => p.id === node.dataset.mapPoi);
-    if (poi) targets.push({id:poi.id,named:true,element:node,x:poi.x,y:poi.y,name:poi.label || poi.kind,image:poi.icon,meta:poi.team ? relation(poi.team) : ''});
+    const teleporter = teleporterTargets(map, scenario).find(target => target.id === poi?.id);
+    if (poi) targets.push({id:poi.id,named:true,element:node,x:poi.x,y:poi.y,name:teleporter?.name || poi.label || poi.kind,image:poi.icon,meta:teleporter?.status || (poi.team ? relation(poi.team) : '')});
   }
   return targets.filter(t => Number.isFinite(t.x) && Number.isFinite(t.y));
 }
@@ -308,7 +348,7 @@ function waveTargets(scenario) {
   return (scenario.laneStates || []).flatMap(lane => lane.waves.map(wave => ({...wave,label:`${lane.label} · ${wave.count} ${wave.team} troopers`,kind:'wave'})));
 }
 function nativeWaves(scenario, you) {
-  if (Array.isArray(scenario.minimapTroopers)) return scenario.minimapTroopers.map(t => `<div class="native-trooper ${t.team === you.team ? 'friend' : 'enemy'}" style="left:${t.x}%;top:${t.y}%" data-wave="${escape(t.id)}" title="${t.team === you.team ? 'Friendly' : 'Enemy'} trooper">${gameIcon(t.team === you.team ? 'waveFriendly' : 'wave')}</div>`).join('');
+  if (Array.isArray(scenario.minimapTroopers)) return `<div class="raw-trooper-feed" aria-hidden="true">${scenario.minimapTroopers.map(t => `<div class="native-trooper ${t.team === you.team ? 'friend' : 'enemy'}" style="left:${t.x}%;top:${t.y}%" data-wave="${escape(t.id)}" title="${t.team === you.team ? 'Friendly' : 'Enemy'} trooper">${gameIcon(t.team === you.team ? 'waveFriendly' : 'wave')}</div>`).join('')}</div>`;
   return (scenario.laneStates || []).map(lane => lane.waves.map(wave => {
     // The snapshot pack is frozen at its recorded anchor and bearing. Each dot
     // uses Valve's actual trooper texture; counts are never inferred from heroes.
@@ -361,7 +401,12 @@ function mapContent(scenario, result) {
     return `<div class="map-camp native-camp ${escape(c.kind)} ${known ? '' : 'unknown'}" data-camp="${escape(c.id)}" style="left:${c.x}%;top:${c.y}%" title="${escape(c.label)}${known ? '' : ' · unknown'}">${image ? `<img src="${escape(image)}" alt="${escape(c.label)}" draggable="false">` : ''}</div>`;
   }).join('');
   const activePois = new Set(Array.isArray(scenario.activePois) ? scenario.activePois : []);
-  const pois = (map.pois || []).filter(p => p.kind === 'shop' ? (!p.team || p.team === you.team) : activePois.has(p.id)).map(p => `<div class="map-poi native-poi ${escape(p.kind)}" data-map-poi="${escape(p.id)}" style="left:${p.x}%;top:${p.y}%" title="${escape(p.label || p.kind)}">${p.icon ? `<img src="${escape(p.icon)}" alt="${escape(p.label || p.kind)}" draggable="false">` : ''}</div>`).join('');
+  const teleporters = teleporterTargets(map, scenario);
+  const pois = (map.pois || []).filter(p => p.kind === 'teleporter' || (p.kind === 'shop' ? (!p.team || p.team === you.team) : activePois.has(p.id))).map(p => {
+    const teleporter = teleporters.find(target => target.id === p.id);
+    const label = teleporter?.label || p.label || p.kind;
+    return `<div class="map-poi native-poi ${escape(p.kind)} ${teleporter?.state || ''}" data-map-poi="${escape(p.id)}" style="left:${p.x}%;top:${p.y}%" title="${escape(label)}">${p.icon ? `<img src="${escape(p.icon)}" alt="${escape(label)}" draggable="false">` : ''}</div>`;
+  }).join('');
   const boss = scenario.midbossAlive === true ? `<div class="map-marker native-midboss" data-map-boss="midboss" style="left:50%;top:50%" title="Mid Boss">${gameIcon('midboss')}</div>` : '';
   const markers = scenario.players.filter(p => p.alive && p.x != null && p.y != null && (p.team === you.team || p.visible === true)).map(p => {
     const hero = heroData(p);
@@ -397,7 +442,7 @@ function renderRound({reveal = false} = {}) {
   const targetSecond = recordedTargetSecond(s);
   const matchClock = `<span class="match-clock" role="img" aria-label="Match time ${clock(s.time)}${targetSecond === null ? '' : `, recorded position at ${clock(targetSecond)}`}">${clock(s.time)}${targetSecond === null ? '' : `<span class="target-clock" aria-hidden="true"> &rarr; ${clock(targetSecond)}</span>`}</span>`;
   const heading = result ? result.score === 1 ? 'Matched.' : 'Different move.' : 'Where will you go next?';
-  app.innerHTML = `<section class="intro"><div class="eyebrow"><span class="round-counter" aria-label="Round ${index + 1} of 10">${String(index + 1).padStart(2, '0')} <span>/ 10</span></span></div><h1 id="round-title" tabindex="-1">${heading}</h1><div class="round-progress" role="img" aria-label="Round ${index + 1} of 10; ${calculateTotal(results)} correct decisions">${challenge.scenarios.map((_, i) => `<span class="progress-pip ${i === index ? 'current ' : ''}${results[i] ? `done ${results[i].score === 1 ? 'correct' : 'wrong'}` : ''}" aria-hidden="true">${results[i] ? outcomeMark(results[i].score) : ''}</span>`).join('')}</div></section>
+  app.innerHTML = `<section class="intro"><div class="eyebrow"><span class="round-counter" aria-label="Round ${index + 1} of 10">${String(index + 1).padStart(2, '0')} <span>/ 10</span></span></div><h1 id="round-title" tabindex="-1">${heading}</h1><div class="round-progress" role="img" aria-label="Round ${index + 1} of 10; ${calculateTotal(results)} recorded move${calculateTotal(results) === 1 ? '' : 's'} matched">${challenge.scenarios.map((_, i) => `<span class="progress-pip ${i === index ? 'current ' : ''}${results[i] ? `done ${results[i].score === 1 ? 'correct' : 'wrong'}` : ''}" aria-hidden="true">${results[i] ? outcomeMark(results[i].score) : ''}</span>`).join('')}</div></section>
   <section class="play-table ${reveal ? 'is-revealing' : ''}" style="--ally:#ffefd7;--enemy:#ef9886">${teamPanel(s, you.team)}<div class="map-column"><div class="map-frame ${result ? 'has-result' : ''}"><div class="match-bar"><button class="match-perspective" id="locate-you" aria-label="Locate ${escape(heroData(you).name)}, you, on the map">${portrait(you, 'mini-portrait')}<span><span class="perspective-label">You are</span><strong>${escape(heroData(you).name)}</strong></span></button><div class="match-state">${matchClock}${soulDifference(s,you)}</div><div class="alive-summary" aria-label="${yours} allies alive, ${theirs} enemies alive"><span style="color:var(--ally)">${yours} alive</span><span class="alive-divider">/</span><span style="color:var(--enemy)">${theirs} alive</span></div></div>${lobbyGlance(s, you)}${nativeMapStage(s, result)}</div><div id="decision-area" aria-live="polite">${result ? feedbackHTML(s, result) : decisionHTML()}</div>${result ? '<div class="feedback-key"><span class="key-entry"><span class="key-ring"></span>Recorded move</span><span class="key-entry"><span class="key-ring choice"></span>Your pin</span></div>' : `<details class="accessible-targets"><summary>Choose a location</summary><div class="target-options">${staticTargets(s).map(t => `<button data-target="${escape(t.id)}">${escape(t.label)}</button>`).join('')}</div></details>`}${review ? `<div class="review-nav"><button id="prev-review" ${index === 0 ? 'disabled' : ''}>&larr; Previous</button><span>${index + 1} / 10</span><button id="next-review" ${index === 9 ? 'disabled' : ''}>Next &rarr;</button><button class="back-results" id="back-results">Results</button></div>` : ''}${!storageAvailable ? '<p class="storage-warning">Browser storage is unavailable. This run will not survive a refresh.</p>' : ''}</div>${teamPanel(s, you.team === 'amber' ? 'sapphire' : 'amber')}</section>`;
   attachRound();
 }
@@ -437,7 +482,7 @@ function place(point, announce = true) {
   $('#decision-area').innerHTML = decisionHTML();
   $('#lock-button').addEventListener('click', lock);
   if (announce) $('#map-input').setAttribute('aria-label', `${locationName(selected)} selected. Arrow keys move the pin. Enter locks your choice.`);
-  persist();
+  void mutateRun({type:'pin', index, scenarioId:challenge.scenarios[index].id, point:{...selected}});
 }
 function attachRound() {
   const map = $('#map-input');
@@ -474,20 +519,16 @@ function attachRound() {
   $('.target-options')?.addEventListener('click', e => {
     const button = e.target.closest('[data-target]'); if (!button) return;
     const t = staticTargets(challenge.scenarios[index]).find(t => t.id === button.dataset.target);
-    if (t) { place(t); inspection.inspectTarget(t.id); $('#lock-button').focus(); }
+    if (t) { place(t); inspection.inspectTarget(t.id); $('#lock-button')?.focus(); }
   });
 }
 function lock() {
   if (!selected || results[index] || review || finished) return;
-  const s = challenge.scenarios[index];
-  const result = { ...scoreChoice(s, selected), point: { ...selected }, scenarioId: s.id };
-  results[index] = result;
-  persist(); renderRound({reveal:true}); scrollTop(); $('#next-button')?.focus({ preventScroll: true });
+  void mutateRun({type:'lock', index, scenarioId:challenge.scenarios[index].id, point:{...selected}});
 }
 function next() {
   if (!results[index] || review) return;
-  if (index === 9) { finished = true; persist(); recordCompletion(); renderResults(); scrollTop(); }
-  else { index++; selected = null; persist(); renderRound(); scrollTop(); $('#map-input').focus({ preventScroll: true }); }
+  void mutateRun({type:'next', index, scenarioId:challenge.scenarios[index].id});
 }
 function scrollTop() { window.scrollTo({ top: 0, behavior: 'instant' }); }
 function focusContent(selector = 'h1') {
@@ -517,8 +558,7 @@ function renderResults() {
   $('#share-button').addEventListener('click', share);
   $('#replay-button').addEventListener('click', () => {
     if (mode === 'daily') return setMode('practice');
-    if (practiceLibrary) return setMode('practice', {fresh:true});
-    index = 0; results = []; selected = null; review = false; finished = false; completedAt = null; persist(); renderRound(); scrollTop(); focusContent();
+    return setMode('practice', {fresh:true});
   });
   app.querySelectorAll('[data-review]').forEach(b => b.addEventListener('click', () => { index = Number(b.dataset.review); review = true; renderRound(); scrollTop(); focusContent(); }));
   focusContent('#results-title');
@@ -531,54 +571,53 @@ async function share() {
     $('.copy-fallback').focus(); $('.copy-fallback').select();
   }
 }
-function loadRun() {
-  const saved = readStorage(key(), null);
-  index = 0; results = []; selected = null; review = false; finished = false; completedAt = null;
-  if (saved?.version !== 2 || !Array.isArray(saved.results)) return;
-  if (mode === 'practice' && isCompletedRunStale(saved, today)) { persist(); return; }
-  const restored = [];
-  for (let i = 0; i < Math.min(10, saved.results.length); i++) {
-    const r = saved.results[i];
-    if (!r || r.scenarioId !== challenge.scenarios[i].id || !r.point || !Number.isFinite(r.point.x) || !Number.isFinite(r.point.y)) break;
-    try { restored.push({ ...scoreChoice(challenge.scenarios[i], r.point), point: r.point, scenarioId: r.scenarioId }); } catch { break; }
-  }
-  results = restored;
-  finished = saved.finished === true && results.length === 10;
-  if (finished) {
-    completedAt = typeof saved.completedAt === 'string' && Number.isFinite(Date.parse(saved.completedAt)) ? saved.completedAt : new Date().toISOString();
-  }
-  // A locked round stays on its feedback until Next is pressed.
-  index = Math.max(0, Math.min(9, Number.isInteger(saved.index) ? saved.index : results.length, results.length));
-  const p = saved.selected;
-  if (!results[index] && p && Number.isFinite(p.x) && Number.isFinite(p.y) && p.x >= 0 && p.x <= 100 && p.y >= 0 && p.y <= 100) selected = p;
-  // An older finished run gains a date on upgrade, preserving its results for today.
-  if (finished && completedAt !== saved.completedAt) persist();
+async function loadRun() {
+  const source = challenge, sourceMode = mode, sourceKey = key();
+  const run = await coordinate(() => {
+    const saved = readStorage(sourceKey, null);
+    const restored = restoreRun(saved, source.scenarios);
+    writeStorage(sourceKey, restored);
+    return restored;
+  });
+  if (source === challenge && sourceMode === mode) applyRun(run);
 }
+function newSessionId() { return `practice-session-${crypto.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`}`; }
 async function preparePracticeSession(fresh = false) {
-  if (!practiceLibrary) return practiceFallback;
-  let saved = fresh ? null : readStorage(practiceSessionKey, null);
-  if (saved?.id && isCompletedRunStale(readStorage(`macrolock:run:binary-v1:practice:${saved.id}:v1`, null), today)) saved = null;
-  const canResume = typeof saved?.id === 'string' && /^practice-session-[a-zA-Z0-9-]+$/.test(saved.id) && validatePracticeReferences(practiceLibrary, saved.references);
-  if (saved && !canResume) toast('Practice refreshed. Your previous set is unavailable.');
-  const selection = canResume ? saved : selectPracticeReferences(practiceLibrary, readStorage(practiceSeenKey, []));
-  const id = canResume ? saved.id : `practice-session-${crypto.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`}`;
+  const selection = await coordinate(() => {
+    let saved = fresh ? null : currentPracticeSession();
+    if (saved?.id && isCompletedRunStale(readStorage(`macrolock:run:binary-v1:practice:${saved.id}:v1`, null), new Date().toISOString().slice(0,10))) saved = null;
+    const validId = typeof saved?.id === 'string' && /^practice-session-[a-zA-Z0-9-]+$/.test(saved.id);
+    if (validId && (saved.kind === 'fallback' || (practiceLibrary && validatePracticeReferences(practiceLibrary, saved.references)))) return saved;
+    if (saved) toast('Practice refreshed. Your previous set is unavailable.');
+    const picked = practiceLibrary ? selectPracticeReferences(practiceLibrary, readStorage(practiceSeenKey, [])) : null;
+    const session = picked ? {id:newSessionId(), references:picked.references} : {id:newSessionId(), kind:'fallback'};
+    if (!fresh && !saved && session.kind === 'fallback') {
+      const legacy = readStorage(`macrolock:run:binary-v1:practice:${practiceFallback.id}:${practiceFallback.date || 'v1'}`, null);
+      if (legacy && !isCompletedRunStale(legacy, new Date().toISOString().slice(0,10))) writeStorage(`macrolock:run:binary-v1:practice:${session.id}:v1`, restoreRun(legacy, practiceFallback.scenarios));
+    }
+    writeStorage(practiceSessionKey, session);
+    if (picked) writeStorage(practiceSeenKey, picked.seen);
+    return session;
+  });
+  if (selection.kind === 'fallback') return {...practiceFallback, id:selection.id};
   const entries = [...new Set(selection.references.map(ref => ref.packId))].map(packId => practiceLibrary.packs.find(pack => pack.id === packId));
   try {
     await Promise.all(entries.map(async entry => {
       if (!practicePacks.has(entry.id)) practicePacks.set(entry.id, await getJSON(entry.path));
     }));
-    const candidate = assemblePracticeSession(practiceLibrary, selection.references, practicePacks, id);
-    if (!canResume) {
-      writeStorage(practiceSessionKey, {id, references:selection.references});
-      writeStorage(practiceSeenKey, selection.seen);
-    }
+    const candidate = assemblePracticeSession(practiceLibrary, selection.references, practicePacks, selection.id);
+    // Another tab may have started a fresh set while these packs were loading.
+    if (currentPracticeSession()?.id !== selection.id) return preparePracticeSession();
     return candidate;
   } catch (error) {
     entries.forEach(entry => practicePacks.delete(entry.id));
     console.warn('Practice library unavailable:', error.message);
-    // The eligible backup set remains usable if an individual pack cannot load.
     toast('More games could not load. Showing the backup set.');
-    return practiceFallback;
+    // A backup has its own shared identity, never different scenarios under a library run ID.
+    await coordinate(() => {
+      if (currentPracticeSession()?.id === selection.id) writeStorage(practiceSessionKey, {id:newSessionId(),kind:'fallback'});
+    });
+    return preparePracticeSession();
   }
 }
 function loadPracticeSession(fresh = false) {
@@ -590,6 +629,8 @@ async function setMode(newMode, {fresh = false} = {}) {
   if (!practice) return;
   const request = ++modeRequest;
   mode = newMode;
+  challenge = null;
+  history.replaceState(history.state, '', modeURL(location.href, mode));
   $('#practice-tab').classList.toggle('active', mode === 'practice');
   $('#daily-tab').classList.toggle('active', mode === 'daily');
   $('#practice-tab').setAttribute('aria-current', mode === 'practice' ? 'page' : 'false');
@@ -600,7 +641,7 @@ async function setMode(newMode, {fresh = false} = {}) {
     app.innerHTML = `<section class="empty-state"><div class="eyebrow">${escape(today)} · Daily</div><svg class="empty-icon" viewBox="0 0 60 60" fill="none" aria-hidden="true"><path d="M16 13h28v36H16zM22 9v8m16-8v8M16 23h28" stroke="currentColor" stroke-width="1.5"/><path d="m24 35 4 4 9-10" stroke="currentColor" stroke-width="1.5"/></svg><h1>No daily yet.</h1><button class="primary" id="daily-practice">Play practice<span class="button-arrow">→</span></button></section>`;
     $('#daily-practice').addEventListener('click', () => setMode('practice')); scrollTop(); focusContent(); return;
   }
-  if (mode === 'practice' && practiceLibrary) {
+  if (mode === 'practice') {
     disposeMapInspection();
     app.innerHTML = '<div class="loading" role="status">Loading practice<span class="loading-dot">.</span></div>';
     const candidate = await loadPracticeSession(fresh);
@@ -608,14 +649,29 @@ async function setMode(newMode, {fresh = false} = {}) {
     practice = candidate;
   }
   challenge = mode === 'daily' ? daily : practice;
-  if (fresh) {
-    // Play again also starts over if a failed pack resolves to the fixed fallback id.
-    index = 0; results = []; selected = null; review = false; finished = false; completedAt = null; persist();
-  } else loadRun();
+  await loadRun();
+  if (request !== modeRequest) return;
   if (finished) renderResults(); else renderRound(); scrollTop(); focusContent();
 }
 $('#practice-tab').addEventListener('click', () => setMode('practice'));
 $('#daily-tab').addEventListener('click', () => setMode('daily'));
+
+let reconciliation = Promise.resolve();
+window.addEventListener('storage', event => {
+  if (!challenge || !storageAvailable || (event.key !== practiceSessionKey && event.key !== key())) return;
+  reconciliation = reconciliation.then(async () => {
+    if (mode === 'practice' && !currentSessionMatches()) {
+      await setMode('practice');
+      toast('Practice updated in another tab.');
+      return;
+    }
+    const source = challenge;
+    const run = await coordinate(() => restoreRun(readStorage(key(), null), source.scenarios));
+    if (source !== challenge || review) return;
+    const after = JSON.stringify({index:run.index,results:run.results,selected:run.selected,finished:run.finished,completedAt:run.completedAt});
+    if (JSON.stringify(displayedRun()) !== after && applyRun(run)) showCurrentRun({focus:true});
+  }).catch(error => { console.warn('Practice synchronization unavailable:', error.message); });
+});
 
 function inspectPlayer(id) {
   const scenario = challenge?.scenarios[index];
