@@ -54,6 +54,19 @@ function ultimateStatus(player) {
   const status = ultimateState(player);
   return `<span class="ultimate-status ${status.ready ? 'ready' : ''}" title="${escape(ability?.name || 'Ultimate')} · ${status.label}" aria-label="Ultimate: ${escape(ability?.name || '')}, ${status.label === '?' ? 'cooldown unknown' : status.label}">${ability?.image ? `<img src="${escape(ability.image)}" alt="" width="20" height="20">` : '<span class="ult-label">ULT</span>'}<span>${status.label}</span></span>`;
 }
+function outcomeMark(score) {
+  return `<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="${score === 1 ? 'm3.5 8 3 3 6-6' : 'M4.5 8h7'}" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+function lobbyGlance(scenario, you) {
+  const group = (players, relation) => `<div class="glance-team ${relation}" role="group" aria-label="${relation === 'allies' ? 'Your team' : 'Enemy team'} snapshot">${players.map(player => {
+    const hero = heroData(player), ult = ultimateState(player);
+    const hp = Number.isFinite(player.health) ? clamp(player.health) : null;
+    const healthState = hp === null ? 'unknown' : hp > 60 ? 'healthy' : hp >= 30 ? 'hurt' : 'critical';
+    const life = player.alive ? `${hp === null ? 'unknown' : Math.round(hp) + ' percent'} health` : `dead, respawns in ${Number.isFinite(player.respawn) ? Math.ceil(player.respawn) + ' seconds' : 'unknown time'}`;
+    return `<button class="glance-player ${player.id === you.id ? 'you' : ''} ${player.alive ? '' : 'dead'}" data-player="${escape(player.id)}" aria-label="${escape(hero.name)}${player.id === you.id ? ', you' : ''}. ${escape(life)}. ${escape(souls(player.souls))} souls. Ultimate ${escape(ult.label)}. Inspect items."><span class="glance-portrait">${portrait(player)}${player.alive ? '' : `${gameIcon('deathSkull','glance-skull')}<span class="glance-respawn">${Number.isFinite(player.respawn) ? Math.ceil(player.respawn) + 's' : '?'}</span>`}</span><span class="glance-health ${healthState}" role="img" aria-label="${hp === null ? 'Health unknown' : Math.round(hp) + '% health'}"><span style="width:${player.alive && hp !== null ? hp : 0}%"></span></span><span class="glance-souls">${souls(player.souls)}</span><span class="glance-ultimate ${ult.ready ? 'ready' : ''}">${hero.ultimate?.image ? `<img src="${escape(hero.ultimate.image)}" alt="" width="12" height="12">` : ''}<span>${escape(ult.label)}</span></span></button>`;
+  }).join('')}</div>`;
+  return `<div class="lobby-glance">${group(scenario.players.filter(p => p.team === you.team), 'allies')}${group(scenario.players.filter(p => p.team !== you.team), 'enemies')}</div>`;
+}
 function heldItem(id, player) {
   const item = itemData(id);
   const cooldown = player.itemCooldowns?.[id];
@@ -325,7 +338,7 @@ function mapContent(scenario, result) {
     const enemySide = you.team === 'amber' ? 'north' : 'south';
     return `<${geometry} fill="none" stroke="${escape(l.color)}" stroke-width=".4" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#native-${friendSide})"/><${geometry} fill="none" stroke="#DC4C2F" stroke-width=".4" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#native-${enemySide})"/>`;
   }).join('');
-  const zones = result ? scenario.answerZones.map(z => `<circle cx="${z.x}" cy="${z.y}" r="${z.radius}" fill="#a8c6a4" fill-opacity=".10" stroke="#a8c6a4" stroke-width=".28" stroke-dasharray="1.1 .8"/>`).join('') : '';
+  const zones = result ? scenario.answerZones.map(z => `<circle cx="${z.x}" cy="${z.y}" r="${z.radius}" fill="#a8c6a4" fill-opacity=".10" stroke="#a8c6a4" stroke-width=".28" stroke-dasharray="1.1 .8"/><circle class="recorded-destination-halo" cx="${z.x}" cy="${z.y}" r="1.7" fill="#172422" stroke="#edeade" stroke-width=".45"/><circle class="recorded-destination-dot" cx="${z.x}" cy="${z.y}" r=".7" fill="#b6d9be"/>`).join('') : '';
   const recordedPath = result && Array.isArray(scenario.recordedMove?.path) ? scenario.recordedMove.path : [];
   let previous = null;
   const routeCommands = [];
@@ -362,7 +375,7 @@ function mapContent(scenario, result) {
   return `${nativeTintFilters()}<img class="map-image native-surface" src="${escape(image)}" alt="Deadlock minimap" draggable="false" width="1024" height="1024"><svg class="map-overlay native-lines" viewBox="0 0 100 100" aria-hidden="true">${paths}</svg>${pois}${camps}${nativeWaves(scenario,you)}${objectives}${boss}${signals}${markers}<svg class="map-overlay answer-overlay" viewBox="0 0 100 100" aria-hidden="true">${route}${zones}</svg><button class="map-input ${result ? 'locked' : ''}" id="map-input" aria-label="${result ? 'Your choice and scored answer regions' : 'Choose your next destination on the minimap. Click, or use arrow keys and Enter.'}" ${result ? 'tabindex="-1"' : ''}></button><div class="target-pin" id="target-pin" style="${point ? `left:${point.x}%;top:${point.y}%` : 'display:none'}">${gameIcon('ping')}<span class="selection-center"></span></div>`;
 }
 
-function renderRound() {
+function renderRound({reveal = false} = {}) {
   disposeMapInspection();
   const s = challenge.scenarios[index];
   const you = s.players.find(p => p.id === s.you);
@@ -379,18 +392,20 @@ function renderRound() {
     link.target = '_blank'; link.rel = 'noopener noreferrer';
     $('#source-label').replaceChildren(link);
   }
-  app.innerHTML = `<section class="intro"><div class="eyebrow"><span>${mode === 'daily' ? `Daily · ${escape(dailyDate)}` : recorded ? `${escape(s.source.playerName || 'Recorded')} · Ranked` : 'Authored practice'}</span><span class="small-dot"></span><span>Round ${String(index + 1).padStart(2, '0')} / 10</span></div><h1 id="round-title" tabindex="-1">${review ? 'A closer look.' : 'Where will you go next?'}</h1><div class="round-progress" aria-label="Round ${index + 1} of 10; ${calculateTotal(results)} correct decisions">${challenge.scenarios.map((_, i) => `<span class="progress-pip ${i === index ? 'current ' : ''}${results[i] ? `done ${results[i].score === 1 ? 'correct' : 'wrong'}` : ''}"></span>`).join('')}</div></section><section class="play-table" style="--ally:var(--${you.team});--enemy:var(--${you.team === 'amber' ? 'sapphire' : 'amber'})">${teamPanel(s, you.team)}<div class="map-column"><div class="map-frame"><div class="match-bar"><div class="match-perspective">${portrait(you, 'mini-portrait')}<span><span class="perspective-label">You are</span><strong>${escape(heroData(you).name)}</strong></span></div><div class="match-state"><span class="match-clock" aria-label="Match time ${clock(s.time)}">${clock(s.time)}</span>${soulDifference(s,you)}</div><div class="alive-summary" aria-label="${yours} allies alive, ${theirs} enemies alive"><span style="color:var(--ally)">${yours} alive</span><span class="alive-divider">/</span><span style="color:var(--enemy)">${theirs} alive</span></div></div>${nativeMapStage(s, result)}</div><div id="decision-area" aria-live="polite">${result ? feedbackHTML(s, result) : decisionHTML()}</div>${result ? '<div class="feedback-key"><span class="key-entry"><span class="key-ring"></span>Answer</span><span class="key-entry"><span class="key-ring choice"></span>Your pin</span></div>' : `<details class="accessible-targets"><summary>Choose a location</summary><div class="target-options">${staticTargets(s).map(t => `<button data-target="${escape(t.id)}">${escape(t.label)}</button>`).join('')}</div></details>`}${review ? `<div class="review-nav"><button id="prev-review" ${index === 0 ? 'disabled' : ''}>← Previous</button><span>${index + 1} / 10</span><button id="next-review" ${index === 9 ? 'disabled' : ''}>Next →</button><button class="back-results" id="back-results">Results</button></div>` : ''}${!storageAvailable ? '<p class="storage-warning">Browser storage is unavailable. This run won’t survive a refresh.</p>' : ''}</div>${teamPanel(s, you.team === 'amber' ? 'sapphire' : 'amber')}</section>`;
+  const heading = result ? result.score === 1 ? 'Matched.' : 'Different move.' : 'Where will you go next?';
+  app.innerHTML = `<section class="intro"><div class="eyebrow"><span class="round-counter" aria-label="Round ${index + 1} of 10">${String(index + 1).padStart(2, '0')} <span>/ 10</span></span></div><h1 id="round-title" tabindex="-1">${heading}</h1><div class="round-progress" role="img" aria-label="Round ${index + 1} of 10; ${calculateTotal(results)} correct decisions">${challenge.scenarios.map((_, i) => `<span class="progress-pip ${i === index ? 'current ' : ''}${results[i] ? `done ${results[i].score === 1 ? 'correct' : 'wrong'}` : ''}" aria-hidden="true">${results[i] ? outcomeMark(results[i].score) : ''}</span>`).join('')}</div></section>
+  <section class="play-table ${reveal ? 'is-revealing' : ''}" style="--ally:#ffefd7;--enemy:#ef9886">${teamPanel(s, you.team)}<div class="map-column"><div class="map-frame ${result ? 'has-result' : ''}"><div class="match-bar"><button class="match-perspective" id="locate-you" aria-label="Locate ${escape(heroData(you).name)}, you, on the map">${portrait(you, 'mini-portrait')}<span><span class="perspective-label">You are</span><strong>${escape(heroData(you).name)}</strong></span></button><div class="match-state"><span class="match-clock" aria-label="Match time ${clock(s.time)}">${clock(s.time)}</span>${soulDifference(s,you)}</div><div class="alive-summary" aria-label="${yours} allies alive, ${theirs} enemies alive"><span style="color:var(--ally)">${yours} alive</span><span class="alive-divider">/</span><span style="color:var(--enemy)">${theirs} alive</span></div></div>${lobbyGlance(s, you)}${nativeMapStage(s, result)}</div><div id="decision-area" aria-live="polite">${result ? feedbackHTML(s, result) : decisionHTML()}</div>${result ? '<div class="feedback-key"><span class="key-entry"><span class="key-ring"></span>Recorded move</span><span class="key-entry"><span class="key-ring choice"></span>Your pin</span></div>' : `<details class="accessible-targets"><summary>Choose a location</summary><div class="target-options">${staticTargets(s).map(t => `<button data-target="${escape(t.id)}">${escape(t.label)}</button>`).join('')}</div></details>`}${review ? `<div class="review-nav"><button id="prev-review" ${index === 0 ? 'disabled' : ''}>&larr; Previous</button><span>${index + 1} / 10</span><button id="next-review" ${index === 9 ? 'disabled' : ''}>Next &rarr;</button><button class="back-results" id="back-results">Results</button></div>` : ''}${!storageAvailable ? '<p class="storage-warning">Browser storage is unavailable. This run will not survive a refresh.</p>' : ''}</div>${teamPanel(s, you.team === 'amber' ? 'sapphire' : 'amber')}</section>`;
   attachRound();
 }
 function decisionHTML() {
-  return `<div class="decision-row"><div class="selection-caption" id="selection-caption">${selected ? `<strong>${escape(locationName(selected))}</strong>` : ''}</div><button class="primary" id="lock-button" ${selected ? '' : 'disabled'}>Lock in<span class="button-arrow">↗</span></button></div>`;
+  return `<div class="decision-row ${selected ? 'has-choice' : ''}"><div class="selection-caption" id="selection-caption">${selected ? `<span class="selection-icon" aria-hidden="true">${gameIcon('ping')}</span><strong>${escape(locationName(selected))}</strong>` : ''}</div><button class="primary" id="lock-button" ${selected ? '' : 'disabled'}>Lock in<span class="button-arrow">↗</span></button></div>`;
 }
 function feedbackHTML(s, result) {
   const best = result.bestZone;
   const answerSecond = s.source?.roundEvidence?.answerSampleSecond ?? s.recordedMove?.toSecond;
-  const title = s.source?.kind === 'match' && Number.isFinite(answerSecond) && answerSecond >= s.time ? `Moved here · ${clock(answerSecond)}` : best.label;
+  const title = s.source?.kind === 'match' && Number.isFinite(answerSecond) && answerSecond >= s.time ? `Recorded move · ${clock(answerSecond)}` : best.label;
   const explanation = result.score > 0 && result.explanation ? result.explanation : best.explanation;
-  return `<div class="feedback"><div class="feedback-copy"><div class="feedback-top"><span class="feedback-score ${result.score === 0 ? 'low' : ''}">${result.score}<span class="visually-hidden"> out of 1</span></span><span class="feedback-outcome">${result.score === 1 ? 'Matched' : 'Missed'}</span><span class="feedback-title">${escape(title)}</span></div>${explanation ? `<details class="replay-details"><summary>${s.source?.kind === 'match' ? 'Replay details' : 'Answer details'}</summary><p class="feedback-explanation">${escape(explanation)}</p></details>` : ''}</div>${!review ? `<button class="primary" id="next-button">${index === 9 ? 'See score' : 'Next'}<span class="button-arrow">→</span></button>` : ''}</div>`;
+  return `<div class="feedback ${result.score === 1 ? 'matched' : 'different'}"><div class="feedback-mark">${outcomeMark(result.score)}</div><div class="feedback-copy"><div class="feedback-top"><span class="feedback-score ${result.score === 0 ? 'low' : ''}" data-score="${result.score}">${result.score === 1 ? '<span class="plus" aria-hidden="true">+</span>' : ''}${result.score}<span class="visually-hidden"> point${result.score === 1 ? '' : 's'}</span></span><span class="feedback-title">${escape(title)}</span></div>${explanation ? `<details class="replay-details"><summary>${s.source?.kind === 'match' ? 'Replay details' : 'Answer details'}</summary><p class="feedback-explanation">${escape(explanation)}</p></details>` : ''}</div>${!review ? `<button class="primary" id="next-button">${index === 9 ? 'See score' : 'Next'}<span class="button-arrow">&rarr;</span></button>` : ''}</div>`;
 }
 function locationName(point) {
   const s = challenge.scenarios[index];
@@ -411,6 +426,10 @@ function place(point, announce = true) {
   selected = { x: clamp(point.x), y: clamp(point.y) };
   const pin = $('#target-pin');
   pin.style.display = 'block'; pin.style.left = `${selected.x}%`; pin.style.top = `${selected.y}%`;
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    pin.getAnimations().forEach(animation => animation.cancel());
+    pin.animate([{opacity:.55, scale:'.85'}, {opacity:1, scale:'1'}], {duration:150, easing:'cubic-bezier(0.2, 0, 0, 1)'});
+  }
   $('#decision-area').innerHTML = decisionHTML();
   $('#lock-button').addEventListener('click', lock);
   if (announce) $('#map-input').setAttribute('aria-label', `${locationName(selected)} selected. Arrow keys move the pin. Enter locks your choice.`);
@@ -418,6 +437,11 @@ function place(point, announce = true) {
 }
 function attachRound() {
   const map = $('#map-input');
+  $('#locate-you').addEventListener('click', () => {
+    const marker = $('.native-player.is-you');
+    if (marker && !matchMedia('(prefers-reduced-motion: reduce)').matches) marker.animate([{opacity:.5}, {opacity:1}], {duration:150});
+    map.focus({preventScroll:true});
+  });
   const inspection = attachMapInspection(map, challenge.scenarios[index]);
   disposeMapInspection = inspection.dispose;
   map.addEventListener('click', e => {
@@ -454,7 +478,7 @@ function lock() {
   const s = challenge.scenarios[index];
   const result = { ...scoreChoice(s, selected), point: { ...selected }, scenarioId: s.id };
   results[index] = result;
-  persist(); renderRound(); $('#next-button')?.focus({ preventScroll: true });
+  persist(); renderRound({reveal:true}); scrollTop(); $('#next-button')?.focus({ preventScroll: true });
 }
 function next() {
   if (!results[index] || review) return;
@@ -481,7 +505,10 @@ function renderResults() {
   disposeMapInspection();
   review = false;
   const total = calculateTotal(results);
-  app.innerHTML = `<section class="results"><h1 id="results-title" tabindex="-1">${mode === 'daily' ? 'Daily' : 'Practice'} complete</h1><div class="final-score">${total}<span class="denominator">/ 10</span></div><div class="result-grid" aria-label="Round scores">${results.map((r, i) => `<button class="result-tile ${r.score === 0 ? 'low' : ''}" data-review="${i}" aria-label="Review round ${i + 1}, score ${r.score}, at ${clock(challenge.scenarios[i].time)}"><small>${clock(challenge.scenarios[i].time)}</small><strong>${r.score}</strong></button>`).join('')}</div><div class="results-actions"><button class="primary" id="share-button">Share score<span class="button-arrow">↗</span></button><button class="secondary" id="replay-button">${mode === 'daily' ? 'Play practice' : 'Play again'}</button></div></section>`;
+  app.innerHTML = `<section class="results"><h1 id="results-title" tabindex="-1">${mode === 'daily' ? 'Daily' : 'Practice'} complete</h1><div class="final-score">${total}<span class="denominator">/ 10</span></div><div class="result-grid" aria-label="Round scores">${results.map((r, i) => {
+    const s = challenge.scenarios[i], player = s.players.find(p => p.id === s.you);
+    return `<button class="result-tile ${r.score === 0 ? 'low' : ''}" data-review="${i}" aria-label="Review round ${i + 1}, ${escape(heroData(player).name)}, ${r.score === 1 ? 'matched' : 'different move'}, score ${r.score}, at ${clock(s.time)}"><span class="result-round">${String(i + 1).padStart(2, '0')}</span><span class="result-portrait">${portrait(player)}<span class="result-outcome">${outcomeMark(r.score)}</span></span><small>${clock(s.time)}</small></button>`;
+  }).join('')}</div><div class="results-actions"><button class="primary" id="replay-button">${mode === 'daily' ? 'Play practice' : 'Play again'}<span class="button-arrow">&rarr;</span></button><button class="secondary" id="share-button">Share score<span class="button-arrow">&rarr;</span></button></div></section>`;
   $('#share-button').addEventListener('click', share);
   $('#replay-button').addEventListener('click', () => {
     if (mode === 'daily') return setMode('practice');
