@@ -475,11 +475,16 @@ button.match-perspective:active { scale: 1; }
 .answer-overlay .answer-region.hit { fill-opacity: .32; stroke-dasharray: none; stroke-width: .5; }
 .answer-overlay .recorded-destination-halo { fill: #0f1a10; stroke: var(--hit); stroke-width: .5; }
 .answer-overlay .recorded-destination-dot { fill: var(--hit); stroke: none; }
+.answer-overlay .route-band { fill: none; stroke: var(--hit); stroke-opacity: .2; stroke-linecap: round; stroke-linejoin: round; }
+.answer-overlay .route-band-dot { fill: var(--hit); fill-opacity: .2; }
+.answer-overlay :is(.route-band.hit) { stroke-opacity: .34; }
+.answer-overlay .route-band-dot.hit { fill-opacity: .34; }
+.answer-overlay .recorded-route-early { fill: none; stroke: #d6f5cd; stroke-opacity: .45; stroke-width: .35; stroke-dasharray: .7 .7; stroke-linecap: round; stroke-linejoin: round; }
 .answer-overlay .miss-gap { stroke: var(--miss); stroke-width: .4; stroke-dasharray: .9 .9; stroke-linecap: round; opacity: .9; }
 .play-table.is-revealing .answer-overlay { animation: none; }
 .play-table.is-revealing .answer-overlay .recorded-route { stroke-dasharray: 1; stroke-dashoffset: 1; animation: route-draw 650ms var(--ease) forwards; }
-.play-table.is-revealing .answer-overlay :is(.recorded-route-casing, .miss-gap) { animation: reveal-result 300ms ease-out both; }
-.play-table.is-revealing .answer-overlay :is(.answer-region, .recorded-destination-halo, .recorded-destination-dot) { animation: reveal-result 260ms ease-out 520ms both; }
+.play-table.is-revealing .answer-overlay :is(.recorded-route-casing, .recorded-route-early, .miss-gap) { animation: reveal-result 300ms ease-out both; }
+.play-table.is-revealing .answer-overlay :is(.answer-region, .route-band, .route-band-dot, .recorded-destination-halo, .recorded-destination-dot) { animation: reveal-result 260ms ease-out 520ms both; }
 @keyframes route-draw { to { stroke-dashoffset: 0; } }
 
 @media (max-width: 850px) {

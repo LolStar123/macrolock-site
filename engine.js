@@ -55,7 +55,67 @@ function zoneDistanceRatio(zone, point) {
   return distance / zone.radius;
 }
 
-/** Score a click against the scenario's single reviewed answer region. */
+/** Seconds into the recorded minute before the route starts counting. */
+export const ROUTE_SCORING_START = 15;
+// Larger gaps between 1Hz samples are teleports or similar jumps, not walked ground.
+const ROUTE_JUMP = 10;
+
+/**
+ * Split a recorded 1Hz route into drawable polylines: the unscored opening seconds and the
+ * scored remainder from T+15 to T+60. Dead, missing and teleport-sized gaps break a line.
+ */
+export function recordedRouteSections(scenario) {
+  const move = isRecord(scenario) ? scenario.recordedMove : null;
+  const sections = {early: [], scored: []};
+  if (!isRecord(move) || !Array.isArray(move.path) || !Number.isFinite(move.fromSecond)) return sections;
+  const start = move.fromSecond + ROUTE_SCORING_START;
+  let early = null, scored = null, previous = null;
+  for (const sample of move.path) {
+    const valid = isRecord(sample) && sample.alive !== false && Number.isFinite(sample.second) && isCoordinate(sample.x) && isCoordinate(sample.y);
+    if (!valid) { early = scored = previous = null; continue; }
+    const point = {x: sample.x, y: sample.y};
+    if (!previous || Math.hypot(point.x - previous.x, point.y - previous.y) > ROUTE_JUMP) early = scored = null;
+    if (sample.second <= start) {
+      if (!early) sections.early.push(early = []);
+      early.push(point);
+    }
+    if (sample.second >= start) {
+      if (!scored) sections.scored.push(scored = []);
+      scored.push(point);
+    }
+    previous = point;
+  }
+  return sections;
+}
+
+function nearestOnSegment(point, a, b) {
+  const dx = b.x - a.x, dy = b.y - a.y, length = dx * dx + dy * dy;
+  const t = length ? Math.max(0, Math.min(1, ((point.x - a.x) * dx + (point.y - a.y) * dy) / length)) : 0;
+  const x = a.x + t * dx, y = a.y + t * dy;
+  return {x, y, distance: Math.hypot(point.x - x, point.y - y)};
+}
+
+/** Closest point on the scored part of the recorded route, or null without a route. */
+export function nearestScoredRoutePoint(scenario, point) {
+  let best = null;
+  for (const line of recordedRouteSections(scenario).scored) {
+    for (let i = 0; i < line.length; i++) {
+      const candidate = nearestOnSegment(point, line[Math.max(0, i - 1)], line[i]);
+      if (!best || candidate.distance < best.distance) best = candidate;
+    }
+  }
+  return best;
+}
+
+/** Distance from a point to the scored part of the recorded route, or null without a route. */
+export function scoredRouteDistance(scenario, point) {
+  return nearestScoredRoutePoint(scenario, point)?.distance ?? null;
+}
+
+/**
+ * Score a click against the scenario's single answer region. Recorded rounds also accept
+ * anywhere along the route from T+15 to T+60, drawn with the region's radius as a thick pen.
+ */
 export function scoreChoice(scenario, point) {
   if (!isRecord(scenario) || !Array.isArray(scenario.answerZones) || scenario.answerZones.length !== 1) {
     throw new TypeError("scenario.answerZones must contain exactly one answer zone");
@@ -65,7 +125,8 @@ export function scoreChoice(scenario, point) {
   const [zone] = scenario.answerZones;
   if (!isRecord(zone)) throw new TypeError("the answer zone must be an object");
   const ratio = zoneDistanceRatio(zone, point);
-  const hasHit = ratio <= 1;
+  const routeDistance = scoredRouteDistance(scenario, point);
+  const hasHit = ratio <= 1 || (routeDistance !== null && routeDistance <= zone.radius);
 
   return {
     score: hasHit ? 1 : 0,
@@ -816,6 +877,9 @@ export function validateChallenge(challenge) {
 
 export default {
   scoreChoice,
+  recordedRouteSections,
+  nearestScoredRoutePoint,
+  scoredRouteDistance,
   dailySeed,
   selectPractice,
   calculateTotal,
