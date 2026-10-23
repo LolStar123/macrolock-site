@@ -56,7 +56,7 @@
 /* Valve's invert_map: the whole minimap turns 180 degrees for Sapphire, and every icon turns back upright.
    Source: hud_minimap.css .invert_map rules at the pinned SteamTracking commit. */
 .native-map-stage.inverted .native-map-mask,.native-map-stage.inverted .native-compass-frame{rotate:180deg}
-.native-map-stage.inverted :is(.native-objective,.native-midboss,.native-camp,.native-poi,.native-trooper,.native-player,.native-signal,.target-pin){rotate:180deg}
+.native-map-stage.inverted :is(.native-objective,.native-midboss,.native-camp,.native-poi,.native-trooper,.native-player,.native-signal,.target-pin,.route-ghost){rotate:180deg}
 /* Locate: a ring that is actually visible on a busy map. */
 .native-map-plane .native-player.is-you.locating::after{content:"";position:absolute;inset:-40%;border-radius:50%;border:2px solid var(--text);animation:locate-ring 700ms var(--ease) 2;pointer-events:none}
 @keyframes locate-ring{from{opacity:1;scale:.6}to{opacity:0;scale:1.5}}

@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#171a18">
+  <meta name="theme-color" content="#141716">
   <meta name="description" content="Read the map. Choose your next move. Ten Deadlock macro decisions, one score.">
-  <title>MacroLock · Deadlock macro practice</title>
+  <title>MacroLock. Deadlock macro practice</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/instrument-serif-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="native-map.css">
   <link rel="stylesheet" href="snapshot-status.css">
@@ -14,7 +15,7 @@
 <body>
   <header class="header">
     <a class="brand" href="./" aria-label="MacroLock home"><svg class="brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M5 12V6h6M21 6h6v6M27 21v6h-6M11 27H5v-6" stroke="currentColor" stroke-width="1.8"/><path d="M12 16v-3a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.8"/><rect x="10" y="15" width="12" height="9" rx="2" fill="currentColor"/><path d="M16 18v3" stroke="#151719" stroke-width="1.8"/></svg>MacroLock<span class="brand-dot">.</span></a>
-    <nav class="mode-nav" aria-label="Play mode" hidden><button id="practice-tab" class="mode active" aria-current="page">Practice</button><button id="daily-tab" class="mode" hidden>Daily<span class="daily-dot" aria-hidden="true" hidden></span></button></nav>
+    <div class="header-progress" id="header-progress"></div><nav class="mode-nav" aria-label="Play mode" hidden><button id="practice-tab" class="mode active" aria-current="page">Practice</button><button id="daily-tab" class="mode" hidden>Daily<span class="daily-dot" aria-hidden="true" hidden></span></button></nav>
     <div class="header-actions"><button class="icon-button" id="stats-button" aria-label="Your stats" title="Your stats"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 16V10m6 6V4m6 12V7"/></svg></button><button class="icon-button help" id="help-button" aria-label="How to play" title="How to play">?</button></div>
   </header>
   <main id="app" tabindex="-1"><div class="loading">Loading<span class="loading-dot">.</span></div></main>

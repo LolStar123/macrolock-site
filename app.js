@@ -1,6 +1,6 @@
 import { calculateTotal, serializeShare, recordedRouteSections, nearestScoredRoutePoint, ROUTE_SCORING_START, validateChallenge, validatePracticeLibrary, validatePracticeReferences, selectPracticeReferences, assemblePracticeSession, isPracticeRoundEligible } from './engine.js';
 import { deadHeroStrip } from './snapshot-status.js';
-import { presentPlayer, ultimateState, healthLabel, namedCampTargets, recordedTargetSecond, isCompletedRunStale, teleporterTargets, modeURL, isMapInverted, screenLane } from './presentation.js';
+import { presentPlayer, ultimateState, healthLabel, namedCampTargets, recordedTargetSecond, isCompletedRunStale, teleporterTargets, modeURL, isMapInverted, screenLane, routeTimeline, routePositionAt, routeStops, nearestRouteSample, gamePhase } from './presentation.js';
 import {restoreRun, transitionRun, createSharedCoordinator} from './shared-run.js';
 
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -24,6 +24,11 @@ let practiceLibrary = null, practiceFallback = null, practiceLoading = null, mod
 const practicePacks = new Map();
 const practiceSessionKey = 'macrolock:practice-session:v1';
 const practiceSeenKey = 'macrolock:practice-seen:v1';
+const briefedKey = 'macrolock:briefed:v1';
+const roundHistoryKey = 'macrolock:rounds:v1';
+const NEAR_MISS = 1.5; // pens: a different move this close reads as a near miss, still scored 0
+let scrubber = null, latestPin = null;
+const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function gameIcon(kind, extraClass = '') {
   const path = catalog.icons?.[kind] || (kind === 'ping' ? catalog.icons?.destination : null);
@@ -44,6 +49,12 @@ function getHistory() {
   const rows = readStorage('macrolock:history:binary-v1', []);
   return Array.isArray(rows) ? rows.filter(r => r && typeof r === 'object' && typeof r.id === 'string' && Number.isFinite(r.score) && r.score >= 0 && r.score <= 10) : [];
 }
+function getRoundHistory() {
+  const rows = readStorage(roundHistoryKey, []);
+  return Array.isArray(rows) ? rows.filter(r => r && typeof r === 'object' && typeof r.id === 'string' && (r.score === 0 || r.score === 1) && Number.isFinite(r.time)) : [];
+}
+function isBriefed() { return readStorage(briefedKey, false) === true; }
+function hasFinishedASet() { return getHistory().length > 0; }
 function key() { return `macrolock:run:binary-v1:${mode}:${challenge.id}:${challenge.date || 'v1'}`; }
 let appliedRunKey = null, appliedRevision = -1;
 function applyRun(run) {
@@ -61,6 +72,8 @@ function showCurrentRun({reveal = false, focus = false} = {}) {
   else {
     renderRound({reveal});
     if (focus) { scrollTop(); focusContent(results[index] ? '#next-button' : '#map-input'); }
+    // The reveal plays the recorded minute once, after the route has drawn on.
+    if (reveal && scrubber && !reducedMotion()) { $('#scrub-range').value = $('#scrub-range').min; setTimeout(() => scrubber?.run(), 450); }
   }
 }
 async function mutateRun(command) {
@@ -74,10 +87,12 @@ async function mutateRun(command) {
   });
   if (challenge !== source || mode !== sourceMode) return false;
   if (!outcome) { await setMode('practice'); toast('Practice updated in another tab.'); return false; }
-  const changed = JSON.stringify(displayedRun()) !== JSON.stringify({index:outcome.run.index,results:outcome.run.results,selected:outcome.run.selected,finished:outcome.run.finished,completedAt:outcome.run.completedAt});
   if (!applyRun(outcome.run)) return false;
+  // Quick successive pins commit in order; the map already shows the newest one, so an accepted
+  // pin never re-renders (which would drop keyboard focus) and the newest local point stays selected.
+  if (command.type === 'pin' && outcome.accepted && !results[index] && latestPin) selected = {...latestPin};
   if (outcome.run.finished) recordCompletion();
-  if (command.type !== 'pin' || changed) showCurrentRun({reveal:command.type === 'lock' && outcome.accepted, focus:command.type !== 'pin' || !outcome.accepted});
+  if (command.type !== 'pin' || !outcome.accepted) showCurrentRun({reveal:command.type === 'lock' && outcome.accepted, focus:command.type !== 'pin' || !outcome.accepted});
   return outcome.accepted;
 }
 function heroData(player) { return Object.hasOwn(catalog.heroes,player.hero) ? catalog.heroes[player.hero] : { name: String(player.hero), image: null }; }
@@ -131,13 +146,25 @@ $('#close-dialog').addEventListener('click', closeDialog);
 dialog.addEventListener('click', e => { if (e.target === dialog) { const r = dialog.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) closeDialog(); } });
 dialog.addEventListener('close', () => { if (dialogOpener?.isConnected) dialogOpener.focus(); });
 
-$('#help-button').addEventListener('click', () => showDialog('Read the room.', `<div class="dialog-body"><div class="how-step"><span>1</span><div><strong>Read the snapshot.</strong>You're the hero marked YOU. Check positions, respawns, souls and items.</div></div><div class="how-step"><span>2</span><div><strong>Place your pin.</strong>Pin anywhere the player went between 15 and 60 seconds later, shown by the target clock. No timer.</div></div><div class="how-step"><span>3</span><div><strong>Compare the move.</strong>One point if your pin touches that stretch of their recorded route. It is not a claim of the uniquely optimal play.</div></div><p class="dialog-note">Only revealed enemies appear. Tap a hero for items. Hold a map marker to inspect it. On the map, arrows move your pin (Shift for bigger steps) and Enter places or locks it. Tab to Choose a location for a named list.</p></div><button class="primary dialog-action" id="got-it">Got it<span class="button-arrow">→</span></button>`));
+$('#help-button').addEventListener('click', () => showDialog('How it works', `<div class="dialog-body"><div class="how-step"><span>1</span><div><strong>Read the snapshot.</strong>A real ranked game, frozen. You play the hero marked YOU. Both rosters show HP, souls, ultimates, items and respawns. Enemies you could not see stay hidden.</div></div><div class="how-step"><span>2</span><div><strong>Pin the next minute.</strong>Pin anywhere that player stood between 15 and 60 seconds later. The clock under the map shows that window. Take your time; there is no timer.</div></div><div class="how-step"><span>3</span><div><strong>Watch the recorded minute.</strong>One point if your pin touches their route. Scrub the minute to see where they went and when. A different move is not a wrong move; it is one strong player's call.</div></div><p class="dialog-note">Tap a hero for its full inventory. Hover or hold a map marker to inspect it. On the map, arrow keys move the pin (Shift for larger steps) and Enter locks it. Tab to Choose a location for a named list.</p></div><button class="primary dialog-action" id="got-it">Got it</button>`));
 $('#dialog-content').addEventListener('click', e => { if (e.target.closest('#got-it')) closeDialog(); });
-$('#about-button').addEventListener('click', () => showDialog('MacroLock.', `<div class="dialog-body"><p>Recorded practice compares your pin with the route the player took from 15 to 60 seconds after the snapshot. The target clock shows that window. Touching the route earns one point; the recorded play is not necessarily optimal.</p><p>Missing replay fields stay unknown. Daily sets require reviewed ranked replay snapshots.</p><p class="dialog-note">Game artwork © Valve. Assets delivered by <a href="https://deadlock-api.com" target="_blank" rel="noopener noreferrer">Deadlock API</a>. Unaffiliated fan project. Results stay in this browser.</p></div>`));
-$('#stats-button').addEventListener('click', () => {
-  const scores = getHistory();
-  showDialog('Your bigger picture.', `<div class="dialog-body"><div class="stats-grid"><div><strong>${scores.length}</strong><span>Sets played</span></div><div><strong>${scores.length ? `${fmt(scores.reduce((a, r) => a + r.score, 0) / scores.length)}<small>/10</small>` : '—'}</strong><span>Average</span></div><div><strong>${scores.length ? `${Math.max(...scores.map(r => r.score))}<small>/10</small>` : '—'}</strong><span>Best</span></div></div><p class="dialog-note">Practice and daily results on this browser. Replays of the same set count once.</p></div>`);
-});
+$('#about-button').addEventListener('click', () => showDialog('About MacroLock', `<div class="dialog-body"><p>Every round is a real snapshot from a high-rank ranked replay. Your pin is compared with the route that player took from 15 to 60 seconds later, drawn with a thick pen. Touching the route earns one point. The recorded play is a strong player's decision, not a proof of the only correct one.</p><p>Missing replay fields stay unknown rather than guessed. Daily sets require reviewed ranked replay snapshots.</p><p class="dialog-note">Game artwork © Valve. Assets delivered by <a href="https://deadlock-api.com" target="_blank" rel="noopener noreferrer">Deadlock API</a>. Unaffiliated fan project. Results stay in this browser.</p></div>`));
+$('#stats-button').addEventListener('click', () => showDialog('Your progress', progressHTML()));
+function progressHTML() {
+  const sets = getHistory();
+  const rounds = getRoundHistory();
+  const recent = sets.slice(-12);
+  const bars = recent.map(r => `<span class="spark-bar" style="--value:${r.score}" title="${escape(r.date)} · ${r.score}/10"><i></i></span>`).join('');
+  const phases = ['early', 'mid', 'late'].map(phase => {
+    const rows = rounds.filter(r => r.phase === phase);
+    const hits = rows.filter(r => r.score === 1).length;
+    return {phase, label:{early:'Before 15:00', mid:'15:00 to 30:00', late:'After 30:00'}[phase], hits, total:rows.length};
+  });
+  return `<div class="dialog-body"><div class="stats-grid"><div><strong>${sets.length}</strong><span>Sets played</span></div><div><strong>${sets.length ? `${fmt(sets.reduce((a, r) => a + r.score, 0) / sets.length)}<small>/10</small>` : '—'}</strong><span>Average</span></div><div><strong>${sets.length ? `${Math.max(...sets.map(r => r.score))}<small>/10</small>` : '—'}</strong><span>Best</span></div></div>
+  ${recent.length ? `<div class="progress-block"><div class="progress-heading"><span>Last ${recent.length} set${recent.length === 1 ? '' : 's'}</span><span>out of 10</span></div><div class="sparkline" role="img" aria-label="Recent set scores: ${recent.map(r => r.score).join(', ')}">${bars}</div></div>` : ''}
+  ${rounds.length ? `<div class="progress-block"><div class="progress-heading"><span>Matched by game phase</span><span>${rounds.length} rounds</span></div>${phases.map(p => `<div class="phase-row"><span class="phase-label">${p.label}</span><span class="phase-meter" role="img" aria-label="${p.label}: ${p.hits} of ${p.total} matched"><i style="width:${p.total ? p.hits / p.total * 100 : 0}%"></i></span><span class="phase-value">${p.total ? `${p.hits}/${p.total}` : '—'}</span></div>`).join('')}</div>` : '<p class="dialog-empty">Finish a set and your matched rounds by game phase appear here.</p>'}
+  <p class="dialog-note">Practice and daily results on this browser only. Replays of the same set count once.</p></div>`;
+}
 
 function teamPanel(scenario, team) {
   // The tracked hero always leads its roster, so it never falls below the fold.
@@ -444,11 +471,14 @@ function mapContent(scenario, result) {
   const pinState = result ? result.score === 1 ? 'locked hit' : 'locked miss' : '';
   const layer = scenario.mapLayer === 'tunnels' ? 'tunnels' : scenario.mapLayer === 'ratTunnels' ? 'ratTunnels' : 'surface';
   const image = map.layers?.[layer] || map.image;
-  return `${nativeTintFilters()}<img class="map-image native-surface" src="${escape(image)}" alt="Deadlock minimap" draggable="false" width="1024" height="1024"><svg class="map-overlay native-lines" viewBox="0 0 100 100" aria-hidden="true">${paths}</svg>${pois}${camps}${nativeWaves(scenario,you)}${objectives}${boss}${signals}${markers}<svg class="map-overlay answer-overlay" viewBox="0 0 100 100" aria-hidden="true">${route}${zones}</svg><button class="map-input ${result ? 'locked' : ''}" id="map-input" aria-label="${result ? 'Your choice and scored answer regions' : 'Choose your next destination on the minimap. Click, or use arrow keys and Enter.'}" ${result ? 'tabindex="-1"' : ''}></button><div class="target-pin ${pinState}" id="target-pin" style="${point ? `left:${point.x}%;top:${point.y}%` : 'display:none'}">${gameIcon('ping')}<span class="selection-center"></span></div>`;
+  // The ghost retraces the recorded minute from the scrubber; it is the same hero token, dimmed.
+  const ghost = result && routeTimeline(scenario).length ? `<div class="route-ghost" id="route-ghost" style="display:none" aria-hidden="true">${heroData(you).minimapImage ? `<img src="${escape(heroData(you).minimapImage)}" alt="" draggable="false">` : ''}</div>` : '';
+  return `${nativeTintFilters()}<img class="map-image native-surface" src="${escape(image)}" alt="Deadlock minimap" draggable="false" width="1024" height="1024"><svg class="map-overlay native-lines" viewBox="0 0 100 100" aria-hidden="true">${paths}</svg>${pois}${camps}${nativeWaves(scenario,you)}${objectives}${boss}${signals}${markers}<svg class="map-overlay answer-overlay" viewBox="0 0 100 100" aria-hidden="true">${route}${zones}</svg>${ghost}<button class="map-input ${result ? 'locked' : ''}" id="map-input" aria-label="${result ? 'Your choice and scored answer regions' : 'Choose your next destination on the minimap. Click, or use arrow keys and Enter.'}" ${result ? 'tabindex="-1"' : ''}></button><div class="target-pin ${pinState}" id="target-pin" style="${point ? `left:${point.x}%;top:${point.y}%` : 'display:none'}">${gameIcon('ping')}<span class="selection-center"></span></div>`;
 }
 
 function renderRound({reveal = false} = {}) {
   disposeMapInspection();
+  latestPin = selected ? {...selected} : null;
   const s = challenge.scenarios[index];
   const you = s.players.find(p => p.id === s.you);
   const result = results[index];
@@ -466,33 +496,62 @@ function renderRound({reveal = false} = {}) {
     $('#source-label').replaceChildren(link);
   }
   const targetSecond = recordedTargetSecond(s);
-  const matchClock = `<span class="match-clock" role="img" aria-label="Match time ${clock(s.time)}${targetSecond === null ? '' : `, scored route from ${clock(s.time + ROUTE_SCORING_START)} to ${clock(targetSecond)}`}">${clock(s.time)}${targetSecond === null ? '' : `<span class="target-clock" aria-hidden="true"> &rarr; ${clock(s.time + ROUTE_SCORING_START)}–${clock(targetSecond)}</span>`}</span>`;
-  const heading = result ? result.score === 1 ? 'Matched.' : 'Different move.' : 'Where will you go next?';
-  app.innerHTML = `<section class="intro"><span class="round-counter" aria-label="Round ${index + 1} of 10">${String(index + 1).padStart(2, '0')}<span>/10</span></span><h1 id="round-title" tabindex="-1">${heading}</h1><div class="round-progress" role="img" aria-label="Round ${index + 1} of 10; ${calculateTotal(results)} recorded move${calculateTotal(results) === 1 ? '' : 's'} matched">${challenge.scenarios.map((_, i) => `<span class="progress-pip ${i === index ? 'current ' : ''}${results[i] ? `done ${results[i].score === 1 ? 'correct' : 'wrong'}` : ''}" aria-hidden="true">${results[i] ? outcomeMark(results[i].score) : ''}</span>`).join('')}</div></section>
-  <section class="play-table ${reveal ? 'is-revealing' : ''}" style="--ally:#ffefd7;--enemy:#ef9886">${teamPanel(s, you.team)}<div class="map-column"><div class="map-frame ${result ? 'has-result' : ''}"><div class="match-bar"><button class="match-perspective" id="locate-you" aria-label="Locate ${escape(heroData(you).name)}, you, on the map">${portrait(you, 'mini-portrait')}<span><span class="perspective-label">You are</span><strong>${escape(heroData(you).name)}</strong></span></button><div class="match-state">${matchClock}</div><div class="match-economy">${soulDifference(s,you)}<div class="alive-summary" role="img" aria-label="${yours} allies alive, ${theirs} enemies alive"><span class="alive-ally">${yours}</span><span class="alive-divider">v</span><span class="alive-enemy">${theirs}</span><span class="alive-word">alive</span></div></div></div>${lobbyGlance(s, you)}${nativeMapStage(s, result)}</div><div id="decision-area" aria-live="polite">${result ? feedbackHTML(s, result) : decisionHTML()}</div>${result ? '' : `<details class="accessible-targets"><summary>Choose a location</summary><div class="target-options">${staticTargets(s).map(t => `<button data-target="${escape(t.id)}">${escape(t.label)}</button>`).join('')}</div></details>`}${review ? `<div class="review-nav"><button id="prev-review" ${index === 0 ? 'disabled' : ''}>&larr; Previous</button><span>${index + 1} / 10</span><button id="next-review" ${index === 9 ? 'disabled' : ''}>Next &rarr;</button><button class="back-results" id="back-results">Results</button></div>` : ''}${!storageAvailable ? '<p class="storage-warning">Browser storage is unavailable. This run will not survive a refresh.</p>' : ''}</div>${teamPanel(s, you.team === 'amber' ? 'sapphire' : 'amber')}</section>`;
+  const windowStart = clock(s.time + ROUTE_SCORING_START), windowEnd = targetSecond === null ? null : clock(targetSecond);
+  const matchClock = `<span class="match-clock" role="img" aria-label="Match time ${clock(s.time)}${windowEnd === null ? '' : `, scored route from ${windowStart} to ${windowEnd}`}">${clock(s.time)}${windowEnd === null ? '' : `<span class="target-clock" aria-hidden="true"> &rarr; ${windowStart}–${windowEnd}</span>`}</span>`;
+  const outcome = result ? outcomeWord(s, result) : null;
+  const heading = result ? `${outcome.word}.` : `Where does ${heroData(you).name} go next?`;
+  const briefing = !result && !review && !isBriefed() ? briefingHTML(s, you, windowStart, windowEnd) : '';
+  // The counter and ten outcome marks live in the header, so the map starts as high as possible.
+  $('#header-progress').innerHTML = `<span class="round-counter" aria-label="Round ${index + 1} of 10">${String(index + 1).padStart(2, '0')}<span>/10</span></span><div class="round-progress" role="img" aria-label="Round ${index + 1} of 10; ${calculateTotal(results)} recorded move${calculateTotal(results) === 1 ? '' : 's'} matched">${challenge.scenarios.map((_, i) => `<span class="progress-pip ${i === index ? 'current ' : ''}${results[i] ? `done ${results[i].score === 1 ? 'correct' : 'wrong'}` : ''}" aria-hidden="true">${results[i] ? outcomeMark(results[i].score) : ''}</span>`).join('')}</div>`;
+  app.innerHTML = `<section class="play-table ${reveal ? 'is-revealing' : ''} ${briefing ? 'is-briefing' : ''}" style="--ally:#ffefd7;--enemy:#ef9886">${teamPanel(s, you.team)}<div class="map-column"><h1 id="round-title" class="visually-hidden" tabindex="-1">${escape(heading)}</h1><div class="map-frame ${result ? 'has-result' : ''}"><div class="match-bar"><button class="match-perspective" id="locate-you" aria-label="Locate ${escape(heroData(you).name)}, you, on the map">${portrait(you, 'mini-portrait')}<span><span class="perspective-label">You are</span><strong>${escape(heroData(you).name)}</strong></span></button><div class="match-state">${matchClock}</div><div class="match-economy">${soulDifference(s,you)}<div class="alive-summary" role="img" aria-label="${yours} allies alive, ${theirs} enemies alive"><span class="alive-ally">${yours}</span><span class="alive-divider">v</span><span class="alive-enemy">${theirs}</span><span class="alive-word">alive</span></div></div></div>${lobbyGlance(s, you)}${nativeMapStage(s, result)}${briefing}${result ? scrubberHTML(s) : ''}</div><div id="decision-area" aria-live="polite">${result ? feedbackHTML(s, result) : decisionHTML()}</div>${result ? '' : `<details class="accessible-targets"><summary>Choose a location</summary><div class="target-options">${staticTargets(s).map(t => `<button data-target="${escape(t.id)}">${escape(t.label)}</button>`).join('')}</div></details>`}${review ? `<div class="review-nav"><button id="prev-review" ${index === 0 ? 'disabled' : ''}>&larr; Previous</button><span>${index + 1} / 10</span><button id="next-review" ${index === 9 ? 'disabled' : ''}>Next &rarr;</button><button class="back-results" id="back-results">Results</button></div>` : ''}${!storageAvailable ? '<p class="storage-warning">Browser storage is unavailable. This run will not survive a refresh.</p>' : ''}</div>${teamPanel(s, you.team === 'amber' ? 'sapphire' : 'amber')}</section>`;
   attachRound();
 }
+function briefingHTML(s, you, windowStart, windowEnd) {
+  const name = heroData(you).name;
+  return `<div class="briefing" id="briefing" role="region" aria-label="How MacroLock works"><p class="briefing-lead">A real ranked game, frozen at ${clock(s.time)}.</p><ol class="briefing-steps"><li><strong>You are ${escape(name)}.</strong> Read the map and both teams.</li><li><strong>Pin where ${escape(name)} goes</strong> at any point from ${windowStart} to ${windowEnd || 'a minute later'}.</li><li><strong>One point</strong> if your pin touches the recorded route. Ten rounds, no timer.</li></ol><div class="briefing-actions"><button class="primary" id="briefing-start">Show me ${escape(name)}</button><button class="briefing-skip" id="briefing-skip">Skip</button></div></div>`;
+}
+function scrubberHTML(s) {
+  const timeline = routeTimeline(s);
+  if (!timeline.length) return '';
+  const start = timeline[0].second, end = timeline[timeline.length - 1].second;
+  return `<div class="route-scrub" id="route-scrub" style="--scored-from:${Math.max(0, Math.min(100, ROUTE_SCORING_START / Math.max(1, end - start) * 100))}%"><button class="scrub-play" id="scrub-play" aria-label="Play the recorded minute"><svg viewBox="0 0 16 16" aria-hidden="true"><path class="scrub-play-icon" d="M5 3.5v9l7-4.5z"/><path class="scrub-pause-icon" d="M4.5 3.5h2.4v9H4.5zm4.6 0h2.4v9H9.1z"/></svg></button><input type="range" class="scrub-range" id="scrub-range" min="${start}" max="${end}" step="0.25" value="${end}" aria-label="Recorded minute. Left and right move through time." aria-valuetext="${clock(end)}"><span class="scrub-clock" id="scrub-clock">${clock(end)}</span></div>`;
+}
 function decisionHTML() {
-  return `<div class="decision-row ${selected ? 'has-choice' : ''}"><div class="selection-caption" id="selection-caption">${selected ? `<span class="selection-icon" aria-hidden="true">${gameIcon('ping')}</span><strong>${escape(locationName(selected))}</strong>` : ''}</div><button class="primary" id="lock-button" ${selected ? '' : 'disabled'}>Lock in<span class="button-arrow">↗</span></button></div>`;
+  const s = challenge.scenarios[index], you = youIn(s);
+  const name = heroData(you).name;
+  const hint = !hasFinishedASet() && !selected ? `<span class="turn-hint">${matchMedia('(pointer: coarse)').matches ? 'Tap' : 'Click'} the map where ${escape(name)} will be 15 to 60 seconds from now.</span>` : '';
+  const choice = selected ? `<span class="selection-place"><span class="selection-icon" aria-hidden="true">${gameIcon('ping')}</span><strong>${escape(locationName(selected, s))}</strong></span>` : '';
+  return `<div class="decision-row ${selected ? 'has-choice' : ''}"><div class="selection-caption" id="selection-caption"><span class="turn-prompt">Where does ${escape(name)} go?</span>${choice || hint}</div><button class="primary" id="lock-button" ${selected ? '' : 'disabled'}>Lock in</button></div>`;
+}
+function outcomeWord(s, result) {
+  if (result.score === 1) return {word:'Matched', near:false};
+  const radius = s.answerZones[0]?.radius ?? 6;
+  const nearest = nearestScoredRoutePoint(s, result.point);
+  const near = nearest !== null && nearest.distance <= radius * NEAR_MISS;
+  return {word:near ? 'Near miss' : 'Different move', near};
 }
 function feedbackHTML(s, result) {
   const best = result.bestZone;
   const answerSecond = s.source?.roundEvidence?.answerSampleSecond ?? s.recordedMove?.toSecond;
   const recorded = s.source?.kind === 'match' && Number.isFinite(answerSecond) && answerSecond >= s.time;
   const zone = s.answerZones[0];
-  // Name where the tracked hero actually ended up; the generic replay sentence added nothing.
-  const title = recorded ? `${clock(answerSecond)} · ${zone ? locationName(zone) : best.label}` : best.label;
+  const outcome = outcomeWord(s, result);
+  const timeline = routeTimeline(s);
+  const stops = recorded ? routeStops(timeline, s.time + ROUTE_SCORING_START, sample => locationName(sample, s)) : [];
+  const nearest = result.score === 0 && recorded ? nearestRouteSample(timeline, s.time + ROUTE_SCORING_START, result.point) : null;
+  // Say where the recorded minute went and when; a different move also names its closest moment.
+  const story = stops.length ? `<span class="route-stops">${stops.map((stop, i) => `${i ? '<span class="stop-arrow" aria-hidden="true">→</span>' : ''}<span class="route-stop"><time>${clock(stop.second)}</time> ${escape(stop.name)}</span>`).join('')}</span>` : `<span class="route-stops"><span class="route-stop">${escape(recorded ? `${clock(answerSecond)} ${zone ? locationName(zone, s) : best.label}` : best.label)}</span></span>`;
+  const closest = nearest ? `<span class="feedback-near">Closest to your pin at ${clock(nearest.second)}</span>` : '';
   const explanation = recorded ? '' : result.score > 0 && result.explanation ? result.explanation : best.explanation;
-  return `<div class="feedback ${result.score === 1 ? 'matched' : 'different'}"><div class="feedback-copy"><span class="feedback-score ${result.score === 0 ? 'low' : ''}" data-score="${result.score}">${result.score === 1 ? '<span class="plus" aria-hidden="true">+</span>' : ''}${result.score}<span class="visually-hidden"> point${result.score === 1 ? '' : 's'}</span></span><span class="feedback-title"><span class="feedback-kicker">${recorded ? 'Recorded move' : 'Answer'}</span><span class="feedback-place">${escape(title)}</span></span>${explanation ? `<details class="replay-details"><summary>Answer details</summary><p class="feedback-explanation">${escape(explanation)}</p></details>` : ''}</div>${!review ? `<button class="primary" id="next-button">${index === 9 ? 'See score' : 'Next'}<span class="button-arrow">&rarr;</span></button>` : ''}</div>`;
+  return `<div class="feedback ${result.score === 1 ? 'matched' : 'different'} ${outcome.near ? 'near' : ''}"><div class="feedback-copy"><span class="feedback-score ${result.score === 0 ? 'low' : ''}" data-score="${result.score}">${result.score === 1 ? '<span class="plus" aria-hidden="true">+</span>' : ''}${result.score}<span class="visually-hidden"> point${result.score === 1 ? '' : 's'}</span></span><span class="feedback-title"><span class="feedback-word">${outcome.word}</span>${story}${closest}</span>${explanation ? `<details class="replay-details"><summary>Answer details</summary><p class="feedback-explanation">${escape(explanation)}</p></details>` : ''}</div>${!review ? `<button class="primary" id="next-button">${index === 9 ? 'See score' : 'Next'}<span class="button-arrow">&rarr;</span></button>` : ''}</div>`;
 }
-function locationName(point) {
-  const s = challenge.scenarios[index];
+function locationName(point, s = challenge.scenarios[index]) {
   let nearest = null;
   for (const t of staticTargets(s)) {
     const d = Math.hypot(t.x - point.x, t.y - point.y);
     if (d < 7 && (!nearest || d < nearest.distance)) nearest = { ...t, distance: d };
   }
-  if (nearest) return nearest.label.replace(/ · (\d+% HP|HP unknown)$/, '');
+  if (nearest) return nearest.label.replace(/ · (\d+% HP|HP unknown|Availability unknown|Available|Unavailable)$/, '');
   const you = youIn(s);
   const lane = screenLane(point.x, you.team);
   const x = lane.charAt(0).toUpperCase() + lane.slice(1);
@@ -504,6 +563,7 @@ function locationName(point) {
 function place(point, announce = true) {
   if (results[index] || review || finished) return;
   selected = { x: clamp(point.x), y: clamp(point.y) };
+  latestPin = {...selected};
   const pin = $('#target-pin');
   pin.style.display = 'block'; pin.style.left = `${selected.x}%`; pin.style.top = `${selected.y}%`;
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -513,21 +573,78 @@ function place(point, announce = true) {
   $('#decision-area').innerHTML = decisionHTML();
   $('#lock-button').addEventListener('click', lock);
   if (announce) $('#map-input').setAttribute('aria-label', `${locationName(selected)} selected. Arrow keys move the pin. Enter locks your choice.`);
+  dismissBriefing();
   void mutateRun({type:'pin', index, scenarioId:challenge.scenarios[index].id, point:{...selected}});
+}
+function dismissBriefing() {
+  const card = $('#briefing');
+  if (!card) return;
+  card.remove();
+  $('.play-table')?.classList.remove('is-briefing');
+  writeStorage(briefedKey, true);
+}
+function locateYou(map) {
+  const marker = $('.native-player.is-you');
+  if (marker) {
+    // A visible ring, not a faint opacity blink; reduced motion keeps a static highlight.
+    marker.classList.remove('locating'); void marker.offsetWidth; marker.classList.add('locating');
+    setTimeout(() => marker.classList.remove('locating'), 1400);
+  }
+  map.focus({preventScroll:true});
+}
+/** The recorded minute, scrubbed by hand or played once at reveal. Positions come straight from the replay samples. */
+function attachScrubber(scenario) {
+  scrubber?.stop();
+  scrubber = null;
+  const range = $('#scrub-range'), ghost = $('#route-ghost'), label = $('#scrub-clock'), play = $('#scrub-play');
+  if (!range || !ghost) return;
+  const timeline = routeTimeline(scenario);
+  const start = Number(range.min), end = Number(range.max);
+  let frame = null, playing = false;
+  const show = second => {
+    const position = routePositionAt(timeline, second);
+    ghost.style.display = position ? '' : 'none';
+    if (position) { ghost.style.left = `${position.x}%`; ghost.style.top = `${position.y}%`; }
+    ghost.classList.toggle('scored', second >= start + ROUTE_SCORING_START);
+    label.textContent = clock(second);
+    range.setAttribute('aria-valuetext', clock(second));
+    range.style.setProperty('--progress', `${(second - start) / Math.max(1, end - start) * 100}%`);
+  };
+  const stop = () => { if (frame) cancelAnimationFrame(frame); frame = null; playing = false; play.classList.remove('playing'); play.setAttribute('aria-label', 'Play the recorded minute'); };
+  const run = () => {
+    stop();
+    playing = true; play.classList.add('playing'); play.setAttribute('aria-label', 'Pause');
+    const from = Number(range.value) >= end ? start : Number(range.value);
+    const duration = 2600 * (end - from) / Math.max(1, end - start);
+    const began = performance.now();
+    const tick = now => {
+      const second = Math.min(end, from + (now - began) / duration * (end - from));
+      range.value = String(second); show(second);
+      if (second < end && playing) frame = requestAnimationFrame(tick); else stop();
+    };
+    frame = requestAnimationFrame(tick);
+  };
+  range.addEventListener('input', () => { stop(); show(Number(range.value)); });
+  // Arrow keys move a whole second (Shift: five) instead of the fine drag step.
+  range.addEventListener('keydown', event => {
+    const direction = {ArrowRight:1, ArrowUp:1, ArrowLeft:-1, ArrowDown:-1}[event.key];
+    if (!direction) return;
+    event.preventDefault(); stop();
+    range.value = String(Math.max(start, Math.min(end, Number(range.value) + direction * (event.shiftKey ? 5 : 1))));
+    show(Number(range.value));
+  });
+  play.addEventListener('click', () => playing ? stop() : run());
+  show(Number(range.value));
+  scrubber = {stop, run};
 }
 function attachRound() {
   const map = $('#map-input');
   const scenario = challenge.scenarios[index];
   const you = youIn(scenario);
-  $('#locate-you').addEventListener('click', () => {
-    const marker = $('.native-player.is-you');
-    if (marker) {
-      // A visible ring, not a faint opacity blink; reduced motion keeps a static highlight.
-      marker.classList.remove('locating'); void marker.offsetWidth; marker.classList.add('locating');
-      setTimeout(() => marker.classList.remove('locating'), 1400);
-    }
-    map.focus({preventScroll:true});
-  });
+  $('#locate-you').addEventListener('click', () => locateYou(map));
+  $('#briefing-start')?.addEventListener('click', () => { dismissBriefing(); locateYou(map); });
+  $('#briefing-skip')?.addEventListener('click', () => { dismissBriefing(); map.focus({preventScroll:true}); });
+  attachScrubber(scenario);
   const inspection = attachMapInspection(map, scenario);
   disposeMapInspection = inspection.dispose;
   map.addEventListener('click', e => {
@@ -584,16 +701,38 @@ function recordCompletion() {
   if (!existing) history.push({ id, mode, date: today, score: calculateTotal(results) });
   else if (mode === 'practice') existing.score = Math.max(existing.score, calculateTotal(results));
   writeStorage('macrolock:history:binary-v1', history.slice(-365));
+  // Per-round outcomes feed the progress view; a replayed set never counts twice.
+  const rounds = getRoundHistory();
+  if (!rounds.some(r => r.id.startsWith(`${id}#`))) {
+    results.forEach((r, i) => {
+      const s = challenge.scenarios[i];
+      rounds.push({ id: `${id}#${i}`, date: today, time: s.time, phase: gamePhase(s.time), hero: youIn(s).hero, score: r.score });
+    });
+    writeStorage(roundHistoryKey, rounds.slice(-3000));
+  }
+}
+function setInsightsHTML() {
+  const rows = results.map((r, i) => ({ ...r, scenario: challenge.scenarios[i] }));
+  const near = rows.filter(r => r.score === 0 && outcomeWord(r.scenario, r).near).length;
+  const phases = ['early', 'mid', 'late'].map(phase => {
+    const group = rows.filter(r => gamePhase(r.scenario.time) === phase);
+    return { phase, label: { early: 'Before 15:00', mid: '15:00 to 30:00', late: 'After 30:00' }[phase], hits: group.filter(r => r.score === 1).length, total: group.length };
+  }).filter(p => p.total);
+  return `<div class="set-insights"><span class="insight"><strong>${calculateTotal(results)}</strong> matched</span><span class="insight"><strong>${near}</strong> near</span>${phases.map(p => `<span class="insight phase"><span class="phase-mini" role="img" aria-label="${p.label}: ${p.hits} of ${p.total} matched"><i style="width:${p.hits / p.total * 100}%"></i></span>${p.label.replace(' to ', '–')} <strong>${p.hits}/${p.total}</strong></span>`).join('')}</div>`;
 }
 function renderResults() {
   disposeMapInspection();
+  scrubber?.stop(); scrubber = null;
+  $('#header-progress').innerHTML = '';
   review = false;
   $('#source-label').textContent = mode === 'daily' ? 'Daily results' : 'Recorded practice';
   const total = calculateTotal(results);
-  app.innerHTML = `<section class="results"><h1 id="results-title" tabindex="-1">${mode === 'daily' ? 'Daily' : 'Practice'} complete</h1><div class="final-score" role="img" aria-label="${total} out of 10">${total}<span class="denominator" aria-hidden="true">/10</span></div><div class="result-grid" aria-label="Round scores">${results.map((r, i) => {
+  const firstSet = getHistory().length <= 1;
+  app.innerHTML = `<section class="results"><h1 id="results-title" tabindex="-1">${mode === 'daily' ? 'Daily' : 'Set'} complete</h1><div class="final-score" role="img" aria-label="${total} out of 10">${total}<span class="denominator" aria-hidden="true">/10</span></div>${setInsightsHTML()}<div class="result-grid" aria-label="Round scores">${results.map((r, i) => {
     const s = challenge.scenarios[i], player = s.players.find(p => p.id === s.you);
-    return `<button class="result-tile ${r.score === 0 ? 'low' : ''}" data-review="${i}" aria-label="Review round ${i + 1}, ${escape(heroData(player).name)}, ${r.score === 1 ? 'matched' : 'different move'}, score ${r.score}, at ${clock(s.time)}"><span class="result-round">${String(i + 1).padStart(2, '0')}</span><span class="result-portrait">${portrait(player)}<span class="result-outcome">${outcomeMark(r.score)}</span></span><small>${clock(s.time)}</small></button>`;
-  }).join('')}</div><div class="results-actions"><button class="primary" id="replay-button">${mode === 'daily' ? 'Play practice' : 'Keep playing'}<span class="button-arrow">&rarr;</span></button><button class="secondary" id="share-button">Share score<span class="button-arrow">&rarr;</span></button></div></section>`;
+    const place = locationName(s.answerZones[0], s);
+    return `<button class="result-tile ${r.score === 0 ? 'low' : ''}" data-review="${i}" aria-label="Review round ${i + 1}, ${escape(heroData(player).name)}, ${r.score === 1 ? 'matched' : 'different move'}, score ${r.score}, at ${clock(s.time)}, recorded move to ${escape(place)}"><span class="result-round">${String(i + 1).padStart(2, '0')}</span><span class="result-portrait">${portrait(player)}<span class="result-outcome">${outcomeMark(r.score)}</span></span><small>${clock(s.time)}</small><span class="result-place">${escape(place)}</span></button>`;
+  }).join('')}</div><p class="results-note">${firstSet ? 'Open any round to scrub the recorded minute again. Matching a strong player half the time is a good read.' : 'Open any round to replay the recorded minute.'}</p><div class="results-actions"><button class="primary" id="replay-button">${mode === 'daily' ? 'Play practice' : 'Keep playing'}<span class="button-arrow">&rarr;</span></button><button class="secondary" id="share-button">Share score</button></div></section>`;
   $('#share-button').addEventListener('click', share);
   $('#replay-button').addEventListener('click', () => {
     if (mode === 'daily') return setMode('practice');
@@ -674,6 +813,7 @@ async function setMode(newMode, {fresh = false} = {}) {
   $('#daily-tab').classList.toggle('active', mode === 'daily');
   $('#practice-tab').setAttribute('aria-current', mode === 'practice' ? 'page' : 'false');
   $('#daily-tab').setAttribute('aria-current', mode === 'daily' ? 'page' : 'false');
+  $('#header-progress').innerHTML = '';
   if (mode === 'daily' && !daily) {
     disposeMapInspection();
     $('#source-label').textContent = 'Daily · UTC';
